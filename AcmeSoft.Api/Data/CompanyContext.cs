@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AcmeSoft.Api.Data
 {
-    public class SchoolContext: DbContext
+    public class CompanyContext: DbContext
     {
-        public SchoolContext(DbContextOptions<SchoolContext> options): base(options)
+        public CompanyContext(DbContextOptions<CompanyContext> options): base(options)
         {            
         }
 

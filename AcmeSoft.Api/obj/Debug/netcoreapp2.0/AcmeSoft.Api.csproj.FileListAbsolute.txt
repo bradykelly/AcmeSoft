@@ -9,3 +9,5 @@ C:\Projects\AcmeSoft\AcmeSoft.Api\obj\Debug\netcoreapp2.0\AcmeSoft.Api.AssemblyI
 C:\Projects\AcmeSoft\AcmeSoft.Api\bin\Debug\netcoreapp2.0\AcmeSoft.Api.pdb
 C:\Projects\AcmeSoft\AcmeSoft.Api\obj\Debug\netcoreapp2.0\AcmeSoft.Api.dll
 C:\Projects\AcmeSoft\AcmeSoft.Api\obj\Debug\netcoreapp2.0\AcmeSoft.Api.pdb
+C:\Projects\AcmeSoft\AcmeSoft.Api\bin\Debug\netcoreapp2.0\AcmeSoft.Models.dll
+C:\Projects\AcmeSoft\AcmeSoft.Api\bin\Debug\netcoreapp2.0\AcmeSoft.Models.pdb

@@ -1,0 +1,9 @@
+C:\Projects\AcmeSoft\AcmeSoft.Models\bin\Debug\netcoreapp2.0\AcmeSoft.Models.deps.json
+C:\Projects\AcmeSoft\AcmeSoft.Models\bin\Debug\netcoreapp2.0\AcmeSoft.Models.dll
+C:\Projects\AcmeSoft\AcmeSoft.Models\bin\Debug\netcoreapp2.0\AcmeSoft.Models.pdb
+C:\Projects\AcmeSoft\AcmeSoft.Models\obj\Debug\netcoreapp2.0\AcmeSoft.Models.csprojResolveAssemblyReference.cache
+C:\Projects\AcmeSoft\AcmeSoft.Models\obj\Debug\netcoreapp2.0\AcmeSoft.Models.csproj.CoreCompileInputs.cache
+C:\Projects\AcmeSoft\AcmeSoft.Models\obj\Debug\netcoreapp2.0\AcmeSoft.Models.AssemblyInfoInputs.cache
+C:\Projects\AcmeSoft\AcmeSoft.Models\obj\Debug\netcoreapp2.0\AcmeSoft.Models.AssemblyInfo.cs
+C:\Projects\AcmeSoft\AcmeSoft.Models\obj\Debug\netcoreapp2.0\AcmeSoft.Models.dll
+C:\Projects\AcmeSoft\AcmeSoft.Models\obj\Debug\netcoreapp2.0\AcmeSoft.Models.pdb
