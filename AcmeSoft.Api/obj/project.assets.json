@@ -4746,6 +4746,16 @@
         "runtime": {
           "lib/netstandard1.3/Microsoft.WindowsAzure.Storage.dll": {}
         }
+      },
+      "AcmeSoft.Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "compile": {
+          "bin/placeholder/AcmeSoft.Models.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AcmeSoft.Models.dll": {}
+        }
       }
     }
   },
@@ -12525,10 +12535,16 @@
         "windowsazure.storage.8.1.4.nupkg.sha512",
         "windowsazure.storage.nuspec"
       ]
+    },
+    "AcmeSoft.Models/1.0.0": {
+      "type": "project",
+      "path": "../AcmeSoft.Models/AcmeSoft.Models.csproj",
+      "msbuildProject": "../AcmeSoft.Models/AcmeSoft.Models.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
+      "AcmeSoft.Models >= 1.0.0",
       "Microsoft.AspNetCore.All >= 2.0.3",
       "Microsoft.EntityFrameworkCore.SqlServer >= 2.0.1",
       "Microsoft.NETCore.App >= 2.0.0"
@@ -12566,7 +12582,11 @@
       },
       "frameworks": {
         "netcoreapp2.0": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Projects\\AcmeSoft\\AcmeSoft.Models\\AcmeSoft.Models.csproj": {
+              "projectPath": "C:\\Projects\\AcmeSoft\\AcmeSoft.Models\\AcmeSoft.Models.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

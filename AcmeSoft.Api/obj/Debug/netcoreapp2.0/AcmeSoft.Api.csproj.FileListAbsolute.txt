@@ -6,3 +6,6 @@ C:\Projects\AcmeSoft\AcmeSoft.Api\obj\Debug\netcoreapp2.0\AcmeSoft.Api.csprojRes
 C:\Projects\AcmeSoft\AcmeSoft.Api\obj\Debug\netcoreapp2.0\AcmeSoft.Api.csproj.CoreCompileInputs.cache
 C:\Projects\AcmeSoft\AcmeSoft.Api\obj\Debug\netcoreapp2.0\AcmeSoft.Api.AssemblyInfoInputs.cache
 C:\Projects\AcmeSoft\AcmeSoft.Api\obj\Debug\netcoreapp2.0\AcmeSoft.Api.AssemblyInfo.cs
+C:\Projects\AcmeSoft\AcmeSoft.Api\bin\Debug\netcoreapp2.0\AcmeSoft.Api.pdb
+C:\Projects\AcmeSoft\AcmeSoft.Api\obj\Debug\netcoreapp2.0\AcmeSoft.Api.dll
+C:\Projects\AcmeSoft\AcmeSoft.Api\obj\Debug\netcoreapp2.0\AcmeSoft.Api.pdb

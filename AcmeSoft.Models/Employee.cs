@@ -6,6 +6,7 @@ using System.Text;
 
 namespace AcmeSoft.Models
 {
+    // All FK and other relationships etc. not seen here are in the DbContext 'OnModelCreating' method.
     [Table("Employee")]
     public class Employee
     {
@@ -23,5 +24,7 @@ namespace AcmeSoft.Models
 
         [Column(TypeName = "date")]
         public DateTime? TerminatedDate { get; set; }
+
+        public Person Person { get; set; }
     }
 }
