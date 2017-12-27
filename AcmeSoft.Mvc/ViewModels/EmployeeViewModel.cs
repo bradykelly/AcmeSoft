@@ -32,7 +32,7 @@ namespace AcmeSoft.Mvc.ViewModels
 
         [Required]
         [Display(Name = "Date of Birth")]
-        public DateTime? BirthDate { get; set; }
+        public string BirthDate { get; set; }
 
         [Required(AllowEmptyStrings = false)]
         [StringLength(16)]
@@ -41,9 +41,9 @@ namespace AcmeSoft.Mvc.ViewModels
 
         [Required]
         [Display(Name = "Date Employed")]
-        public DateTime? EmployedDate { get; set; }
+        public string EmployedDate { get; set; }
 
         [Display(Name = "Date Terminated")]
-        public DateTime? TerminatedDate { get; set; }
+        public string TerminatedDate { get; set; }
     }
 }

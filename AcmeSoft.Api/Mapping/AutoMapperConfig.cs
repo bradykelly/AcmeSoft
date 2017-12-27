@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AcmeSoft.Models;
+using AcmeSoft.Mvc.Models;
 using AcmeSoft.Mvc.ViewModels;
 using AutoMapper;
 
@@ -14,7 +15,8 @@ namespace AcmeSoft.Api.Mapping
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Person, EmployeeViewModel>();
+                cfg.CreateMap<Person, EmployeeViewModel>()
+                    .ForMember(dest => dest.BirthDate, opt => opt.ResolveUsing(src => src.BirthDate.ToString(AppConstants.DefaultDateFormat)));
             });
         }
     }

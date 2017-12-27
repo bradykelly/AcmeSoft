@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AcmeSoft.Models;
@@ -35,12 +36,12 @@ namespace AcmeSoft.Mvc.Controllers
                 ModelPurpose = ViewModelPurpose.Index,
                 LastName = pers.LastName,
                 FirstName = pers.FirstName,
-                BirthDate = pers.BirthDate,
+                BirthDate = pers.BirthDate.ToString(AppConstants.DefaultDateFormat),
                 PersonId = emp.PersonId,
                 EmployeeId = emp.EmployeeId,
                 EmployeeNum = emp.EmployeeNum,
-                EmployedDate = emp.EmployedDate,
-                TerminatedDate = emp.TerminatedDate
+                EmployedDate = emp.EmployedDate.ToString(AppConstants.DefaultDateFormat),
+                TerminatedDate = emp.TerminatedDate.Value.ToString(AppConstants.DefaultDateFormat)
             });
             var model = new EmployeeIndexViewModel
             {
@@ -63,7 +64,9 @@ namespace AcmeSoft.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeViewModel model)
         {
-            if (model.TerminatedDate.HasValue && model.TerminatedDate <= model.EmployedDate)
+            var employed = DateTime.ParseExact(model.EmployedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
+            var terminated = DateTime.ParseExact(model.TerminatedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
+            if (!string.IsNullOrWhiteSpace(model.TerminatedDate.Trim()) && terminated <= employed)
             {
                 ModelState.AddModelError("TerminatedDate", "Terminated date must be greater than Employed Date.");
                 ModelState.AddModelError("EmployedDate", "Employed date must be less than or equal to Terminated Date.");
@@ -115,7 +118,9 @@ namespace AcmeSoft.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeViewModel model)
         {
-            if (model.TerminatedDate.HasValue && model.TerminatedDate <= model.EmployedDate)
+            var employed = DateTime.ParseExact(model.EmployedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
+            var terminated = DateTime.ParseExact(model.TerminatedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
+            if (!string.IsNullOrWhiteSpace(model.TerminatedDate.Trim()) && terminated <= employed)
             {
                 ModelState.AddModelError("TerminatedDate", "Terminated date must be greater than Employed Date.");
                 ModelState.AddModelError("EmployedDate", "Employed date must be less than or equal to Terminated Date.");
