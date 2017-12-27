@@ -4,11 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using AcmeSoft.Mvc.Models;
+using AcmeSoft.Mvc.ViewModels.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AcmeSoft.Mvc.ViewModels
 {
-    public class EmployeeViewModel
+    public class EmployeeViewModel: BaseViewModel
     {
         // NB Remove Key after scaffolding.
         [Key]

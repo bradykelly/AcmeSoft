@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AcmeSoft.Mvc.Data;
+using AcmeSoft.Mvc.Models;
 using AcmeSoft.Mvc.ViewModels;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace AcmeSoft.Mvc.Controllers
 {
@@ -30,6 +32,7 @@ namespace AcmeSoft.Mvc.Controllers
         {
             var emps = _dbContext.Employees.Join(_dbContext.Persons, emp => emp.PersonId, pers => pers.PersonId, (emp, pers) => new EmployeeViewModel
             {
+                ModelPurpose = ViewModelPurpose.Index,
                 LastName = pers.LastName,
                 FirstName = pers.FirstName,
                 BirthDate = pers.BirthDate,
@@ -44,26 +47,35 @@ namespace AcmeSoft.Mvc.Controllers
 
         public IActionResult Create()
         {
-            var model = new EmployeeViewModel();
+            var model = new EmployeeViewModel
+            {
+                ModelPurpose = ViewModelPurpose.Create
+            };
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeViewModel employeeViewModel)
+        public async Task<IActionResult> Create([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeViewModel model)
         {
-            // NB Validations
+            if (model.TerminatedDate.HasValue && model.TerminatedDate <= model.EmployedDate)
+            {
+                ModelState.AddModelError("TerminatedDate", "Terminated date must be greater than Employed Date.");
+                ModelState.AddModelError("EmployedDate", "Employed date must be less than or equal to Terminated Date.");
+            }
 
             if (ModelState.IsValid)
             {
-                var emp = Mapper.Map<Employee>(employeeViewModel);
-                var pers = Mapper.Map<Person>(employeeViewModel);
+                var emp = Mapper.Map<Employee>(model);
+                var pers = Mapper.Map<Person>(model);
                 _dbContext.Add(emp);
                 _dbContext.Add(pers);
                 await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(employeeViewModel);
+
+            model.ModelPurpose = ViewModelPurpose.Create;
+            return View(model);
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -87,42 +99,29 @@ namespace AcmeSoft.Mvc.Controllers
             }
             Mapper.Map(pers, model);
 
+            model.ModelPurpose = ViewModelPurpose.Edit;
             return View(model);
         }
 
-        // POST: Employees/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeViewModel employeeViewModel)
+        public async Task<IActionResult> Edit([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeViewModel model)
         {
-            if (id != employeeViewModel.EmployeeId)
+            if (model.TerminatedDate.HasValue && model.TerminatedDate <= model.EmployedDate)
             {
-                return NotFound();
+                ModelState.AddModelError("TerminatedDate", "Terminated date must be greater than Employed Date.");
+                ModelState.AddModelError("EmployedDate", "Employed date must be less than or equal to Terminated Date.");
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _dbContext.Update(employeeViewModel);
-                    await _dbContext.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EmployeeExists(employeeViewModel.EmployeeId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _dbContext.Update(model);
+                await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(employeeViewModel);
+
+            model.ModelPurpose = ViewModelPurpose.Edit;
+            return View(model);
         }
 
         public async Task<IActionResult> Delete(int? id)
@@ -140,6 +139,7 @@ namespace AcmeSoft.Mvc.Controllers
             }
 
             var model = Mapper.Map<EmployeeViewModel>(emp);
+            model.ModelPurpose = ViewModelPurpose.Delete;
             return View(model);
         }
 
