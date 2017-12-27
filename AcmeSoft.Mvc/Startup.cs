@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AcmeSoft.Mvc.Data;
+using AcmeSoft.Mvc.Mapping;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,8 @@ namespace AcmeSoft.Mvc
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            AutoMapperConfig.BuildMaps();
         }
     }
 }

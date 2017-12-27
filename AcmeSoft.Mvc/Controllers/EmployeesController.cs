@@ -73,8 +73,11 @@ namespace AcmeSoft.Mvc.Controllers
             {
                 var emp = Mapper.Map<Employee>(model);
                 var pers = Mapper.Map<Person>(model);
-                _dbContext.Add(emp);
+                // NB Transaction.
                 _dbContext.Add(pers);
+                await _dbContext.SaveChangesAsync();
+                emp.PersonId = pers.PersonId;
+                _dbContext.Add(emp);
                 await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
