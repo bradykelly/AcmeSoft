@@ -10,7 +10,7 @@ namespace AcmeSoft.Mvc.ViewModels.Base
     {
         public ViewModelPurpose ModelPurpose { get; set; }
 
-        public string ViewHeading
+        public virtual string ViewHeading
         {
             get
             {

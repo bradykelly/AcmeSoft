@@ -42,7 +42,12 @@ namespace AcmeSoft.Mvc.Controllers
                 EmployedDate = emp.EmployedDate,
                 TerminatedDate = emp.TerminatedDate
             });
-            return View(emps);
+            var model = new EmployeeIndexViewModel
+            {
+                ModelPurpose = ViewModelPurpose.Index,
+                Items = emps
+            };
+            return View(model);
         }
 
         public IActionResult Create()
@@ -51,7 +56,7 @@ namespace AcmeSoft.Mvc.Controllers
             {
                 ModelPurpose = ViewModelPurpose.Create
             };
-            return View(model);
+            return View("Details", model);
         }
 
         [HttpPost]
@@ -75,7 +80,7 @@ namespace AcmeSoft.Mvc.Controllers
             }
 
             model.ModelPurpose = ViewModelPurpose.Create;
-            return View(model);
+            return View("Details", model);
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -140,7 +145,7 @@ namespace AcmeSoft.Mvc.Controllers
 
             var model = Mapper.Map<EmployeeViewModel>(emp);
             model.ModelPurpose = ViewModelPurpose.Delete;
-            return View(model);
+            return View("Details", model);
         }
 
         [HttpPost, ActionName("Delete")]

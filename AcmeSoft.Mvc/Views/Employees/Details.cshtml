@@ -1,4 +1,5 @@
-﻿@model AcmeSoft.Mvc.ViewModels.EmployeeViewModel
+﻿@using AcmeSoft.Mvc.Models
+@model AcmeSoft.Mvc.ViewModels.EmployeeViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -32,7 +33,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="EmployeeNum" class="control-label"></label>
-                <input asp-for="EmployeeNum" class="form-control" />
+                @if (Model.ModelPurpose == ViewModelPurpose.Create)
+                {
+                    <input asp-for="EmployeeNum" class="form-control"/>
+                }
+                else
+                {
+                    <input asp-for="EmployeeNum" class="form-control" readonly="readonly" />
+                }
                 <span asp-validation-for="EmployeeNum" class="text-danger"></span>
             </div>
             <div class="form-group">

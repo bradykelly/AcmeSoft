@@ -1,31 +1,30 @@
-﻿@model IEnumerable<AcmeSoft.Mvc.ViewModels.EmployeeViewModel>
-
+﻿@model AcmeSoft.Mvc.ViewModels.EmployeeIndexViewModel
 @{
     ViewData["Title"] = "Index";
 }
 
-<h3>Employee Index</h3>
+<h3>@Model.ViewHeading</h3>
 <hr />
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.HeaderItem.LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.HeaderItem.FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
+                @Html.DisplayNameFor(model => model.HeaderItem.BirthDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EmployeeNum)
+                @Html.DisplayNameFor(model => model.HeaderItem.EmployeeNum)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EmployedDate)
+                @Html.DisplayNameFor(model => model.HeaderItem.EmployedDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TerminatedDate)
+                @Html.DisplayNameFor(model => model.HeaderItem.TerminatedDate)
             </th>
             <th>
                 <a asp-action="Create">Create New</a>
@@ -33,7 +32,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Items)
         {
             <tr>
                 <td>
