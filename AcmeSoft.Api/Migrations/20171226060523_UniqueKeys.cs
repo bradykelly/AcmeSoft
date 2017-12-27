@@ -16,7 +16,6 @@ namespace AcmeSoft.Api.Migrations
 
             migrationBuilder.Sql(@"ALTER TABLE [dbo].[Employee] ADD  CONSTRAINT [UX_Employee_EmployeeNum_EmployedDate] UNIQUE NONCLUSTERED (
                 [EmployeeNum] ASC,
-	            [EmployedDate] ASC
                 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]");
         }
 

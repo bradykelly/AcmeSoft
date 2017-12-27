@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AcmeSoft.Models
 {
-    // All FK and other relationships etc. not seen here are in the DbContext 'OnModelCreating' method.
+    // All FK etc. not seen here are defined in the DbContext 'OnModelCreating' method.
     [Table("Employee")]
     public class Employee
     {
