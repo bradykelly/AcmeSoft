@@ -39,7 +39,7 @@ namespace AcmeSoft.Mvc.ViewModels
         [Display(Name = "Date Employed")]
         public DateTime EmployedDate { get; set; }
 
-        [Display(Name = "Date Employed")]
+        [Display(Name = "Date Terminated")]
         public DateTime? TerminatedDate { get; set; }
     }
 }

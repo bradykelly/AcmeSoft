@@ -143,7 +143,6 @@ namespace AcmeSoft.Mvc.Controllers
             return View(model);
         }
 
-        // POST: Employees/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
