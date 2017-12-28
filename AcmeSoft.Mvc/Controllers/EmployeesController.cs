@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using AcmeSoft.Api.Data;
 using AcmeSoft.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using AcmeSoft.Mvc.Data;
 using AcmeSoft.Mvc.Models;
 using AcmeSoft.Mvc.ViewModels;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace AcmeSoft.Mvc.Controllers
 {
@@ -31,18 +27,20 @@ namespace AcmeSoft.Mvc.Controllers
 
         public IActionResult Index()
         {
-            var emps = _dbContext.Employees.Join(_dbContext.Persons, emp => emp.PersonId, pers => pers.PersonId, (emp, pers) => new EmployeeViewModel
-            {
-                ModelPurpose = ViewModelPurpose.Index,
-                LastName = pers.LastName,
-                FirstName = pers.FirstName,
-                BirthDate = pers.BirthDate.ToString(AppConstants.DefaultDateFormat),
-                PersonId = emp.PersonId,
-                EmployeeId = emp.EmployeeId,
-                EmployeeNum = emp.EmployeeNum,
-                EmployedDate = emp.EmployedDate.ToString(AppConstants.DefaultDateFormat),
-                TerminatedDate = emp.TerminatedDate.Value.ToString(AppConstants.DefaultDateFormat)
-            });
+            var emps = from emp in _dbContext.Employees.Include(e => e.Person)
+                       join pers in _dbContext.Persons on emp.PersonId equals pers.PersonId
+                       select new EmployeeViewModel
+                       {
+                           LastName = pers.LastName,
+                           FirstName = pers.FirstName,
+                           BirthDate = pers.BirthDate.ToString(AppConstants.DefaultDateFormat),
+                           PersonId = emp.PersonId,
+                           EmployeeId = emp.EmployeeId,
+                           EmployeeNum = emp.EmployeeNum,
+                           EmployedDate = emp.EmployedDate.ToString(AppConstants.DefaultDateFormat),
+                           TerminatedDate = FormatNullableDateTime(emp.TerminatedDate)
+                       };
+
             var model = new EmployeeIndexViewModel
             {
                 ModelPurpose = ViewModelPurpose.Index,
@@ -171,6 +169,11 @@ namespace AcmeSoft.Mvc.Controllers
         private bool EmployeeExists(int id)
         {
             return _dbContext.Employees.Any(e => e.EmployeeId == id);
+        }
+
+        private string FormatNullableDateTime(DateTime? dateTime)
+        {
+            return dateTime?.ToString(AppConstants.DefaultDateFormat);
         }
     }
 }

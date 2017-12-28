@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AcmeSoft.Mvc.Data;
+﻿using AcmeSoft.Api.Data;
 using AcmeSoft.Mvc.Mapping;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,7 +26,7 @@ namespace AcmeSoft.Mvc
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, CompanyContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -52,6 +48,8 @@ namespace AcmeSoft.Mvc
             });
 
             AutoMapperConfig.BuildMaps();
+
+            ////dbContext.
         }
     }
 }

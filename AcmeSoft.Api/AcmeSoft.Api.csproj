@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AcmeSoft.Models\AcmeSoft.Models.csproj" />
-    <ProjectReference Include="..\AcmeSoft.Mvc\AcmeSoft.Mvc.csproj" />
   </ItemGroup>
 
 </Project>
