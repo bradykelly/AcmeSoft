@@ -29,5 +29,25 @@ namespace AcmeSoft.Mvc.ViewModels.Base
                 }
             }
         }
+
+        public virtual string FormAction
+        {
+            get
+            {
+                switch (ModelPurpose)
+                {
+                    case ViewModelPurpose.Create:
+                        return "Create";
+                    case ViewModelPurpose.View:
+                        return "Edit";
+                    case ViewModelPurpose.Edit:
+                        return "Edit";
+                    case ViewModelPurpose.Delete:
+                        return "Delete";
+                    default:
+                        return null;
+                }
+            }
+        }
     }
 }

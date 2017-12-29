@@ -15,7 +15,6 @@ namespace AcmeSoft.Api.Data
 
         public DbSet<Person> Persons { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<PersEmp> PersEmps { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

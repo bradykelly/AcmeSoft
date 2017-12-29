@@ -25,6 +25,7 @@ namespace AcmeSoft.Mvc.Controllers
             _dbContext = dbContext;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var emps = from emp in _dbContext.Employees.Include(e => e.Person)
@@ -49,6 +50,7 @@ namespace AcmeSoft.Mvc.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
             var model = new EmployeeViewModel
@@ -62,12 +64,15 @@ namespace AcmeSoft.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeViewModel model)
         {
-            var employed = DateTime.ParseExact(model.EmployedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
-            var terminated = DateTime.ParseExact(model.TerminatedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
-            if (!string.IsNullOrWhiteSpace(model.TerminatedDate.Trim()) && terminated <= employed)
+            if (!string.IsNullOrWhiteSpace(model.TerminatedDate.Trim()))
             {
-                ModelState.AddModelError("TerminatedDate", "Terminated date must be greater than Employed Date.");
-                ModelState.AddModelError("EmployedDate", "Employed date must be less than or equal to Terminated Date.");
+                var employed = DateTime.ParseExact(model.EmployedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
+                var terminated = DateTime.ParseExact(model.TerminatedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
+                if (terminated <= employed)
+                {
+                    ModelState.AddModelError("TerminatedDate", "Terminated date must be greater than Employed Date.");
+                    ModelState.AddModelError("EmployedDate", "Employed date must be less than or equal to Terminated Date.");
+                }
             }
 
             if (ModelState.IsValid)
@@ -87,6 +92,7 @@ namespace AcmeSoft.Mvc.Controllers
             return View("Details", model);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -109,30 +115,36 @@ namespace AcmeSoft.Mvc.Controllers
             Mapper.Map(pers, model);
 
             model.ModelPurpose = ViewModelPurpose.Edit;
-            return View(model);
+            return View("Details", model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeViewModel model)
         {
-            var employed = DateTime.ParseExact(model.EmployedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
-            var terminated = DateTime.ParseExact(model.TerminatedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
-            if (!string.IsNullOrWhiteSpace(model.TerminatedDate.Trim()) && terminated <= employed)
+            if (!string.IsNullOrWhiteSpace(model.TerminatedDate.Trim()))
             {
-                ModelState.AddModelError("TerminatedDate", "Terminated date must be greater than Employed Date.");
-                ModelState.AddModelError("EmployedDate", "Employed date must be less than or equal to Terminated Date.");
+                var employed = DateTime.ParseExact(model.EmployedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
+                var terminated = DateTime.ParseExact(model.TerminatedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
+                if (terminated <= employed)
+                {
+                    ModelState.AddModelError("TerminatedDate", "Terminated date must be greater than Employed Date.");
+                    ModelState.AddModelError("EmployedDate", "Employed date must be less than or equal to Terminated Date.");
+                } 
             }
 
             if (ModelState.IsValid)
             {
-                _dbContext.Update(model);
+                var emp = Mapper.Map<Employee>(model);
+                var pers = Mapper.Map<Person>(model);
+                _dbContext.Update(emp);
+                _dbContext.Update(pers);
                 await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
             model.ModelPurpose = ViewModelPurpose.Edit;
-            return View(model);
+            return View("Details", model);
         }
 
         public async Task<IActionResult> Delete(int? id)
