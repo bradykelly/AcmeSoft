@@ -75,6 +75,11 @@ namespace AcmeSoft.Mvc.Controllers
                 }
             }
 
+            if (EmployeeNumExists(model.EmployeeNum))
+            {
+                ModelState.AddModelError("EmployeeNum", "Employee number already in use");
+            }
+
             if (ModelState.IsValid)
             {
                 var emp = Mapper.Map<Employee>(model);
@@ -186,9 +191,9 @@ namespace AcmeSoft.Mvc.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployeeExists(int id)
+        private bool EmployeeNumExists(string employeeNum)
         {
-            return _dbContext.Employees.Any(e => e.EmployeeId == id);
+            return _dbContext.Employees.Any(e => e.EmployeeNum == employeeNum);
         }
 
         private string FormatNullableDateTime(DateTime? dateTime)
