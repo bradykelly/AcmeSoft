@@ -186,6 +186,7 @@ namespace AcmeSoft.Mvc.Controllers
             var emp = await _dbContext.Employees.SingleOrDefaultAsync(m => m.EmployeeId == id);
             _dbContext.Employees.Remove(emp);
             var pers = await _dbContext.Persons.SingleOrDefaultAsync(p => p.PersonId == emp.PersonId);
+            // NB Look into whether to assume 1 to 1 or 1 to many.
             _dbContext.Persons.Remove(pers);
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
