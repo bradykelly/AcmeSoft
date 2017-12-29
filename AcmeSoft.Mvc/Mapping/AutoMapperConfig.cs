@@ -26,9 +26,7 @@ namespace AcmeSoft.Mvc.Mapping
 
                 cfg.CreateMap<EmployeeViewModel, Employee>()
                     .ForMember(dest => dest.EmployedDate,
-                        opt => opt.ResolveUsing(src => DateTime.ParseExact(src.EmployedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture)))
-                    .ForMember(dest => dest.TerminatedDate,
-                        opt => opt.ResolveUsing(src => DateTime.ParseExact(src.TerminatedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture)));
+                        opt => opt.ResolveUsing(src => DateTime.ParseExact(src.EmployedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture)));
             });
         }
     }

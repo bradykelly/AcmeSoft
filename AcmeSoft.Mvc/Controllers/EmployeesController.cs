@@ -64,7 +64,7 @@ namespace AcmeSoft.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeViewModel model)
         {
-            if (!string.IsNullOrWhiteSpace(model.TerminatedDate.Trim()))
+            if (!string.IsNullOrWhiteSpace(model.TerminatedDate?.Trim()))
             {
                 var employed = DateTime.ParseExact(model.EmployedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
                 var terminated = DateTime.ParseExact(model.TerminatedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
@@ -122,7 +122,7 @@ namespace AcmeSoft.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeViewModel model)
         {
-            if (!string.IsNullOrWhiteSpace(model.TerminatedDate.Trim()))
+            if (!string.IsNullOrWhiteSpace(model.TerminatedDate?.Trim()))
             {
                 var employed = DateTime.ParseExact(model.EmployedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
                 var terminated = DateTime.ParseExact(model.TerminatedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
@@ -136,7 +136,15 @@ namespace AcmeSoft.Mvc.Controllers
             if (ModelState.IsValid)
             {
                 var emp = Mapper.Map<Employee>(model);
+
+                // Couldn't figure how to do this with AutoMapper.
+                if (!string.IsNullOrWhiteSpace(model.TerminatedDate))
+                {
+                    emp.TerminatedDate = DateTime.ParseExact(model.TerminatedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
+                }
+
                 var pers = Mapper.Map<Person>(model);
+                emp.PersonId = pers.PersonId;
                 _dbContext.Update(emp);
                 _dbContext.Update(pers);
                 await _dbContext.SaveChangesAsync();

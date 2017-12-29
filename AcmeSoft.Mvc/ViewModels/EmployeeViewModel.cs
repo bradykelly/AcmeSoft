@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using AcmeSoft.Mvc.Models;
-using AcmeSoft.Mvc.ViewModels.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AcmeSoft.Mvc.ViewModels
 {
-    public class EmployeeViewModel: BaseViewModel
+    public class EmployeeViewModel
     {
+        public ViewModelPurpose ModelPurpose { get; set; }
+
         // NB Remove Key after scaffolding.
         [Key]
         [HiddenInput(DisplayValue = false)]
@@ -45,5 +41,45 @@ namespace AcmeSoft.Mvc.ViewModels
 
         [Display(Name = "Date Terminated")]
         public string TerminatedDate { get; set; }
+
+        public virtual string ViewHeading
+        {
+            get
+            {
+                switch (ModelPurpose)
+                {
+                    case ViewModelPurpose.Create:
+                        return "Create New Employee";
+                    case ViewModelPurpose.View:
+                        return "View Employee Details";
+                    case ViewModelPurpose.Edit:
+                        return "Edit Employee Details";
+                    case ViewModelPurpose.Delete:
+                        return "Delete Employee";
+                    default:
+                        return "Employee Index";
+                }
+            }
+        }
+
+        public virtual string FormAction
+        {
+            get
+            {
+                switch (ModelPurpose)
+                {
+                    case ViewModelPurpose.Create:
+                        return "Create";
+                    case ViewModelPurpose.View:
+                        return "Edit";
+                    case ViewModelPurpose.Edit:
+                        return "Edit";
+                    case ViewModelPurpose.Delete:
+                        return "Delete";
+                    default:
+                        return null;
+                }
+            }
+        }
     }
 }
