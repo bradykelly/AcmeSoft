@@ -30,6 +30,11 @@ namespace AcmeSoft.Mvc.ViewModels
         [Display(Name = "Date of Birth")]
         public string BirthDate { get; set; }
 
+        [Required]
+        [StringLength(13)]
+        [Display(Name = "Id Number")]
+        public string IdNumber { get; set; }
+
         [Required(AllowEmptyStrings = false)]
         [StringLength(16)]
         [Display(Name = "Employee No.")]

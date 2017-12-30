@@ -21,5 +21,9 @@ namespace AcmeSoft.Api.Data.Models
 
         [Column(TypeName = "date")]
         public DateTime BirthDate { get; set; }
+
+        [Required(AllowEmptyStrings = false)]
+        [StringLength(13)]
+        public string IdNumber { get; set; }
     }
 }

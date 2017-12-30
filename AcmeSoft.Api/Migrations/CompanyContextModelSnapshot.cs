@@ -3,6 +3,9 @@ using AcmeSoft.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
 namespace AcmeSoft.Api.Migrations
@@ -17,7 +20,7 @@ namespace AcmeSoft.Api.Migrations
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("AcmeSoft.Models.Employee", b =>
+            modelBuilder.Entity("AcmeSoft.Api.Data.Models.Employee", b =>
                 {
                     b.Property<int>("EmployeeId")
                         .ValueGeneratedOnAdd();
@@ -41,7 +44,7 @@ namespace AcmeSoft.Api.Migrations
                     b.ToTable("Employee");
                 });
 
-            modelBuilder.Entity("AcmeSoft.Models.Person", b =>
+            modelBuilder.Entity("AcmeSoft.Api.Data.Models.Person", b =>
                 {
                     b.Property<int>("PersonId")
                         .ValueGeneratedOnAdd();
@@ -53,6 +56,10 @@ namespace AcmeSoft.Api.Migrations
                         .IsRequired()
                         .HasMaxLength(128);
 
+                    b.Property<string>("IdNumber")
+                        .IsRequired()
+                        .HasMaxLength(13);
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(128);
@@ -62,9 +69,9 @@ namespace AcmeSoft.Api.Migrations
                     b.ToTable("Person");
                 });
 
-            modelBuilder.Entity("AcmeSoft.Models.Employee", b =>
+            modelBuilder.Entity("AcmeSoft.Api.Data.Models.Employee", b =>
                 {
-                    b.HasOne("AcmeSoft.Models.Person", "Person")
+                    b.HasOne("AcmeSoft.Api.Data.Models.Person", "Person")
                         .WithMany()
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade);

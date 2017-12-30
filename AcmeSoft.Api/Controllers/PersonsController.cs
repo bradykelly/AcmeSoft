@@ -1,44 +1,65 @@
 ﻿using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using AcmeSoft.Api.Controllers.Base;
 using AcmeSoft.Api.Data;
+using AcmeSoft.Api.Data.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace AcmeSoft.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class PersonsController : Controller
+    public class PersonsController : BaseController
     {
-        public PersonsController(CompanyContext dbContext)
+        public PersonsController(CompanyContext dbContext) : base(dbContext)
         {
-            _db = dbContext;
         }
-
-        private readonly CompanyContext _db;
 
         [HttpGet]
         public IActionResult Get()
         {
-            var emps = _db.Employees.ToList();
+            var emps = Db.Employees.ToList();
             return Ok(JsonConvert.SerializeObject(emps));
         }
 
-        // GET api/<controller>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var pers = await Db.Persons.SingleOrDefaultAsync(p => p.PersonId == id);
+            if (pers == null)
+            {
+                return NotFound();
+            }
+            return Ok(pers);
         }
 
-        // POST api/<controller>
-        [HttpPost]
-        public void Post([FromBody]string value)
+        [HttpGet("GetByIdNumber/{idNumber}")]
+        public async Task<IActionResult> GetByIdNumber(string idNumber)
         {
+            var emp = await Db.Persons.SingleOrDefaultAsync(e => e.IdNumber == idNumber);
+            if (emp == null)
+            {
+                // Avoid unecessary exception processing.
+                return Ok(null);
+            }
+            return Ok(emp);
+        }
+
+        [HttpPost]
+        public async Task Post([FromBody] Person person)
+        {
+            Db.Add(person);
+            await Db.SaveChangesAsync();
         }
 
         // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut]
+        public async Task Put(Person person)
         {
+            Db.Update(person);
+            await Db.SaveChangesAsync();
         }
 
         // DELETE api/<controller>/5

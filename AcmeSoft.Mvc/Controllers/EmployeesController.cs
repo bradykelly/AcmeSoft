@@ -4,25 +4,35 @@ using System.Linq;
 using System.Threading.Tasks;
 using AcmeSoft.Api.Data;
 using AcmeSoft.Api.Data.Models;
+using AcmeSoft.Mvc.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AcmeSoft.Mvc.Models;
 using AcmeSoft.Mvc.ViewModels;
 using AutoMapper;
+using Microsoft.CodeAnalysis.Options;
+using Microsoft.Extensions.Configuration;
 
 namespace AcmeSoft.Mvc.Controllers
 {
     public class EmployeesController : Controller
     {
+        private readonly IConfiguration _config;
+        private readonly IApiClient _apiClient;
         private readonly CompanyContext _dbContext;
 
         /// <summary>
-        /// Instantiates a new <see cref="CompanyContext"/> and injects dependencies where required.
+        /// Instantiates a new <see cref="CompanyContext"/> with injected dependencies where required.
         /// </summary>
         /// <param name="dbContext">A <see cref="DbContext"/> object for injection into the <see cref="CompanyContext"/>.</param>
-        public EmployeesController(CompanyContext dbContext)
+        // TODO Complete Docs
+        public EmployeesController(IConfiguration config, IApiClient apiClient, CompanyContext dbContext)
         {
+            _config = config;
+            _apiClient = apiClient;
             _dbContext = dbContext;
+
+            _apiClient.BaseAddress = _config["Api:Url"];
         }
 
         [HttpGet]
@@ -62,7 +72,7 @@ namespace AcmeSoft.Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeViewModel model)
+        public async Task<IActionResult> Create([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,IdNumber,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeViewModel model)
         {
             if (!string.IsNullOrWhiteSpace(model.TerminatedDate?.Trim()))
             {
@@ -82,14 +92,16 @@ namespace AcmeSoft.Mvc.Controllers
 
             if (ModelState.IsValid)
             {
-                var emp = Mapper.Map<Employee>(model);
-                var pers = Mapper.Map<Person>(model);
-                // NB Transaction.
-                _dbContext.Add(pers);
-                await _dbContext.SaveChangesAsync();
-                emp.PersonId = pers.PersonId;
-                _dbContext.Add(emp);
-                await _dbContext.SaveChangesAsync();
+                await _apiClient.CreateEmployeeAsync(model);
+
+                ////var emp = Mapper.Map<Employee>(model);
+                ////var pers = Mapper.Map<Person>(model);
+                ////// NB Transaction.
+                ////_dbContext.Add(pers);
+                ////await _dbContext.SaveChangesAsync();
+                ////emp.PersonId = pers.PersonId;
+                ////_dbContext.Add(emp);
+                ////await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 

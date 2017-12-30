@@ -1,4 +1,5 @@
 ﻿using AcmeSoft.Api.Data;
+using AcmeSoft.Mvc.Contracts;
 using AcmeSoft.Mvc.Mapping;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,6 +24,7 @@ namespace AcmeSoft.Mvc
             services.AddDbContext<CompanyContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
+            services.AddSingleton<IApiClient, ApiClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

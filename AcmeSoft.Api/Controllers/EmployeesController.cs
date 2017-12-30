@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using AcmeSoft.Api.Controllers.Base;
 using AcmeSoft.Api.Data;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,40 +11,42 @@ using Employee = AcmeSoft.Api.Data.Models.Employee;
 namespace AcmeSoft.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class EmployeesController : Controller
+    public class EmployeesController : BaseController
     {
-        public EmployeesController(CompanyContext dbContext)
+        public EmployeesController(CompanyContext dbContext) : base(dbContext)
         {
-            _db = dbContext;
         }
-
-        private readonly CompanyContext _db;
 
         [HttpGet]
         public IActionResult Get()
         {
-            var emps = _db.Employees.ToList();
+            var emps = Db.Employees.ToList();
             return Ok(JsonConvert.SerializeObject(emps));
         }
 
         // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet]
+        public IActionResult Get(int id)
         {
-            return "value";
+            var emp = Db.Employees.SingleOrDefault(e => e.EmployeeId == id);
+            if (emp == null)
+            {
+                return NotFound();
+            }
+            return Ok(emp);
         }
 
         // POST api/<controller>
         [HttpPost]
-        public async Task Post(Employee employee)
+        public async Task Post([FromBody] Employee employee)
         {
-            _db.Add(employee);
-            await _db.SaveChangesAsync();
+            Db.Add(employee);
+            await Db.SaveChangesAsync();
         }
 
         // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut]
+        public void Put([FromBody] Employee employee)
         {
         }
 
