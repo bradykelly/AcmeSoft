@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AcmeSoft.Api\AcmeSoft.Api.csproj" />
-    <ProjectReference Include="..\AcmeSoft.Models\AcmeSoft.Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>

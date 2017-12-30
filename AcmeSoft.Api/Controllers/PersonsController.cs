@@ -48,18 +48,20 @@ namespace AcmeSoft.Api.Controllers
         }
 
         [HttpPost]
-        public async Task Post([FromBody] Person person)
+        public async Task<IActionResult> Post([FromBody] Person person)
         {
             Db.Add(person);
             await Db.SaveChangesAsync();
+            return Ok(person);
         }
 
         // PUT api/<controller>/5
         [HttpPut]
-        public async Task Put(Person person)
+        public async Task<IActionResult> Put(Person person)
         {
             Db.Update(person);
             await Db.SaveChangesAsync();
+            return Ok(person);
         }
 
         // DELETE api/<controller>/5

@@ -36,12 +36,12 @@ namespace AcmeSoft.Api.Controllers
             return Ok(emp);
         }
 
-        // POST api/<controller>
         [HttpPost]
-        public async Task Post([FromBody] Employee employee)
+        public async Task<IActionResult> Post([FromBody] Employee employee)
         {
             Db.Add(employee);
             await Db.SaveChangesAsync();
+            return Ok(employee);
         }
 
         // PUT api/<controller>/5

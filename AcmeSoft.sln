@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcmeSoft.Api", "AcmeSoft.Api\AcmeSoft.Api.csproj", "{2B650BF5-E8C4-4CD4-8214-70C8EE854A69}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcmeSoft.Models", "AcmeSoft.Models\AcmeSoft.Models.csproj", "{57C24947-1F1F-40F6-90A3-B6723F931EE4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcmeSoft.Mvc", "AcmeSoft.Mvc\AcmeSoft.Mvc.csproj", "{95431C34-6EAF-4E86-9AAB-D5E479880805}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{03043105-15A7-4754-84A5-49D801938AC2}"
@@ -21,10 +19,6 @@ Global
 		{2B650BF5-E8C4-4CD4-8214-70C8EE854A69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B650BF5-E8C4-4CD4-8214-70C8EE854A69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B650BF5-E8C4-4CD4-8214-70C8EE854A69}.Release|Any CPU.Build.0 = Release|Any CPU
-		{57C24947-1F1F-40F6-90A3-B6723F931EE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{57C24947-1F1F-40F6-90A3-B6723F931EE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{57C24947-1F1F-40F6-90A3-B6723F931EE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{57C24947-1F1F-40F6-90A3-B6723F931EE4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{95431C34-6EAF-4E86-9AAB-D5E479880805}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{95431C34-6EAF-4E86-9AAB-D5E479880805}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95431C34-6EAF-4E86-9AAB-D5E479880805}.Release|Any CPU.ActiveCfg = Release|Any CPU

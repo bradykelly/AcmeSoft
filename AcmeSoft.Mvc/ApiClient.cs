@@ -25,7 +25,14 @@ namespace AcmeSoft.Mvc
         public string BaseAddress
         {
             get => _client.BaseAddress.ToString();
-            set => _client.BaseAddress = new Uri(value);
+            set
+            {
+                if (_client.BaseAddress != null)
+                {
+                    return;
+                }
+                _client.BaseAddress = new Uri(value);
+            }
         }
 
         public async Task<EmployeeViewModel> CreateEmployeeAsync(EmployeeViewModel model)
@@ -35,7 +42,7 @@ namespace AcmeSoft.Mvc
             // Check if the Person already exists and if not, create a Person.
             string json;
             Person pers;
-            using (var tx = new TransactionScope(TransactionScopeOption.RequiresNew))
+            using (var tx = new TransactionScope(TransactionScopeOption.RequiresNew, TransactionScopeAsyncFlowOption.Enabled))
             {
                 json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{person.IdNumber}");
                 if (string.IsNullOrWhiteSpace(json))
