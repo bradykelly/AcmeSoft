@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
-namespace AcmeSoft.Models
+namespace AcmeSoft.Api.Data.Models
 {
     // All FK etc. not seen here are defined in the DbContext 'OnModelCreating' method.
     [Table("Employee")]

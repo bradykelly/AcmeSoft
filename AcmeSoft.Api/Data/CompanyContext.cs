@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AcmeSoft.Models;
+﻿using AcmeSoft.Api.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Employee = AcmeSoft.Api.Data.Models.Employee;
 
 namespace AcmeSoft.Api.Data
 {

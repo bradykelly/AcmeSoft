@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AcmeSoft.Api.Data;
-using AcmeSoft.Models;
+using AcmeSoft.Api.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AcmeSoft.Mvc.Models;

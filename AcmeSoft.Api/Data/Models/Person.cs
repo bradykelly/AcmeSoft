@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AcmeSoft.Models
+namespace AcmeSoft.Api.Data.Models
 {
     // All FK etc. not seen here are defined in the DbContext 'OnModelCreating' method.
     [Table(nameof(Person))]

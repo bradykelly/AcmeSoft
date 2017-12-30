@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Globalization;
-using AcmeSoft.Models;
+using AcmeSoft.Api.Data.Models;
 using AcmeSoft.Mvc.Models;
 using AcmeSoft.Mvc.ViewModels;
 using AutoMapper;

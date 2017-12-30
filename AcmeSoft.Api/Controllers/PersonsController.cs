@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using AcmeSoft.Api.Data;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
