@@ -9,6 +9,7 @@ using AcmeSoft.Api.Data.Models;
 using AcmeSoft.Mvc.Contracts;
 using AcmeSoft.Mvc.ViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace AcmeSoft.Mvc
@@ -89,6 +90,25 @@ namespace AcmeSoft.Mvc
             var model = Mapper.Map<EmployeeViewModel>(emp);
             Mapper.Map(pers, model);
             return model;
+        }
+
+        public async Task<EmployeeViewModel> UpdateEmployee(EmployeeViewModel model)
+        {
+            var pers = Mapper.Map<Person>(model);
+            var respP = await _client.PutAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(pers), Encoding.UTF8, "application/json"));
+            respP.EnsureSuccessStatusCode();
+            var json = await respP.Content.ReadAsStringAsync();
+            pers = JsonConvert.DeserializeObject<Person>(json);
+
+            var emp = Mapper.Map<Employee>(model);
+            var respE = await _client.PutAsync("api/Employees", new StringContent(JsonConvert.SerializeObject(emp), Encoding.UTF8, "application/json"));
+            respE.EnsureSuccessStatusCode();
+            json = await respE.Content.ReadAsStringAsync();
+            emp = JsonConvert.DeserializeObject<Employee>(json);
+
+            var retModel = Mapper.Map<EmployeeViewModel>(pers);
+            Mapper.Map(emp, retModel);
+            return retModel;
         }
     }
 }

@@ -85,7 +85,7 @@ namespace AcmeSoft.Mvc.Controllers
                 }
             }
 
-            if (EmployeeNumExists(model.EmployeeNum))
+            if (EmployeeNumExists(model))
             {
                 ModelState.AddModelError("EmployeeNum", "Employee number already in use");
             }
@@ -109,28 +109,13 @@ namespace AcmeSoft.Mvc.Controllers
             }
 
             var model = await _apiClient.GetEmployee(id.Value);
-
-            //var emp = await _dbContext.Employees.SingleOrDefaultAsync(e => e.EmployeeId == id);
-            //if (emp == null)
-            //{
-            //    return NotFound();
-            //}
-            //var model = Mapper.Map<EmployeeViewModel>(emp);
-
-            //var pers = await _dbContext.Persons.SingleOrDefaultAsync(e => e.PersonId == model.PersonId);
-            //if (pers == null)
-            //{
-            //    return NotFound();
-            //}
-            //Mapper.Map(pers, model);
-
             model.ModelPurpose = ViewModelPurpose.Edit;
             return View("Details", model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeViewModel model)
+        public async Task<IActionResult> Edit([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,IdNumber,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeViewModel model)
         {
             if (!string.IsNullOrWhiteSpace(model.TerminatedDate?.Trim()))
             {
@@ -143,6 +128,11 @@ namespace AcmeSoft.Mvc.Controllers
                 } 
             }
 
+            if (EmployeeNumExists(model))
+            {
+                ModelState.AddModelError("EmployeeNum", "Employee number already in use");
+            }
+
             if (ModelState.IsValid)
             {
                 var emp = Mapper.Map<Employee>(model);
@@ -151,13 +141,10 @@ namespace AcmeSoft.Mvc.Controllers
                 if (!string.IsNullOrWhiteSpace(model.TerminatedDate))
                 {
                     emp.TerminatedDate = DateTime.ParseExact(model.TerminatedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
+                    Mapper.Map(emp, model);
                 }
-
-                var pers = Mapper.Map<Person>(model);
-                emp.PersonId = pers.PersonId;
-                _dbContext.Update(emp);
-                _dbContext.Update(pers);
-                await _dbContext.SaveChangesAsync();
+                
+                await _apiClient.UpdateEmployee(model);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -197,9 +184,10 @@ namespace AcmeSoft.Mvc.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployeeNumExists(string employeeNum)
+        private bool EmployeeNumExists(EmployeeViewModel model)
         {
-            return _dbContext.Employees.Any(e => e.EmployeeNum == employeeNum);
+            // NB Check for create.
+            return _dbContext.Employees.Any(e => model.EmployeeId == 0 && e.EmployeeNum == model.EmployeeNum || e.EmployeeId != model.EmployeeId && e.EmployeeNum == model.EmployeeNum);
         }
 
         private string FormatNullableDateTime(DateTime? dateTime)
