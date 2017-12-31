@@ -8,7 +8,7 @@ namespace AcmeSoft.Mvc.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Employees");
         }
 
         public IActionResult About()

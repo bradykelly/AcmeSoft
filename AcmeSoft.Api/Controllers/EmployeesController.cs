@@ -19,7 +19,7 @@ namespace AcmeSoft.Api.Controllers
         public IActionResult Get()
         {
             var emps = Db.Employees.ToList();
-            return Ok(JsonConvert.SerializeObject(emps));
+            return Ok(emps);
         }
 
         [HttpGet("{id}")]

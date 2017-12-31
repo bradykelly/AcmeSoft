@@ -73,9 +73,9 @@ namespace AcmeSoft.Mvc
             return retModel;
         }
 
-        public async Task<List<Employee>> GetEmployees()
+        public async Task<List<Employee>> GetEmployeesAsync()
         {
-            var json = await _client.GetStringAsync("api/Employees/Get");
+            var json = await _client.GetStringAsync("api/Employees");
             var employees = JsonConvert.DeserializeObject<List<Employee>>(json);
             return employees;
         }
@@ -90,6 +90,13 @@ namespace AcmeSoft.Mvc
             var model = Mapper.Map<EmployeeViewModel>(emp);
             Mapper.Map(pers, model);
             return model;
+        }
+
+        public async Task<List<Person>> GetPersonsAsync()
+        {
+            var json = await _client.GetStringAsync("api/Persons");
+            var persons = JsonConvert.DeserializeObject<List<Person>>(json);
+            return persons;
         }
 
         public async Task<EmployeeViewModel> UpdateEmployee(EmployeeViewModel model)

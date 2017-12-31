@@ -20,8 +20,8 @@ namespace AcmeSoft.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var emps = Db.Employees.ToList();
-            return Ok(JsonConvert.SerializeObject(emps));
+            var persons = Db.Persons.ToList();
+            return Ok(persons);
         }
 
         [HttpGet("{id}")]
@@ -38,13 +38,13 @@ namespace AcmeSoft.Api.Controllers
         [HttpGet("GetByIdNumber/{idNumber}")]
         public async Task<IActionResult> GetByIdNumber(string idNumber)
         {
-            var emp = await Db.Persons.SingleOrDefaultAsync(e => e.IdNumber == idNumber);
-            if (emp == null)
+            var pers = await Db.Persons.SingleOrDefaultAsync(e => e.IdNumber == idNumber);
+            if (pers == null)
             {
                 // Avoid unecessary exception processing.
                 return Ok(null);
             }
-            return Ok(emp);
+            return Ok(pers);
         }
 
         [HttpPost]

@@ -36,21 +36,23 @@ namespace AcmeSoft.Mvc.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var emps = from emp in _dbContext.Employees.Include(e => e.Person)
-                       join pers in _dbContext.Persons on emp.PersonId equals pers.PersonId
-                       select new EmployeeViewModel
-                       {
-                           LastName = pers.LastName,
-                           FirstName = pers.FirstName,
-                           BirthDate = pers.BirthDate.ToString(AppConstants.DefaultDateFormat),
-                           PersonId = emp.PersonId,
-                           EmployeeId = emp.EmployeeId,
-                           EmployeeNum = emp.EmployeeNum,
-                           EmployedDate = emp.EmployedDate.ToString(AppConstants.DefaultDateFormat),
-                           TerminatedDate = FormatNullableDateTime(emp.TerminatedDate)
-                       };
+            var employees = await _apiClient.GetEmployeesAsync();
+            var persons = await _apiClient.GetPersonsAsync();
+
+            var emps = employees.Join(persons, emp => emp.PersonId, pers => pers.PersonId, (emp, pers) => new EmployeeViewModel
+            {
+                LastName = pers.LastName,
+                FirstName = pers.FirstName,
+                BirthDate = pers.BirthDate.ToString(AppConstants.DefaultDateFormat),
+                IdNumber = pers.IdNumber,
+                PersonId = emp.PersonId,
+                EmployeeId = emp.EmployeeId,
+                EmployeeNum = emp.EmployeeNum,
+                EmployedDate = emp.EmployedDate.ToString(AppConstants.DefaultDateFormat),
+                TerminatedDate = FormatNullableDateTime(emp.TerminatedDate)
+            });
 
             var model = new EmployeeIndexViewModel
             {
