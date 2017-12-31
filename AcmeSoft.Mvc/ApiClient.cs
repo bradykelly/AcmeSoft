@@ -83,7 +83,7 @@ namespace AcmeSoft.Mvc
         {
             var json = await _client.GetStringAsync($"api/Employees/{id}");
             var emp = JsonConvert.DeserializeObject<Employee>(json);
-            json = await _client.GetStringAsync($"api/Person/{emp.PersonId}");
+            json = await _client.GetStringAsync($"api/Persons/{emp.PersonId}");
             var pers = JsonConvert.DeserializeObject<Person>(json);
 
             var model = Mapper.Map<EmployeeViewModel>(emp);

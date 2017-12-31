@@ -2,11 +2,9 @@
 using System.Threading.Tasks;
 using AcmeSoft.Api.Controllers.Base;
 using AcmeSoft.Api.Data;
+using AcmeSoft.Api.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Employee = AcmeSoft.Api.Data.Models.Employee;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AcmeSoft.Api.Controllers
 {
@@ -24,8 +22,7 @@ namespace AcmeSoft.Api.Controllers
             return Ok(JsonConvert.SerializeObject(emps));
         }
 
-        // GET api/<controller>/5
-        [HttpGet]
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             var emp = Db.Employees.SingleOrDefault(e => e.EmployeeId == id);
@@ -44,10 +41,12 @@ namespace AcmeSoft.Api.Controllers
             return Ok(employee);
         }
 
-        // PUT api/<controller>/5
         [HttpPut]
-        public void Put([FromBody] Employee employee)
+        public async Task<IActionResult> Put([FromBody] Employee employee)
         {
+            Db.Update(employee);
+            await Db.SaveChangesAsync();
+            return Ok(employee);
         }
 
         // DELETE api/<controller>/5

@@ -93,15 +93,6 @@ namespace AcmeSoft.Mvc.Controllers
             if (ModelState.IsValid)
             {
                 await _apiClient.CreateEmployeeAsync(model);
-
-                ////var emp = Mapper.Map<Employee>(model);
-                ////var pers = Mapper.Map<Person>(model);
-                ////// NB Transaction.
-                ////_dbContext.Add(pers);
-                ////await _dbContext.SaveChangesAsync();
-                ////emp.PersonId = pers.PersonId;
-                ////_dbContext.Add(emp);
-                ////await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
@@ -117,19 +108,21 @@ namespace AcmeSoft.Mvc.Controllers
                 return NotFound();
             }
 
-            var emp = await _dbContext.Employees.SingleOrDefaultAsync(e => e.EmployeeId == id);
-            if (emp == null)
-            {
-                return NotFound();
-            }
-            var model = Mapper.Map<EmployeeViewModel>(emp);
+            var model = await _apiClient.GetEmployee(id.Value);
 
-            var pers = await _dbContext.Persons.SingleOrDefaultAsync(e => e.PersonId == model.PersonId);
-            if (pers == null)
-            {
-                return NotFound();
-            }
-            Mapper.Map(pers, model);
+            //var emp = await _dbContext.Employees.SingleOrDefaultAsync(e => e.EmployeeId == id);
+            //if (emp == null)
+            //{
+            //    return NotFound();
+            //}
+            //var model = Mapper.Map<EmployeeViewModel>(emp);
+
+            //var pers = await _dbContext.Persons.SingleOrDefaultAsync(e => e.PersonId == model.PersonId);
+            //if (pers == null)
+            //{
+            //    return NotFound();
+            //}
+            //Mapper.Map(pers, model);
 
             model.ModelPurpose = ViewModelPurpose.Edit;
             return View("Details", model);
