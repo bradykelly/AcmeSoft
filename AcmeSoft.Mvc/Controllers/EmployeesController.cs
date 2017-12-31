@@ -19,7 +19,7 @@ namespace AcmeSoft.Mvc.Controllers
     {
         private readonly IConfiguration _config;
         private readonly IApiClient _apiClient;
-        private readonly CompanyContext _dbContext;
+        ////private readonly CompanyContext _dbContext;
 
         /// <summary>
         /// Instantiates a new <see cref="CompanyContext"/> with injected dependencies where required.
@@ -30,7 +30,7 @@ namespace AcmeSoft.Mvc.Controllers
         {
             _config = config;
             _apiClient = apiClient;
-            _dbContext = dbContext;
+            ////_dbContext = dbContext;
 
             _apiClient.BaseAddress = _config["Api:Url"];
         }
@@ -110,7 +110,7 @@ namespace AcmeSoft.Mvc.Controllers
                 return NotFound();
             }
 
-            var model = await _apiClient.GetEmployee(id.Value);
+            var model = await _apiClient.GetEmployeeAsync(id.Value);
             model.ModelPurpose = ViewModelPurpose.Edit;
             return View("Details", model);
         }
@@ -146,7 +146,7 @@ namespace AcmeSoft.Mvc.Controllers
                     Mapper.Map(emp, model);
                 }
                 
-                await _apiClient.UpdateEmployee(model);
+                await _apiClient.UpdateEmployeeAsync(model);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -161,14 +161,12 @@ namespace AcmeSoft.Mvc.Controllers
                 return NotFound();
             }
 
-            var emp = await _dbContext.Employees
-                .SingleOrDefaultAsync(m => m.EmployeeId == id);
-            if (emp == null)
+            var model = await _apiClient.GetEmployeeAsync(id.Value);
+            if (model == null)
             {
                 return NotFound();
             }
 
-            var model = Mapper.Map<EmployeeViewModel>(emp);
             model.ModelPurpose = ViewModelPurpose.Delete;
             return View("Details", model);
         }
@@ -177,19 +175,15 @@ namespace AcmeSoft.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var emp = await _dbContext.Employees.SingleOrDefaultAsync(m => m.EmployeeId == id);
-            _dbContext.Employees.Remove(emp);
-            var pers = await _dbContext.Persons.SingleOrDefaultAsync(p => p.PersonId == emp.PersonId);
-            // NB Look into whether to assume 1 to 1 or 1 to many.
-            _dbContext.Persons.Remove(pers);
-            await _dbContext.SaveChangesAsync();
+            await _apiClient.DeleteEmployeeAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool EmployeeNumExists(EmployeeViewModel model)
         {
             // NB Check for create.
-            return _dbContext.Employees.Any(e => model.EmployeeId == 0 && e.EmployeeNum == model.EmployeeNum || e.EmployeeId != model.EmployeeId && e.EmployeeNum == model.EmployeeNum);
+            var emp = _apiClient.GetEmployeeAsync(model.EmployeeId);
+            return emp != null;
         }
 
         private string FormatNullableDateTime(DateTime? dateTime)

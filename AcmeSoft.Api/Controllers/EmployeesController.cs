@@ -4,6 +4,7 @@ using AcmeSoft.Api.Controllers.Base;
 using AcmeSoft.Api.Data;
 using AcmeSoft.Api.Data.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace AcmeSoft.Api.Controllers
@@ -33,6 +34,12 @@ namespace AcmeSoft.Api.Controllers
             return Ok(emp);
         }
 
+        [HttpGet("GetByPersonId/{id}")]
+        public async Task<IActionResult> GetByPersonId(int id)
+        {
+            return Ok(await Db.Employees.SingleOrDefaultAsync(e => e.PersonId == id));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Employee employee)
         {
@@ -49,10 +56,12 @@ namespace AcmeSoft.Api.Controllers
             return Ok(employee);
         }
 
-        // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
+            var emp = Db.Employees.SingleOrDefaultAsync(e => e.EmployeeId == id);
+            Db.Remove(emp);
+            await Db.SaveChangesAsync();
         }
     }
 }

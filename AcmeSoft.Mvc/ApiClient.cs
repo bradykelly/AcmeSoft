@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -80,13 +81,22 @@ namespace AcmeSoft.Mvc
             return employees;
         }
 
-        public async Task<EmployeeViewModel> GetEmployee(int id)
+        public async Task<EmployeeViewModel> GetEmployeeAsync(int id)
         {
             var json = await _client.GetStringAsync($"api/Employees/{id}");
+            if (json == null)
+            {
+                return null;
+            }
             var emp = JsonConvert.DeserializeObject<Employee>(json);
-            json = await _client.GetStringAsync($"api/Persons/{emp.PersonId}");
-            var pers = JsonConvert.DeserializeObject<Person>(json);
 
+            json = await _client.GetStringAsync($"api/Persons/{emp.PersonId}");
+            if (json == null)
+            {
+                return null;
+            }
+
+            var pers = JsonConvert.DeserializeObject<Person>(json);
             var model = Mapper.Map<EmployeeViewModel>(emp);
             Mapper.Map(pers, model);
             return model;
@@ -99,7 +109,7 @@ namespace AcmeSoft.Mvc
             return persons;
         }
 
-        public async Task<EmployeeViewModel> UpdateEmployee(EmployeeViewModel model)
+        public async Task<EmployeeViewModel> UpdateEmployeeAsync(EmployeeViewModel model)
         {
             var pers = Mapper.Map<Person>(model);
             var respP = await _client.PutAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(pers), Encoding.UTF8, "application/json"));
@@ -116,6 +126,23 @@ namespace AcmeSoft.Mvc
             var retModel = Mapper.Map<EmployeeViewModel>(pers);
             Mapper.Map(emp, retModel);
             return retModel;
+        }
+
+        public async Task DeleteEmployeeAsync(EmployeeViewModel model)
+        {
+            // Always delete the Employee.
+            var respE = await _client.DeleteAsync($"api/Employees/{model.EmployeeId}");
+            respE.EnsureSuccessStatusCode();
+
+            // Delete the Person if it has no Employees.
+            var jsonE = await _client.GetStringAsync($"api/Employees/GetByPersonId/{model.PersonId}");
+            var emps = JsonConvert.DeserializeObject<List<Employee>>(jsonE);
+            if (!emps.Any())
+            {
+                var respP = await _client.DeleteAsync($"api/Persons/{model.PersonId}");
+                respP.EnsureSuccessStatusCode();
+            }
+
         }
     }
 }
