@@ -16,8 +16,6 @@
 
   <ItemGroup>
     <None Include="wwwroot\lib\jquery-ui-1.12.1.custom\external\jquery\jquery.js" />
-    <None Include="wwwroot\lib\jquery-ui-1.12.1.custom\jquery-ui.js" />
-    <None Include="wwwroot\lib\jquery-ui-1.12.1.custom\jquery-ui.min.js" />
   </ItemGroup>
 
   <ItemGroup>
