@@ -15,6 +15,9 @@ using Newtonsoft.Json;
 
 namespace AcmeSoft.Mvc
 {
+    /// <summary>
+    /// Handles all HTTP API request/response transactions to the API.
+    /// </summary>
     public class ApiClient : IApiClient
     {
         public ApiClient()
@@ -123,6 +126,7 @@ namespace AcmeSoft.Mvc
             json = await respE.Content.ReadAsStringAsync();
             emp = JsonConvert.DeserializeObject<Employee>(json);
 
+            // Populate the return model with the updated Person and Employee records.
             var retModel = Mapper.Map<EmployeeViewModel>(pers);
             Mapper.Map(emp, retModel);
             return retModel;
@@ -142,7 +146,6 @@ namespace AcmeSoft.Mvc
                 var respP = await _client.DeleteAsync($"api/Persons/{model.PersonId}");
                 respP.EnsureSuccessStatusCode();
             }
-
         }
     }
 }

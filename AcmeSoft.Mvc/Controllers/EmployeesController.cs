@@ -173,9 +173,9 @@ namespace AcmeSoft.Mvc.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(EmployeeViewModel model)
         {
-            await _apiClient.DeleteEmployeeAsync(id);
+            await _apiClient.DeleteEmployeeAsync(model);
             return RedirectToAction(nameof(Index));
         }
 
