@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using AcmeSoft.Api.Data.Models;
 using AcmeSoft.Mvc.Models;
 using AcmeSoft.Mvc.ViewModels;
+using AcmeSoft.Shared.Models;
 using AutoMapper;
 
 namespace AcmeSoft.Mvc.Mapping

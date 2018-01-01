@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using AcmeSoft.Api.Controllers.Base;
 using AcmeSoft.Api.Data;
-using AcmeSoft.Api.Data.Models;
+using AcmeSoft.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +18,8 @@ namespace AcmeSoft.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var emps = Db.Employees.ToList();
+            // Only return non-deleted for selection lists, reports etc.
+            var emps = Db.Employees.Where(e => !e.Archived.HasValue).ToList();
             return Ok(emps);
         }
 
@@ -36,7 +37,7 @@ namespace AcmeSoft.Api.Controllers
         [HttpGet("GetByPersonId/{id}")]
         public async Task<IActionResult> GetByPersonId(int id)
         {
-            return Ok(await Db.Employees.SingleOrDefaultAsync(e => e.PersonId == id));
+            return Ok(await Db.Employees.Where(e => e.PersonId == id).ToListAsync());
         }
 
         [HttpPost]

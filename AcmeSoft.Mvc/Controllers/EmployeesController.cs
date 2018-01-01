@@ -2,15 +2,12 @@
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using AcmeSoft.Api.Data;
-using AcmeSoft.Api.Data.Models;
 using AcmeSoft.Mvc.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using AcmeSoft.Mvc.Models;
 using AcmeSoft.Mvc.ViewModels;
+using AcmeSoft.Shared.Models;
 using AutoMapper;
-using Microsoft.CodeAnalysis.Options;
 using Microsoft.Extensions.Configuration;
 
 namespace AcmeSoft.Mvc.Controllers
@@ -82,7 +79,7 @@ namespace AcmeSoft.Mvc.Controllers
                 }
             }
 
-            if (EmployeeNumExists(model))
+            if (await EmployeeNumExistsAsync(model))
             {
                 ModelState.AddModelError("EmployeeNum", "Employee number already in use");
             }
@@ -125,7 +122,7 @@ namespace AcmeSoft.Mvc.Controllers
                 } 
             }
 
-            if (EmployeeNumExists(model))
+            if (await EmployeeNumExistsAsync(model))
             {
                 ModelState.AddModelError("EmployeeNum", "Employee number already in use");
             }
@@ -170,15 +167,14 @@ namespace AcmeSoft.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(EmployeeViewModel model)
         {
-            await _apiClient.DeleteEmployeeAsync(model);
+            await _apiClient.ArchiveEmployeeAsync(model);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployeeNumExists(EmployeeViewModel model)
+        private async Task<bool> EmployeeNumExistsAsync(EmployeeViewModel model)
         {
-            // NB Check for create.
-            var emp = _apiClient.GetEmployeeAsync(model.EmployeeId);
-            return emp != null;
+            var emp = await _apiClient.GetEmployeeAsync(model.EmployeeId);
+            return emp?.Archived != null;
         }
 
         private string FormatNullableDateTime(DateTime? dateTime)

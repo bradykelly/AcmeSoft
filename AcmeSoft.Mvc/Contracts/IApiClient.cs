@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AcmeSoft.Api.Data.Models;
 using AcmeSoft.Mvc.ViewModels;
+using AcmeSoft.Shared.Models;
 
 namespace AcmeSoft.Mvc.Contracts
 {
@@ -15,6 +13,6 @@ namespace AcmeSoft.Mvc.Contracts
         Task<List<Person>> GetPersonsAsync();
         Task<EmployeeViewModel> GetEmployeeAsync(int id);
         Task<EmployeeViewModel> UpdateEmployeeAsync(EmployeeViewModel model);
-        Task DeleteEmployeeAsync(EmployeeViewModel model);
+        Task ArchiveEmployeeAsync(EmployeeViewModel model);
     }
 }

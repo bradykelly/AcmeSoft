@@ -1,6 +1,6 @@
-﻿using AcmeSoft.Api.Data.Models;
+﻿using AcmeSoft.Shared.Models;
 using Microsoft.EntityFrameworkCore;
-using Employee = AcmeSoft.Api.Data.Models.Employee;
+using Employee = AcmeSoft.Shared.Models.Employee;
 
 namespace AcmeSoft.Api.Data
 {

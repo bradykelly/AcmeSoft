@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using AcmeSoft.Mvc.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,8 +9,6 @@ namespace AcmeSoft.Mvc.ViewModels
     {
         public ViewModelPurpose ModelPurpose { get; set; }
 
-        // NB Remove Key after scaffolding.
-        [Key]
         [HiddenInput(DisplayValue = false)]
         public int EmployeeId { get; set; }
 
@@ -46,6 +45,8 @@ namespace AcmeSoft.Mvc.ViewModels
 
         [Display(Name = "Date Terminated")]
         public string TerminatedDate { get; set; }
+
+        public DateTime? Archived { get; set; }
 
         public virtual string ViewHeading
         {

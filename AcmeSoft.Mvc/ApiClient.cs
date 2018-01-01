@@ -6,11 +6,10 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
-using AcmeSoft.Api.Data.Models;
 using AcmeSoft.Mvc.Contracts;
 using AcmeSoft.Mvc.ViewModels;
+using AcmeSoft.Shared.Models;
 using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace AcmeSoft.Mvc
@@ -141,19 +140,27 @@ namespace AcmeSoft.Mvc
             return retModel;
         }
 
-        public async Task DeleteEmployeeAsync(EmployeeViewModel model)
+        public async Task ArchiveEmployeeAsync(EmployeeViewModel model)
         {
-            // Always delete the Employee.
-            var respE = await _client.DeleteAsync($"api/Employees/{model.EmployeeId}");
+            // Always archive the Employee.
+            var jsonE = await _client.GetStringAsync($"api/Employees/{model.EmployeeId}");
+            if (jsonE == null)
+            {
+                return;
+            }
+            var emp = JsonConvert.DeserializeObject<Employee>(jsonE);
+            emp.Archived = DateTime.Now;
+            var respE = await _client.PutAsync("api/Employees", new StringContent(JsonConvert.SerializeObject(emp), Encoding.UTF8, "application/json"));
             respE.EnsureSuccessStatusCode();
 
-            // Delete the Person if it has no more Employees.
-            // NB Reconsider.
-            var jsonE = await _client.GetStringAsync($"api/Employees/GetByPersonId/{model.PersonId}");
+            // Archive the Person if it has no more Employees.
+            jsonE = await _client.GetStringAsync($"api/Employees/GetByPersonId/{model.PersonId}");
             var emps = JsonConvert.DeserializeObject<List<Employee>>(jsonE);
             if (!emps.Any())
             {
-                var respP = await _client.DeleteAsync($"api/Persons/{model.PersonId}");
+                var pers = Mapper.Map<Person>(model);
+                pers.Archived = DateTime.Now;
+                var respP = await _client.PutAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(pers)));
                 respP.EnsureSuccessStatusCode();
             }
         }

@@ -1,9 +1,7 @@
-﻿using AcmeSoft.Api.Data;
-using AcmeSoft.Mvc.Contracts;
+﻿using AcmeSoft.Mvc.Contracts;
 using AcmeSoft.Mvc.Mapping;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

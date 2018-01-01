@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AcmeSoft.Api.Data.Models
+namespace AcmeSoft.Shared.Models
 {
     // All FK etc. not seen here are defined in the DbContext 'OnModelCreating' method.
     [Table("Employee")]
@@ -22,6 +22,8 @@ namespace AcmeSoft.Api.Data.Models
 
         [Column(TypeName = "date")]
         public DateTime? TerminatedDate { get; set; }
+
+        public DateTime? Archived { get; set; }
 
         public Person Person { get; set; }
     }

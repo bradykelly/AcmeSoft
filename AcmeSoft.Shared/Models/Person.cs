@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AcmeSoft.Api.Data.Models
+namespace AcmeSoft.Shared.Models
 {
     // All FK etc. not seen here are defined in the DbContext 'OnModelCreating' method.
     [Table(nameof(Person))]
@@ -25,5 +25,7 @@ namespace AcmeSoft.Api.Data.Models
         [Required(AllowEmptyStrings = false)]
         [StringLength(13)]
         public string IdNumber { get; set; }
+
+        public DateTime? Archived { get; set; }
     }
 }
