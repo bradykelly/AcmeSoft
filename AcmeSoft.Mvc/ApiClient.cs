@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -108,6 +109,18 @@ namespace AcmeSoft.Mvc
             // Build up and return a viewmodel.
             var model = Mapper.Map<EmployeeViewModel>(emp);
             Mapper.Map(pers, model);
+            return model;
+        }
+
+        public async Task<EmployeeViewModel> GetByIdNumberAsync(string idNumber)
+        {
+            var json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{idNumber}");
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return null;
+            }
+            var pers = JsonConvert.DeserializeObject<Person>(json);
+            var model = Mapper.Map<EmployeeViewModel>(pers);
             return model;
         }
 

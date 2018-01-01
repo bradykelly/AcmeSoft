@@ -61,11 +61,20 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
-        $(function () {
+        "use strict";
 
-            $("#IdNumber").on("blur", function() {
-                alert($("#IdNumber").val());
-            });
+        $(function() {
+            $("#IdNumber").on("blur",
+                function() {
+                    $.ajax({
+                            method: "GET",
+                            url: "@Url.Action("GetByIdNumber", "Employees")" + "/" + $("#IdNumber").val()
+                        })
+                        .done(function (resp) {
+                            debugger;
+                            var xxx = resp;
+                        });
+                });
         });
     </script>
 }

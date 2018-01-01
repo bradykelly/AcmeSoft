@@ -96,6 +96,12 @@ namespace AcmeSoft.Mvc.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetByIdNumber(string idNumber)
+        {
+            return Ok(await _apiClient.GetByIdNumberAsync(idNumber));
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
