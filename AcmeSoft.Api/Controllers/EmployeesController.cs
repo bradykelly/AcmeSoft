@@ -19,7 +19,7 @@ namespace AcmeSoft.Api.Controllers
         public IActionResult Get()
         {
             // Only return non-deleted for selection lists, reports etc.
-            var emps = Db.Employees.Where(e => !e.Archived.HasValue).ToList();
+            var emps = Db.Employees.ToList();
             return Ok(emps);
         }
 

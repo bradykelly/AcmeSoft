@@ -23,8 +23,6 @@ namespace AcmeSoft.Shared.Models
         [Column(TypeName = "date")]
         public DateTime? TerminatedDate { get; set; }
 
-        public DateTime? Archived { get; set; }
-
         public Person Person { get; set; }
     }
 }

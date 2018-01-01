@@ -25,7 +25,5 @@ namespace AcmeSoft.Shared.Models
         [Required(AllowEmptyStrings = false)]
         [StringLength(13)]
         public string IdNumber { get; set; }
-
-        public DateTime? Archived { get; set; }
     }
 }
