@@ -60,14 +60,34 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    @*<script>
-            // NB Remove before publish.
-            $(function() {
-                $("#LastName").val("Kelly");
-                $("#FirstName").val("Brady");
-                $("#EmployeeNum").val("KEL001");
-                $("#BirthDate").val("1969-12-13");
-                $("#EmployedDate").val("1981-04-03");
-            });
-        </script>*@
+    <script>
+        $(function () {
+
+            $("#IdNumber")
+                // don't navigate away from the field on tab when selecting an item
+                .on("keydown",
+                    function(event) {
+                        if (event.keyCode === $.ui.keyCode.TAB &&
+                            $(this).autocomplete("instance").menu.active) {
+                            event.preventDefault();
+                        }
+                    })
+                .autocomplete({
+                    minLength: 2,
+                    source: function( request, response ) {
+                        $.getJSON( "@Url.Action("GetIdNumbers", "Employees")", {
+                            term: $("#IdNumber").val()
+                        }, response );
+                    },
+                    focus: function() {
+                        $("#IdNumber").val(ui.item);
+                        return false;
+                    },
+                    select: function( event, ui ) {
+                        $("#IdNumber").val(ui.item);
+                        return false;
+                    }
+                });
+        });
+    </script>
 }

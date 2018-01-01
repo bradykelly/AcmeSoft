@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -169,6 +170,12 @@ namespace AcmeSoft.Mvc.Controllers
         {
             await _apiClient.ArchiveEmployeeAsync(model);
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<List<string>> GetIdNumbers(string term)
+        {
+            return await _apiClient.GetIdNumbersNamesAsync(term);
         }
 
         private async Task<bool> EmployeeNumExistsAsync(EmployeeViewModel model)

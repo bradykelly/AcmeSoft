@@ -19,7 +19,7 @@ namespace AcmeSoft.Api.Controllers
         public IActionResult Get()
         {
             // Only return non-deleted for selection lists, reports etc.
-            var persons = Db.Persons.Where(p => !p.Archived.HasValue).ToList();
+            var persons = Db.Persons.ToList();
             return Ok(persons);
         }
 
@@ -44,6 +44,18 @@ namespace AcmeSoft.Api.Controllers
                 return Ok(null);
             }
             return Ok(pers);
+        }
+
+
+        [HttpGet("IdNumbers/{term}")]
+        public async Task<IActionResult> IdNumbers(string term)
+        {
+            var nums = await Db.Persons
+                .Where(p => p.IdNumber.StartsWith(term))
+                .Select(p => p.IdNumber.PadRight(13) + " - " + p.LastName + ", " + p.FirstName)
+                .OrderBy(p => p)
+                .ToListAsync();
+            return Ok(nums);
         }
 
         [HttpPost]

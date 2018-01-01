@@ -10,6 +10,7 @@ using AcmeSoft.Mvc.Contracts;
 using AcmeSoft.Mvc.ViewModels;
 using AcmeSoft.Shared.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace AcmeSoft.Mvc
@@ -142,27 +143,41 @@ namespace AcmeSoft.Mvc
 
         public async Task ArchiveEmployeeAsync(EmployeeViewModel model)
         {
-            // Always archive the Employee.
+            // Always delete the Employee.
             var jsonE = await _client.GetStringAsync($"api/Employees/{model.EmployeeId}");
             if (jsonE == null)
             {
                 return;
             }
             var emp = JsonConvert.DeserializeObject<Employee>(jsonE);
-            emp.Archived = DateTime.Now;
-            var respE = await _client.PutAsync("api/Employees", new StringContent(JsonConvert.SerializeObject(emp), Encoding.UTF8, "application/json"));
+            var respE = await _client.DeleteAsync($"api/Employees/{emp.EmployeeId}");
             respE.EnsureSuccessStatusCode();
 
-            // Archive the Person if it has no more Employees.
+            // Delete the Person if it has no more Employees.
             jsonE = await _client.GetStringAsync($"api/Employees/GetByPersonId/{model.PersonId}");
             var emps = JsonConvert.DeserializeObject<List<Employee>>(jsonE);
             if (!emps.Any())
             {
                 var pers = Mapper.Map<Person>(model);
-                pers.Archived = DateTime.Now;
-                var respP = await _client.PutAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(pers)));
+                var respP = await _client.DeleteAsync($"api/Persons/{pers.PersonId}");
                 respP.EnsureSuccessStatusCode();
             }
+        }
+
+        public Task<List<string>> GetIdNumbersNamesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<string>> GetIdNumbersNamesAsync(string term)
+        {
+            var json = await _client.GetStringAsync($"api/Persons/IdNumbers/{term}");
+            if (json == null)
+            {
+                return null;
+            }
+            var nums = JsonConvert.DeserializeObject<List<string>>(json);
+            return nums;
         }
     }
 }
