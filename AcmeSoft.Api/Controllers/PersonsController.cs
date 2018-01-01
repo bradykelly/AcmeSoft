@@ -1,12 +1,10 @@
 ﻿using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using AcmeSoft.Api.Controllers.Base;
 using AcmeSoft.Api.Data;
 using AcmeSoft.Api.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace AcmeSoft.Api.Controllers
 {

@@ -17,22 +17,17 @@ namespace AcmeSoft.Mvc.Controllers
 {
     public class EmployeesController : Controller
     {
-        private readonly IConfiguration _config;
         private readonly IApiClient _apiClient;
-        ////private readonly CompanyContext _dbContext;
 
         /// <summary>
-        /// Instantiates a new <see cref="CompanyContext"/> with injected dependencies where required.
+        /// Instantiates a new <see cref="EmployeesController"/> with injected dependencies where required.
         /// </summary>
-        /// <param name="dbContext">A <see cref="DbContext"/> object for injection into the <see cref="CompanyContext"/>.</param>
-        // TODO Complete Docs
-        public EmployeesController(IConfiguration config, IApiClient apiClient, CompanyContext dbContext)
+        /// <param name="apiClient">An <see cref="IApiClient"/> implementation for injection into the <c>controller</c>.</param>
+        /// <param name="config">An <see cref="IConfiguration"/> implementation for injection into the <c>controller</c>.</param>
+        public EmployeesController(IConfiguration config, IApiClient apiClient)
         {
-            _config = config;
             _apiClient = apiClient;
-            ////_dbContext = dbContext;
-
-            _apiClient.BaseAddress = _config["Api:Url"];
+            _apiClient.BaseAddress = config["Api:Url"];
         }
 
         [HttpGet]
@@ -139,7 +134,7 @@ namespace AcmeSoft.Mvc.Controllers
             {
                 var emp = Mapper.Map<Employee>(model);
 
-                // Couldn't figure how to do this with AutoMapper.
+                // Don't know how to do this conditional mapping with AutoMapper. Rather keep it simple.
                 if (!string.IsNullOrWhiteSpace(model.TerminatedDate))
                 {
                     emp.TerminatedDate = DateTime.ParseExact(model.TerminatedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
