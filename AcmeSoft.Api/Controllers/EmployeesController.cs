@@ -29,7 +29,7 @@ namespace AcmeSoft.Api.Controllers
             var emp = Db.Employees.SingleOrDefault(e => e.EmployeeId == id);
             if (emp == null)
             {
-                return NotFound();
+                return Ok(null);
             }
             return Ok(emp);
         }

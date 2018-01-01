@@ -50,7 +50,16 @@ namespace AcmeSoft.Api.Controllers
         public async Task<IActionResult> Post([FromBody] Person person)
         {
             Db.Add(person);
-            await Db.SaveChangesAsync();
+            try
+            {
+                await Db.SaveChangesAsync();
+
+            }
+            catch (DbUpdateException ux)
+            {
+                var msg = ux.Message;
+                throw;
+            } 
             return Ok(person);
         }
 

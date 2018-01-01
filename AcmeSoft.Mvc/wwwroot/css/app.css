@@ -1,5 +1,5 @@
 ﻿.has-date-picker input {
-    display: inline-block;
+    border-color: green;
 }
 
 .date-prompt {
@@ -9,7 +9,7 @@
 
 .delete-prompt {
     margin-right: 10px;
-    font-size: larger;
+    font-size: medium;
     font-weight: bold;
     color: red;
 }

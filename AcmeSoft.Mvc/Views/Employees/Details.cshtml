@@ -8,6 +8,7 @@
 <h3>@Model.ViewHeading</h3>
 <hr />
 <form asp-action="@Model.FormAction">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
         @if (Model.ModelPurpose == ViewModelPurpose.Create || Model.ModelPurpose == ViewModelPurpose.Edit)
         {
@@ -18,54 +19,36 @@
             <p class="delete-prompt">Are you sure you want to delete this employee?</p>
         }
         <div class="col-md-6">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="EmployeeId"/>
-            <input type="hidden" asp-for="PersonId"/>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" tabindex="1"/>
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" tabindex="2"/>
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdNumber" class="control-label"></label>
-                <input asp-for="IdNumber" class="form-control" tabindex="2"/>
-                <span asp-validation-for="IdNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmployeeNum" class="control-label"></label>
-                @if (Model.ModelPurpose == ViewModelPurpose.Create)
-                {
-                    <input asp-for="EmployeeNum" class="form-control" tabindex="3"/>
-                }
-                else
-                {
-                    <input asp-for="EmployeeNum" class="form-control" tabindex="3" readonly="readonly"/>
-                }
-                <span asp-validation-for="EmployeeNum" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmployedDate" class="control-label"></label> *
-                <input type="text" asp-for="EmployedDate" class="form-control has-date-picker" tabindex="5"/>
-                <span asp-validation-for="EmployedDate" class="text-danger"></span>
-            </div>
+            <section id="personDetails">
+                @Html.Partial("_PersonDetails", Model)
+            </section>
         </div>
         <div class="col-md-6">
+            <section id="employeeDetails">
+                <input type="hidden" asp-for="EmployeeId" />
+                <div class="form-group">
+                    <label asp-for="EmployeeNum" class="control-label"></label>
+                    @if (Model.ModelPurpose == ViewModelPurpose.Create)
+                    {
+                        <input asp-for="EmployeeNum" class="form-control" tabindex="5" />
+                    }
+                    else
+                    {
+                        <input asp-for="EmployeeNum" class="form-control" tabindex="6" readonly="readonly" />
+                    }
+                    <span asp-validation-for="EmployeeNum" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EmployedDate" class="control-label"></label> *
+                    <input type="text" asp-for="EmployedDate" class="form-control has-date-picker" tabindex="7" />
+                    <span asp-validation-for="EmployedDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TerminatedDate" class="control-label"></label> *
+                    <input type="text" asp-for="TerminatedDate" class="form-control has-date-picker" tabindex="8" />
 
-            <div class="form-group">
-                <label asp-for="BirthDate" class="control-label"></label>
-                <input type="text" asp-for="BirthDate" class="form-control has-date-picker" tabindex="4"/>
-                <span asp-validation-for="BirthDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TerminatedDate" class="control-label"></label>
-                <input type="text" asp-for="TerminatedDate" class="form-control has-date-picker" tabindex="6"/>
-
-            </div>
+                </div>
+            </section>
         </div>
     </div>
     <div class="form-group text-right">
@@ -78,13 +61,13 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @*<script>
-        // NB Remove before publish.
-        $(function() {
-            $("#LastName").val("Kelly");
-            $("#FirstName").val("Brady");
-            $("#EmployeeNum").val("KEL001");
-            $("#BirthDate").val("1969-12-13");
-            $("#EmployedDate").val("1981-04-03");
-        });
-    </script>*@
+            // NB Remove before publish.
+            $(function() {
+                $("#LastName").val("Kelly");
+                $("#FirstName").val("Brady");
+                $("#EmployeeNum").val("KEL001");
+                $("#BirthDate").val("1969-12-13");
+                $("#EmployedDate").val("1981-04-03");
+            });
+        </script>*@
 }

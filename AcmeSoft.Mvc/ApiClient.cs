@@ -90,7 +90,7 @@ namespace AcmeSoft.Mvc
         {
             // Get the employee by id.
             var json = await _client.GetStringAsync($"api/Employees/{id}");
-            if (json == null)
+            if (string.IsNullOrWhiteSpace(json))
             {
                 return null;
             }
@@ -98,7 +98,7 @@ namespace AcmeSoft.Mvc
 
             // Get the person linked to the Employee.
             json = await _client.GetStringAsync($"api/Persons/{emp.PersonId}");
-            if (json == null)
+            if (string.IsNullOrWhiteSpace(json))
             {
                 return null;
             }
