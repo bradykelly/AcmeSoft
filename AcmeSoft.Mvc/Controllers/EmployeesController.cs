@@ -119,6 +119,7 @@ namespace AcmeSoft.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,IdNumber,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeViewModel model)
         {
+            // NB Check id number for different number = different person.
             if (!string.IsNullOrWhiteSpace(model.TerminatedDate?.Trim()))
             {
                 var employed = DateTime.ParseExact(model.EmployedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
