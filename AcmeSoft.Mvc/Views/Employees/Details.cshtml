@@ -68,14 +68,19 @@
                 return;
             }
             $.ajax({
-                url: "@Url.Action("GetByIdNumber", "Employees")"
-                })
-                .done(function(resp) {
-                    debugger;
-                })
-                .fail(function(resp) {
-                    debugger;
-                });
+                method: "GET",
+                url: "@Url.Action("GetByIdNumber", "Employees")",
+                data: {
+                    idNumber: $("#IdNumber").val()
+                }
+            }).done(function(resp) {
+                if (resp === null) {
+                    return;
+                }
+                debugger;
+            }).fail(function(resp) {
+                debugger;
+            });
         };
 
         $(function() {

@@ -44,7 +44,7 @@ namespace AcmeSoft.Mvc
 
         public async Task<EmployeeViewModel> CreateEmployeeAsync(EmployeeViewModel model)
         {
-            // NB Get poerson if exists, by Id Number.
+            // NB Get person if exists, by Id Number.
             var person = Mapper.Map<Person>(model);
 
             string json;
@@ -52,7 +52,7 @@ namespace AcmeSoft.Mvc
             using (var tx = new TransactionScope(TransactionScopeOption.RequiresNew, TransactionScopeAsyncFlowOption.Enabled))
             {
                 // Try and get an existing person.
-                json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{model.PersonId}");
+                json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{person.IdNumber}");
 
                 // If not, create the person.
                 if (string.IsNullOrWhiteSpace(json))

@@ -86,12 +86,6 @@ namespace AcmeSoft.Mvc.Controllers
                 ModelState.AddModelError("EmployeeNum", "Employee number already in use");
             }
 
-            // NB Just create even if empNum is duplicate for now, until I sort out the relationship code.
-            ////if (await IdNumExistsAsync(model))
-            ////{
-            ////    ModelState.AddModelError("IdNumber", "Id Number number already in use");
-            ////}
-
             if (ModelState.IsValid)
             {
                 await _apiClient.CreateEmployeeAsync(model);
