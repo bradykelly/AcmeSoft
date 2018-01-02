@@ -73,12 +73,16 @@
                 data: {
                     idNumber: $("#IdNumber").val()
                 }
-            }).done(function(resp) {
-                if (resp === null) {
+            }).done(function(emp) {
+                if (typeof (emp) === "undefined" || emp === null) {
                     return;
                 }
-                debugger;
-            }).fail(function(resp) {
+                $("#BirthDate").val(emp.birthDate);
+                $("#FirstName").val(emp.firstName);
+                ////$("#IdNumber").val(emp.idNumber);
+                $("#LastName").val(emp.lastName);
+                $("#PersonId").val(emp.personId);
+            }).fail(function() {
                 debugger;
             });
         };
