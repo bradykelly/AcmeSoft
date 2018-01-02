@@ -5,11 +5,11 @@ namespace AcmeSoft.Api.Controllers.Base
 {
     public class BaseController : Controller
     {
-        public BaseController(CompanyContext dbContext)
+        public BaseController(CompanyDbContext dbContext)
         {
             Db = dbContext;
         }
         
-        protected CompanyContext Db;
+        protected CompanyDbContext Db;
     }
 }

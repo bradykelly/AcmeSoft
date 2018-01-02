@@ -4,9 +4,9 @@ using Employee = AcmeSoft.Shared.Models.Employee;
 
 namespace AcmeSoft.Api.Data
 {
-    public class CompanyContext: DbContext
+    public class CompanyDbContext: DbContext
     {
-        public CompanyContext(DbContextOptions<CompanyContext> options): base(options)
+        public CompanyDbContext(DbContextOptions<CompanyDbContext> options): base(options)
         {            
         }
 

@@ -7,7 +7,7 @@ using System;
 
 namespace AcmeSoft.Api.Migrations
 {
-    [DbContext(typeof(CompanyContext))]
+    [DbContext(typeof(CompanyDbContext))]
     partial class CompanyContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

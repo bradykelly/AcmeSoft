@@ -191,7 +191,7 @@ namespace AcmeSoft.Mvc.Controllers
 
         private async Task<bool> EmployeeNumExistsAsync(EmployeeViewModel model)
         {
-            var emp = await _apiClient.GetByIdNumberAsync(model.EmployeeNum, model.EmployeeId);
+            var emp = await _apiClient.GetByEmpNumAsync(model.EmployeeNum, model.EmployeeId);
             return emp != null;
         }
 

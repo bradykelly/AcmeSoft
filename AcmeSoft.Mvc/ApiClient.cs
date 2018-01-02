@@ -110,23 +110,6 @@ namespace AcmeSoft.Mvc
         }
 
         [HttpGet]
-        public async Task<EmployeeViewModel> GetByEmpNumberAsync(string empNumber, int? excludeId = null)
-        {
-            var json = await _client.GetStringAsync($"api/Employees/GetByEmpNumber/{empNumber}");
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                return null;
-            }
-            var emp = JsonConvert.DeserializeObject<Employee>(json);
-            if (excludeId.HasValue && emp.EmployeeId == excludeId)
-            {
-                return null;
-            }
-            var model = Mapper.Map<EmployeeViewModel>(emp);
-            return model;
-        }
-
-        [HttpGet]
         public async Task<Person> GetByIdNumberAsync(string idNumber, int? excludeId = null)
         {
             var json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{idNumber}");
@@ -140,6 +123,21 @@ namespace AcmeSoft.Mvc
                 return null;
             }
             return pers;
+        }
+
+        public async Task<Employee> GetByEmpNumAsync(string empNumber, int? excludeId = null)
+        {
+            var json = await _client.GetStringAsync($"api/Employees/GetByEmpNumber/{empNumber}");
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return null;
+            }
+            var emp = JsonConvert.DeserializeObject<Employee>(json);
+            if (excludeId.HasValue && emp.EmployeeId == excludeId)
+            {
+                return null;
+            }
+            return emp;
         }
 
         public async Task<List<Person>> GetPersonsAsync()

@@ -11,7 +11,7 @@ namespace AcmeSoft.Api.Controllers
     [Route("api/[controller]")]
     public class EmployeesController : BaseController
     {
-        public EmployeesController(CompanyContext dbContext) : base(dbContext)
+        public EmployeesController(CompanyDbContext dbContext) : base(dbContext)
         {
         }
 
@@ -40,7 +40,7 @@ namespace AcmeSoft.Api.Controllers
             return Ok(await Db.Employees.Where(e => e.PersonId == id).ToListAsync());
         }
 
-        [HttpGet("GetEmpNumber/{empNumber}")]
+        [HttpGet("GetByEmpNumber/{empNumber}")]
         public async Task<IActionResult> GetByEmpNumber(string empNumber, int? excludeId = null)
         {
             var emp = await Db.Employees.SingleOrDefaultAsync(e => e.EmployeeNum == empNumber);

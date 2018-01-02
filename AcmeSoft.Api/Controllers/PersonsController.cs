@@ -11,7 +11,7 @@ namespace AcmeSoft.Api.Controllers
     [Route("api/[controller]")]
     public class PersonsController : BaseController
     {
-        public PersonsController(CompanyContext dbContext) : base(dbContext)
+        public PersonsController(CompanyDbContext dbContext) : base(dbContext)
         {
         }
 
