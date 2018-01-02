@@ -40,6 +40,22 @@ namespace AcmeSoft.Api.Controllers
             return Ok(await Db.Employees.Where(e => e.PersonId == id).ToListAsync());
         }
 
+        [HttpGet("GetEmpNumber/{empNumber}")]
+        public async Task<IActionResult> GetByEmpNumber(string empNumber, int? excludeId = null)
+        {
+            var emp = await Db.Employees.SingleOrDefaultAsync(e => e.EmployeeNum == empNumber);
+            if (emp == null)
+            {
+                // Avoid unecessary exception processing.
+                return Ok(null);
+            }
+            if (excludeId.HasValue && emp.EmployeeId == excludeId)
+            {
+                return Ok(null);
+            }
+            return Ok(emp);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Employee employee)
         {

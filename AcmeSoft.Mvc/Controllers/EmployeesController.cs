@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -87,10 +86,11 @@ namespace AcmeSoft.Mvc.Controllers
                 ModelState.AddModelError("EmployeeNum", "Employee number already in use");
             }
 
-            if (await IdNumExistsAsync(model))
-            {
-                ModelState.AddModelError("IdNumber", "Id Number number already in use");
-            }
+            // NB Just create even if empNum is duplicate for now, until I sort out the relationship code.
+            ////if (await IdNumExistsAsync(model))
+            ////{
+            ////    ModelState.AddModelError("IdNumber", "Id Number number already in use");
+            ////}
 
             if (ModelState.IsValid)
             {
@@ -100,12 +100,6 @@ namespace AcmeSoft.Mvc.Controllers
 
             model.ModelPurpose = ViewModelPurpose.Create;
             return View("Details", model);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetByIdNumber(string idNumber)
-        {
-            return Ok(await _apiClient.GetByIdNumberAsync(idNumber));
         }
 
         [HttpGet]
@@ -198,13 +192,13 @@ namespace AcmeSoft.Mvc.Controllers
         private async Task<bool> EmployeeNumExistsAsync(EmployeeViewModel model)
         {
             var emp = await _apiClient.GetByIdNumberAsync(model.EmployeeNum, model.EmployeeId);
-            return emp?.Archived != null;
+            return emp != null;
         }
 
         private async Task<bool> IdNumExistsAsync(EmployeeViewModel model)
         {
-            var emp = await _apiClient.GetByIdNumberAsync(model.IdNumber, model.EmployeeId);
-            return emp?.Archived != null;
+            var emp = await _apiClient.GetByIdNumberAsync(model.IdNumber, model.PersonId);
+            return emp != null;
         }
 
         private string FormatNullableDateTime(DateTime? dateTime)

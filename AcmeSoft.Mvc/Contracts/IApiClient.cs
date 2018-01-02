@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
 using AcmeSoft.Mvc.ViewModels;
 using AcmeSoft.Shared.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AcmeSoft.Mvc.Contracts
 {
@@ -13,8 +13,7 @@ namespace AcmeSoft.Mvc.Contracts
         Task<List<Employee>> GetEmployeesAsync();
         Task<List<Person>> GetPersonsAsync();
         Task<EmployeeViewModel> GetEmployeeAsync(int id);
-        Task<EmployeeViewModel> GetByEmpNumberAsync(string empNumber, int? excludeId = null);
-        Task<EmployeeViewModel> GetByIdNumberAsync(string idNumber, int? excludeId = null);
+        Task<Person> GetByIdNumberAsync(string idNumber, int? excludeId = null);
         Task<EmployeeViewModel> UpdateEmployeeAsync(EmployeeViewModel model);
         Task DeleteEmployeeAsync(EmployeeViewModel model);
         Task<List<string>> GetIdNumbersNamesAsync(string term);

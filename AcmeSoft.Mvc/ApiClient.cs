@@ -44,6 +44,7 @@ namespace AcmeSoft.Mvc
 
         public async Task<EmployeeViewModel> CreateEmployeeAsync(EmployeeViewModel model)
         {
+            // NB Get poerson if exists, by Id Number.
             var person = Mapper.Map<Person>(model);
 
             // Create a new Person.
@@ -108,6 +109,7 @@ namespace AcmeSoft.Mvc
             return model;
         }
 
+        [HttpGet]
         public async Task<EmployeeViewModel> GetByEmpNumberAsync(string empNumber, int? excludeId = null)
         {
             var json = await _client.GetStringAsync($"api/Employees/GetByEmpNumber/{empNumber}");
@@ -124,7 +126,8 @@ namespace AcmeSoft.Mvc
             return model;
         }
 
-        public async Task<EmployeeViewModel> GetByIdNumberAsync(string idNumber, int? excludeId = null)
+        [HttpGet]
+        public async Task<Person> GetByIdNumberAsync(string idNumber, int? excludeId = null)
         {
             var json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{idNumber}");
             if (string.IsNullOrWhiteSpace(json))
@@ -136,8 +139,7 @@ namespace AcmeSoft.Mvc
             {
                 return null;
             }
-            var model = Mapper.Map<EmployeeViewModel>(pers);
-            return model;
+            return pers;
         }
 
         public async Task<List<Person>> GetPersonsAsync()
