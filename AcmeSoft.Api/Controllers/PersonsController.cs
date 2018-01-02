@@ -40,7 +40,6 @@ namespace AcmeSoft.Api.Controllers
             var pers = await Db.Persons.SingleOrDefaultAsync(e => e.IdNumber == idNumber);
             if (pers == null)
             {
-                // Avoid unecessary exception processing.
                 return Ok(null);
             }
 
@@ -51,16 +50,7 @@ namespace AcmeSoft.Api.Controllers
         public async Task<IActionResult> Post([FromBody] Person person)
         {
             Db.Add(person);
-            try
-            {
-                await Db.SaveChangesAsync();
-
-            }
-            catch (DbUpdateException ux)
-            {
-                var msg = ux.Message;
-                throw;
-            }
+            await Db.SaveChangesAsync();
             return Ok(person);
         }
 

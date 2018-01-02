@@ -55,7 +55,7 @@ namespace AcmeSoft.Mvc
                 json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{model.PersonId}");
 
                 // If not, create the person.
-                if (json == null)
+                if (string.IsNullOrWhiteSpace(json))
                 {
                     var respP = await _client.PostAsync("api/Persons",
                         new StringContent(JsonConvert.SerializeObject(person, Formatting.Indented), Encoding.UTF8, "application/json"));
