@@ -52,7 +52,7 @@ namespace AcmeSoft.Mvc
             using (var tx = new TransactionScope(TransactionScopeOption.RequiresNew, TransactionScopeAsyncFlowOption.Enabled))
             {
                 // Try and get an existing person.
-                json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{model.IdNumber}");
+                json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{model.PersonId}");
 
                 // If not, create the person.
                 if (json == null)

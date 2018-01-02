@@ -29,7 +29,7 @@ namespace AcmeSoft.Api.Controllers
             var pers = await Db.Persons.SingleOrDefaultAsync(p => p.PersonId == id);
             if (pers == null)
             {
-                return NotFound();
+                return Ok(null);
             }
             return Ok(pers);
         }

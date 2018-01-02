@@ -102,6 +102,12 @@ namespace AcmeSoft.Mvc.Controllers
             return View("Details", model);
         }
 
+        ////[HttpGet("GetByIdNumber/{idNumber}")]
+        public async Task<IActionResult> GetByIdNumber(string idNumber)
+        {
+            return Json(await _apiClient.GetByIdNumberAsync(idNumber));
+        }
+
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {

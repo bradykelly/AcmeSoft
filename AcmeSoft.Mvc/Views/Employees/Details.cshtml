@@ -63,17 +63,25 @@
     <script>
         "use strict";
 
+        function getByIdNumber() {
+            if ($("#IdNumber").val().length !== 13) {
+                return;
+            }
+            $.ajax({
+                url: "@Url.Action("GetByIdNumber", "Employees")"
+                })
+                .done(function(resp) {
+                    debugger;
+                })
+                .fail(function(resp) {
+                    debugger;
+                });
+        };
+
         $(function() {
             $("#IdNumber").on("blur",
                 function() {
-                    $.ajax({
-                            method: "GET",
-                            url: "@Url.Action("GetByIdNumber", "Employees")" + "/" + $("#IdNumber").val()
-                        })
-                        .done(function (resp) {
-                            debugger;
-                            var xxx = resp;
-                        });
+                    getByIdNumber();
                 });
         });
     </script>
