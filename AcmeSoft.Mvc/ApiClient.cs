@@ -13,6 +13,7 @@ using AcmeSoft.Shared.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using SQLitePCL;
 
 namespace AcmeSoft.Mvc
 {
@@ -44,25 +45,28 @@ namespace AcmeSoft.Mvc
 
         public async Task<EmployeeViewModel> CreateEmployeeAsync(EmployeeViewModel model)
         {
-            // NB Get person if exists, by Id Number.
-            var person = Mapper.Map<Person>(model);
-
             string json;
             Person pers;
+            pers = Mapper.Map<Person>(model);
             using (var tx = new TransactionScope(TransactionScopeOption.RequiresNew, TransactionScopeAsyncFlowOption.Enabled))
             {
                 // Try and get an existing person.
-                json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{person.IdNumber}");
+                json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{model.IdNumber}");
 
                 // If not, create the person.
+                HttpResponseMessage respP;
                 if (string.IsNullOrWhiteSpace(json))
                 {
-                    var respP = await _client.PostAsync("api/Persons",
-                        new StringContent(JsonConvert.SerializeObject(person, Formatting.Indented), Encoding.UTF8, "application/json"));
-                    respP.EnsureSuccessStatusCode();
-                    json = await respP.Content.ReadAsStringAsync();
+                    respP = await _client.PostAsync("api/Persons",
+                        new StringContent(JsonConvert.SerializeObject(pers, Formatting.Indented), Encoding.UTF8, "application/json"));
                 }
-
+                // Or update the person.
+                else
+                {
+                    respP = await _client.PutAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(pers)));
+                }
+                respP.EnsureSuccessStatusCode();
+                json = await respP.Content.ReadAsStringAsync();
                 pers = JsonConvert.DeserializeObject<Person>(json);
 
                 // Link employee to Person.
