@@ -108,7 +108,23 @@ namespace AcmeSoft.Mvc
             return model;
         }
 
-        public async Task<EmployeeViewModel> GetByIdNumberAsync(string idNumber)
+        public async Task<EmployeeViewModel> GetByEmpNumberAsync(string empNumber, int? excludeId = null)
+        {
+            var json = await _client.GetStringAsync($"api/Employees/GetByEmpNumber/{empNumber}");
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return null;
+            }
+            var emp = JsonConvert.DeserializeObject<Employee>(json);
+            if (excludeId.HasValue && emp.EmployeeId == excludeId)
+            {
+                return null;
+            }
+            var model = Mapper.Map<EmployeeViewModel>(emp);
+            return model;
+        }
+
+        public async Task<EmployeeViewModel> GetByIdNumberAsync(string idNumber, int? excludeId = null)
         {
             var json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{idNumber}");
             if (string.IsNullOrWhiteSpace(json))
@@ -116,6 +132,10 @@ namespace AcmeSoft.Mvc
                 return null;
             }
             var pers = JsonConvert.DeserializeObject<Person>(json);
+            if (excludeId.HasValue && pers.PersonId == excludeId)
+            {
+                return null;
+            }
             var model = Mapper.Map<EmployeeViewModel>(pers);
             return model;
         }

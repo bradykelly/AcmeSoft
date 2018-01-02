@@ -35,7 +35,7 @@ namespace AcmeSoft.Api.Controllers
         }
 
         [HttpGet("GetByIdNumber/{idNumber}")]
-        public async Task<IActionResult> GetByIdNumber(string idNumber)
+        public async Task<IActionResult> GetByIdNumber(string idNumber, int? excludeId = null)
         {
             var pers = await Db.Persons.SingleOrDefaultAsync(e => e.IdNumber == idNumber);
             if (pers == null)
@@ -43,19 +43,11 @@ namespace AcmeSoft.Api.Controllers
                 // Avoid unecessary exception processing.
                 return Ok(null);
             }
+            if (excludeId.HasValue && pers.PersonId == excludeId)
+            {
+                return Ok(null);
+            }
             return Ok(pers);
-        }
-
-
-        [HttpGet("IdNumbers/{term}")]
-        public async Task<IActionResult> IdNumbers(string term)
-        {
-            var nums = await Db.Persons
-                .Where(p => p.IdNumber.StartsWith(term))
-                .Select(p => p.IdNumber.PadRight(13) + " - " + p.LastName + ", " + p.FirstName)
-                .OrderBy(p => p)
-                .ToListAsync();
-            return Ok(nums);
         }
 
         [HttpPost]

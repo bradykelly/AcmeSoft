@@ -87,6 +87,11 @@ namespace AcmeSoft.Mvc.Controllers
                 ModelState.AddModelError("EmployeeNum", "Employee number already in use");
             }
 
+            if (await IdNumExistsAsync(model))
+            {
+                ModelState.AddModelError("IdNumber", "Id Number number already in use");
+            }
+
             if (ModelState.IsValid)
             {
                 await _apiClient.CreateEmployeeAsync(model);
@@ -134,6 +139,11 @@ namespace AcmeSoft.Mvc.Controllers
             if (await EmployeeNumExistsAsync(model))
             {
                 ModelState.AddModelError("EmployeeNum", "Employee number already in use");
+            }
+
+            if (await IdNumExistsAsync(model))
+            {
+                ModelState.AddModelError("IdNumber", "Id Number number already in use");
             }
 
             if (ModelState.IsValid)
@@ -187,7 +197,13 @@ namespace AcmeSoft.Mvc.Controllers
 
         private async Task<bool> EmployeeNumExistsAsync(EmployeeViewModel model)
         {
-            var emp = await _apiClient.GetEmployeeAsync(model.EmployeeId);
+            var emp = await _apiClient.GetByIdNumberAsync(model.EmployeeNum, model.EmployeeId);
+            return emp?.Archived != null;
+        }
+
+        private async Task<bool> IdNumExistsAsync(EmployeeViewModel model)
+        {
+            var emp = await _apiClient.GetByIdNumberAsync(model.IdNumber, model.EmployeeId);
             return emp?.Archived != null;
         }
 
