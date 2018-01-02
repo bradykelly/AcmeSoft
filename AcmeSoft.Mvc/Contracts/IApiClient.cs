@@ -15,7 +15,7 @@ namespace AcmeSoft.Mvc.Contracts
         Task<EmployeeViewModel> GetEmployeeAsync(int id);
         Task<EmployeeViewModel> GetByIdNumberAsync(string idNumber);
         Task<EmployeeViewModel> UpdateEmployeeAsync(EmployeeViewModel model);
-        Task ArchiveEmployeeAsync(EmployeeViewModel model);
+        Task DeleteEmployeeAsync(EmployeeViewModel model);
         Task<List<string>> GetIdNumbersNamesAsync(string term);
     }
 }

@@ -46,18 +46,14 @@ namespace AcmeSoft.Mvc
         {
             var person = Mapper.Map<Person>(model);
 
-            // Try and read the Person, if not already exists create a new Person.
+            // Create a new Person.
             string json;
             Person pers;
             using (var tx = new TransactionScope(TransactionScopeOption.RequiresNew, TransactionScopeAsyncFlowOption.Enabled))
             {
-                json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{person.IdNumber}");
-                if (string.IsNullOrWhiteSpace(json))
-                {
-                    var respP = await _client.PostAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(person, Formatting.Indented), Encoding.UTF8, "application/json"));
-                    respP.EnsureSuccessStatusCode();
-                    json = await respP.Content.ReadAsStringAsync();
-                }
+                var respP = await _client.PostAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(person, Formatting.Indented), Encoding.UTF8, "application/json"));
+                respP.EnsureSuccessStatusCode();
+                json = await respP.Content.ReadAsStringAsync();
 
                 pers = JsonConvert.DeserializeObject<Person>(json);
 
@@ -65,7 +61,7 @@ namespace AcmeSoft.Mvc
                 var employee = Mapper.Map<Employee>(model);
                 employee.PersonId = pers.PersonId;
 
-                // Always create a new Employee.
+                // Create a new Employee.
                 var respE = await _client.PostAsync("api/Employees", new StringContent(JsonConvert.SerializeObject(employee, Formatting.Indented), Encoding.UTF8, "application/json"));
                 respE.EnsureSuccessStatusCode();
                 tx.Complete();
@@ -134,14 +130,14 @@ namespace AcmeSoft.Mvc
 
         public async Task<EmployeeViewModel> UpdateEmployeeAsync(EmployeeViewModel model)
         {
-            // Add and then read back the new Person part of the model.
+            // Update the Person and then read back the new Person part of the model.
             var pers = Mapper.Map<Person>(model);
             var respP = await _client.PutAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(pers), Encoding.UTF8, "application/json"));
             respP.EnsureSuccessStatusCode();
             var json = await respP.Content.ReadAsStringAsync();
             pers = JsonConvert.DeserializeObject<Person>(json);
 
-            // Add and then read back the new Employee part of the model.
+            // Update the Employee and then read back the new Employee part of the model.
             var emp = Mapper.Map<Employee>(model);
             var respE = await _client.PutAsync("api/Employees", new StringContent(JsonConvert.SerializeObject(emp), Encoding.UTF8, "application/json"));
             respE.EnsureSuccessStatusCode();
@@ -154,26 +150,19 @@ namespace AcmeSoft.Mvc
             return retModel;
         }
 
-        public async Task ArchiveEmployeeAsync(EmployeeViewModel model)
+        public async Task DeleteEmployeeAsync(EmployeeViewModel model)
         {
-            // Always delete the Employee.
-            var jsonE = await _client.GetStringAsync($"api/Employees/{model.EmployeeId}");
-            if (jsonE == null)
+            using (var tx = new TransactionScope(TransactionScopeOption.RequiresNew, TransactionScopeAsyncFlowOption.Enabled))
             {
-                return;
-            }
-            var emp = JsonConvert.DeserializeObject<Employee>(jsonE);
-            var respE = await _client.DeleteAsync($"api/Employees/{emp.EmployeeId}");
-            respE.EnsureSuccessStatusCode();
+                // Delete the Employee.
+                var respE = await _client.DeleteAsync($"api/Employees/{model.EmployeeId}");
+                respE.EnsureSuccessStatusCode();
 
-            // Delete the Person if it has no more Employees.
-            jsonE = await _client.GetStringAsync($"api/Employees/GetByPersonId/{model.PersonId}");
-            var emps = JsonConvert.DeserializeObject<List<Employee>>(jsonE);
-            if (!emps.Any())
-            {
-                var pers = Mapper.Map<Person>(model);
-                var respP = await _client.DeleteAsync($"api/Persons/{pers.PersonId}");
-                respP.EnsureSuccessStatusCode();
+                // Delete the Person.
+                var respP = await _client.DeleteAsync($"api/Persons/{model.PersonId}");
+                respP.EnsureSuccessStatusCode(); 
+
+                tx.Complete();
             }
         }
 

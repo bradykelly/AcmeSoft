@@ -28,6 +28,8 @@ namespace AcmeSoft.Mvc.Controllers
             _apiClient.BaseAddress = config["Api:Url"];
         }
 
+        #region Actions
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -126,7 +128,7 @@ namespace AcmeSoft.Mvc.Controllers
                 {
                     ModelState.AddModelError("TerminatedDate", "Terminated date must be greater than Employed Date.");
                     ModelState.AddModelError("EmployedDate", "Employed date must be less than or equal to Terminated Date.");
-                } 
+                }
             }
 
             if (await EmployeeNumExistsAsync(model))
@@ -144,7 +146,7 @@ namespace AcmeSoft.Mvc.Controllers
                     emp.TerminatedDate = DateTime.ParseExact(model.TerminatedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
                     Mapper.Map(emp, model);
                 }
-                
+
                 await _apiClient.UpdateEmployeeAsync(model);
                 return RedirectToAction(nameof(Index));
             }
@@ -153,6 +155,7 @@ namespace AcmeSoft.Mvc.Controllers
             return View("Details", model);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -174,15 +177,13 @@ namespace AcmeSoft.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(EmployeeViewModel model)
         {
-            await _apiClient.ArchiveEmployeeAsync(model);
+            await _apiClient.DeleteEmployeeAsync(model);
             return RedirectToAction(nameof(Index));
-        }
+        } 
 
-        [HttpGet]
-        public async Task<List<string>> GetIdNumbers(string term)
-        {
-            return await _apiClient.GetIdNumbersNamesAsync(term);
-        }
+        #endregion
+
+        #region Helpers
 
         private async Task<bool> EmployeeNumExistsAsync(EmployeeViewModel model)
         {
@@ -193,6 +194,8 @@ namespace AcmeSoft.Mvc.Controllers
         private string FormatNullableDateTime(DateTime? dateTime)
         {
             return dateTime?.ToString(AppConstants.DefaultDateFormat);
-        }
+        } 
+
+        #endregion
     }
 }
