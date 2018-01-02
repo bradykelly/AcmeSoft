@@ -35,7 +35,7 @@ namespace AcmeSoft.Api.Controllers
         }
 
         [HttpGet("GetByIdNumber/{idNumber}")]
-        public async Task<IActionResult> GetByIdNumber(string idNumber, int? excludeId = null)
+        public async Task<IActionResult> GetByIdNumber(string idNumber)
         {
             var pers = await Db.Persons.SingleOrDefaultAsync(e => e.IdNumber == idNumber);
             if (pers == null)
@@ -43,10 +43,7 @@ namespace AcmeSoft.Api.Controllers
                 // Avoid unecessary exception processing.
                 return Ok(null);
             }
-            if (excludeId.HasValue && pers.PersonId == excludeId)
-            {
-                return Ok(null);
-            }
+
             return Ok(pers);
         }
 
@@ -63,7 +60,7 @@ namespace AcmeSoft.Api.Controllers
             {
                 var msg = ux.Message;
                 throw;
-            } 
+            }
             return Ok(person);
         }
 

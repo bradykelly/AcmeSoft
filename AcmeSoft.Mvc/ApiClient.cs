@@ -47,14 +47,21 @@ namespace AcmeSoft.Mvc
             // NB Get poerson if exists, by Id Number.
             var person = Mapper.Map<Person>(model);
 
-            // Create a new Person.
             string json;
             Person pers;
             using (var tx = new TransactionScope(TransactionScopeOption.RequiresNew, TransactionScopeAsyncFlowOption.Enabled))
             {
-                var respP = await _client.PostAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(person, Formatting.Indented), Encoding.UTF8, "application/json"));
-                respP.EnsureSuccessStatusCode();
-                json = await respP.Content.ReadAsStringAsync();
+                // Try and get an existing person.
+                json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{model.IdNumber}");
+
+                // If not, create the person.
+                if (json == null)
+                {
+                    var respP = await _client.PostAsync("api/Persons",
+                        new StringContent(JsonConvert.SerializeObject(person, Formatting.Indented), Encoding.UTF8, "application/json"));
+                    respP.EnsureSuccessStatusCode();
+                    json = await respP.Content.ReadAsStringAsync();
+                }
 
                 pers = JsonConvert.DeserializeObject<Person>(json);
 
