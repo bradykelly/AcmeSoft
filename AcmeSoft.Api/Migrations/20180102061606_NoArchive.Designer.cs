@@ -11,9 +11,10 @@ using System;
 namespace AcmeSoft.Api.Migrations
 {
     [DbContext(typeof(CompanyDbContext))]
-    partial class CompanyContextModelSnapshot : ModelSnapshot
+    [Migration("20180102061606_NoArchive")]
+    partial class NoArchive
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
