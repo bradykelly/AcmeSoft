@@ -43,8 +43,7 @@ namespace AcmeSoft.Api.Controllers
                 return Ok(null);
             }
 
-            return Ok(pers);
-        }
+            return Ok(pers);}
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Person person)

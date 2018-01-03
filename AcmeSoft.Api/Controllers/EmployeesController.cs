@@ -73,11 +73,16 @@ namespace AcmeSoft.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task DeleteAsync(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
-            var emp = Db.Employees.SingleOrDefaultAsync(e => e.EmployeeId == id);
+            var emp = await Db.Employees.SingleOrDefaultAsync(e => e.EmployeeId == id);
+            if (emp == null)
+            {
+                return NotFound();
+            }
             Db.Remove(emp);
             await Db.SaveChangesAsync();
+            return Ok();
         }
     }
 }

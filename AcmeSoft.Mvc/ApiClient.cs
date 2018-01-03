@@ -96,6 +96,13 @@ namespace AcmeSoft.Mvc
             return employees;
         }
 
+        public async Task<List<PersonViewModel>> GetPersonModelsAsync()
+        {
+            var json = await _client.GetStringAsync("api/Persons");
+            var persons = JsonConvert.DeserializeObject<List<PersonViewModel>>(json);
+            return persons;
+        }
+
         public async Task<EmployeeViewModel> GetEmployeeAsync(int id)
         {
             // Get the employee by id.
