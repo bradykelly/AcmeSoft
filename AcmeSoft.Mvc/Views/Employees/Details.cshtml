@@ -63,6 +63,14 @@
     <script>
         "use strict";
 
+        function formatDate(date) {
+            var day = date.getDate().padStart(2, "0");
+            var month = date.getMonth().padStart(2, "0");
+            var year = date.getFullYear();
+
+            return year + "-" + month + "-" + day;
+        }
+
         function getByIdNumber() {
             if ($("#IdNumber").val().length !== 13) {
                 return;
@@ -77,7 +85,7 @@
                 if (typeof (emp) === "undefined" || emp === null) {
                     return;
                 }
-                $("#BirthDate").val(emp.birthDate);
+                $("#BirthDate").val(emp.birthDate.substring(0, 10));
                 $("#FirstName").val(emp.firstName);
                 ////$("#IdNumber").val(emp.idNumber);
                 $("#LastName").val(emp.lastName);

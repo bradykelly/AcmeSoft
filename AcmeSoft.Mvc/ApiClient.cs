@@ -63,7 +63,7 @@ namespace AcmeSoft.Mvc
                 // Or update the person.
                 else
                 {
-                    respP = await _client.PutAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(pers)));
+                    respP = await _client.PutAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(pers, Formatting.Indented), Encoding.UTF8, "application/json"));
                 }
                 respP.EnsureSuccessStatusCode();
                 json = await respP.Content.ReadAsStringAsync();
