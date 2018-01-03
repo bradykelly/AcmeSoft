@@ -1,0 +1,22 @@
+﻿@model AcmeSoft.Mvc.ViewModels.CombinedIndexViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3>Employee Index</h3>
+<h4>People</h4>
+<hr />
+<section id="peopleTable">
+    @Html.Partial("_PersonTable", Model.Persons)
+</section>
+<hr />
+<h4>Employees</h4>
+<hr />
+<section id="employeeTable">
+    @Html.Partial("_EmployeeTable", Model.Employees)
+</section>
+
+@*@section Scripts
+    {
+
+}*@

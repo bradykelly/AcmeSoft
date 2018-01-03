@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AcmeSoft.Mvc.Contracts;
+using AcmeSoft.Mvc.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -27,13 +28,20 @@ namespace AcmeSoft.Mvc.Controllers
         [HttpGet]
         public async Task<ActionResult> Index()
         {
-            return Ok(await _apiClient.GetPersonModelsAsync());
+            var persons = await _apiClient.GetPersonModelsAsync();
+            var pvm = new PersonIndexViewModel
+            {
+                Items = persons
+            };
+            var model = new CombinedIndexViewModel {Persons = pvm};
+            return View(model);
         }
-
-        // GET: Persons/Details/5
-        public ActionResult Details(int id)
+        
+        [HttpGet]
+        public async Task<ActionResult> GetEmployees(int id)
         {
-            return View();
+            var emps = await _apiClient.GetPersonEmployeesAsync(id);
+            return Ok(emps);
         }
 
         // GET: Persons/Create

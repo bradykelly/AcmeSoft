@@ -13,18 +13,18 @@ namespace AcmeSoft.Mvc.Mapping
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Person, EmployeeViewModel>()
+                cfg.CreateMap<Person, EmployeeAllViewModel>()
                     .ForMember(dest => dest.BirthDate, opt => opt.ResolveUsing(src => src.BirthDate.ToString(AppConstants.DefaultDateFormat)));
 
-                cfg.CreateMap<EmployeeViewModel, Person>()
+                cfg.CreateMap<EmployeeAllViewModel, Person>()
                     .ForMember(dest => dest.BirthDate,
                         opt => opt.ResolveUsing(src => DateTime.ParseExact(src.BirthDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture)));
 
-                cfg.CreateMap<Employee, EmployeeViewModel>()
+                cfg.CreateMap<Employee, EmployeeAllViewModel>()
                     .ForMember(dest => dest.EmployedDate, opt => opt.ResolveUsing(src => src.EmployedDate.ToString(AppConstants.DefaultDateFormat)))
                     .ForMember(dest => dest.TerminatedDate, opt => opt.ResolveUsing(src => src.TerminatedDate?.ToString(AppConstants.DefaultDateFormat)));
 
-                cfg.CreateMap<EmployeeViewModel, Employee>()
+                cfg.CreateMap<EmployeeAllViewModel, Employee>()
                     .ForMember(dest => dest.EmployedDate,
                         opt => opt.ResolveUsing(src => DateTime.ParseExact(src.EmployedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture)));
             });

@@ -35,7 +35,7 @@ namespace AcmeSoft.Mvc.Controllers
             var employees = await _apiClient.GetEmployeesAsync();
             var persons = await _apiClient.GetPersonsAsync();
 
-            var emps = employees.Join(persons, emp => emp.PersonId, pers => pers.PersonId, (emp, pers) => new EmployeeViewModel
+            var emps = employees.Join(persons, emp => emp.PersonId, pers => pers.PersonId, (emp, pers) => new EmployeeAllViewModel
             {
                 LastName = pers.LastName,
                 FirstName = pers.FirstName,
@@ -48,7 +48,7 @@ namespace AcmeSoft.Mvc.Controllers
                 TerminatedDate = FormatNullableDateTime(emp.TerminatedDate)
             });
 
-            var model = new EmployeeIndexViewModel
+            var model = new EmployeeAllIndexViewModel
             {
                 ModelPurpose = ViewModelPurpose.Index,
                 Items = emps
@@ -59,7 +59,7 @@ namespace AcmeSoft.Mvc.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var model = new EmployeeViewModel
+            var model = new EmployeeAllViewModel
             {
                 ModelPurpose = ViewModelPurpose.Create
             };
@@ -68,7 +68,7 @@ namespace AcmeSoft.Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,IdNumber,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeViewModel model)
+        public async Task<IActionResult> Create([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,IdNumber,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeAllViewModel model)
         {
             if (!string.IsNullOrWhiteSpace(model.TerminatedDate?.Trim()))
             {
@@ -117,7 +117,7 @@ namespace AcmeSoft.Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,IdNumber,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeViewModel model)
+        public async Task<IActionResult> Edit([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,IdNumber,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeAllViewModel model)
         {
             // NB Check id number for different number = different person.
             if (!string.IsNullOrWhiteSpace(model.TerminatedDate?.Trim()))
@@ -180,7 +180,7 @@ namespace AcmeSoft.Mvc.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(EmployeeViewModel model)
+        public async Task<IActionResult> DeleteConfirmed(EmployeeAllViewModel model)
         {
             await _apiClient.DeleteEmployeeAsync(model);
             return RedirectToAction(nameof(Index));
@@ -190,13 +190,13 @@ namespace AcmeSoft.Mvc.Controllers
 
         #region Helpers
 
-        private async Task<bool> EmployeeNumExistsAsync(EmployeeViewModel model)
+        private async Task<bool> EmployeeNumExistsAsync(EmployeeAllViewModel model)
         {
             var emp = await _apiClient.GetByEmpNumAsync(model.EmployeeNum, model.EmployeeId);
             return emp != null;
         }
 
-        private async Task<bool> IdNumExistsAsync(EmployeeViewModel model)
+        private async Task<bool> IdNumExistsAsync(EmployeeAllViewModel model)
         {
             var emp = await _apiClient.GetByIdNumberAsync(model.IdNumber, model.PersonId);
             return emp != null;

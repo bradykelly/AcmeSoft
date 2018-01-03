@@ -3,14 +3,14 @@ using AcmeSoft.Mvc.Models;
 
 namespace AcmeSoft.Mvc.ViewModels
 {
-    public class EmployeeIndexViewModel
+    public class EmployeeAllIndexViewModel 
     {
         public ViewModelPurpose ModelPurpose { get; set; }
 
         public string ViewHeading => "Employee Index";
 
-        public IEnumerable<EmployeeViewModel> Items { get; set; } = new List<EmployeeViewModel>();
+        public IEnumerable<EmployeeAllViewModel> Items { get; set; }
 
-        public EmployeeViewModel HeaderItem { get; }
+        public EmployeeAllViewModel HeaderItem { get; }
     }
 }
