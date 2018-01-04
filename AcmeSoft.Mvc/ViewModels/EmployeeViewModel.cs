@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AcmeSoft.Mvc.ViewModels
 {
-    public class EmployeeViewModel
+    public class EmployeeViewModel: BaseViewModel
     {
         [Key]
         public int EmployeeId { get; set; }

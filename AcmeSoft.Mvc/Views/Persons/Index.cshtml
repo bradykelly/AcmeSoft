@@ -1,22 +1,69 @@
-﻿@model AcmeSoft.Mvc.ViewModels.CombinedIndexViewModel
+﻿@model AcmeSoft.Mvc.ViewModels.PersonEmployeeIndexViewModel
 @{
     ViewData["Title"] = "Index";
 }
 
-<h3>Employee Index</h3>
-<h4>People</h4>
+<h3>@Model.ViewHeading</h3>
 <hr />
-<section id="peopleTable">
-    @Html.Partial("_PersonTable", Model.Persons)
-</section>
-<hr />
-<h4>Employees</h4>
-<hr />
-<section id="employeeTable">
-    @Html.Partial("_EmployeeTable", Model.Employees)
-</section>
-
-@*@section Scripts
-    {
-
-}*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.BirthDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.IdNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.EmployeeNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.EmployedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.TerminatedDate)
+            </th>
+            <th>
+                <a asp-action="Create">Create New</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BirthDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeNum)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminatedDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.EmployeeId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.EmployeeId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

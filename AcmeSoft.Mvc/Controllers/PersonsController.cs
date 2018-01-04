@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AcmeSoft.Mvc.Contracts;
+using AcmeSoft.Mvc.Controllers.Base;
+using AcmeSoft.Mvc.Models;
 using AcmeSoft.Mvc.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace AcmeSoft.Mvc.Controllers
 {
-    public class PersonsController : Controller
+    public class PersonsController : BaseController
     {
         private readonly IApiClient _apiClient;
 
@@ -26,17 +28,32 @@ namespace AcmeSoft.Mvc.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Index()
+        public async Task<IActionResult> Index()
         {
-            var persons = await _apiClient.GetPersonModelsAsync();
-            var pvm = new PersonIndexViewModel
+            var employees = await _apiClient.GetEmployeesAsync();
+            var persons = await _apiClient.GetPersonsAsync();
+
+            var emps = employees.Join(persons, emp => emp.PersonId, pers => pers.PersonId, (emp, pers) => new PersonEmployeeViewModel
             {
-                Items = persons
+                LastName = pers.LastName,
+                FirstName = pers.FirstName,
+                BirthDate = pers.BirthDate.ToString(AppConstants.DefaultDateFormat),
+                IdNumber = pers.IdNumber,
+                PersonId = emp.PersonId,
+                EmployeeId = emp.EmployeeId,
+                EmployeeNum = emp.EmployeeNum,
+                EmployedDate = emp.EmployedDate.ToString(AppConstants.DefaultDateFormat),
+                TerminatedDate = FormatNullableDateTime(emp.TerminatedDate)
+            });
+
+            var model = new PersonEmployeeIndexViewModel()
+            {
+                ModelPurpose = ViewModelPurpose.Index,
+                Items = emps
             };
-            var model = new CombinedIndexViewModel {Persons = pvm};
             return View(model);
         }
-        
+
         [HttpGet]
         public async Task<ActionResult> GetEmployees(int id)
         {

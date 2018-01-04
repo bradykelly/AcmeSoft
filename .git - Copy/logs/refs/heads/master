@@ -1,0 +1,52 @@
+0000000000000000000000000000000000000000 133d2601d5ec605cb66cd353088cce8bba23f4f7 Brady Kelly <brady@bradykelly.net> 1514261650 +0200	commit (initial): Started assessment project.
+133d2601d5ec605cb66cd353088cce8bba23f4f7 57fa9554e75edfaa9f3e581d4f5b7b8d6899d1f1 Brady Kelly <brady@bradykelly.net> 1514263787 +0200	commit: Added context and relationship.
+57fa9554e75edfaa9f3e581d4f5b7b8d6899d1f1 36cb6e9f49ed29c2e6e820d114ac7c3ce7e8daff Brady Kelly <brady@bradykelly.net> 1514268052 +0200	commit: Added initial migration.
+36cb6e9f49ed29c2e6e820d114ac7c3ce7e8daff 200eb0150ce9bbbf595a3cb201ab2de43d274232 Brady Kelly <brady@bradykelly.net> 1514268175 +0200	commit: Ignored bin and obj.
+200eb0150ce9bbbf595a3cb201ab2de43d274232 097740678470ef04a9c22ebfad7afb688f366b9c Brady Kelly <brady@bradykelly.net> 1514269324 +0200	commit: Added migrations for unique keys.
+097740678470ef04a9c22ebfad7afb688f366b9c fc8027611d505c35848f58021f60de7f57e8912d Brady Kelly <brady@bradykelly.net> 1514350334 +0200	commit: Start of day: extra models, viewmodel.
+fc8027611d505c35848f58021f60de7f57e8912d e8d6380b087f400519a267042d4151f2966fec79 Brady Kelly <brady@bradykelly.net> 1514358151 +0200	commit: Getting client project nice and ready.
+e8d6380b087f400519a267042d4151f2966fec79 1daba22c73f21ce4103683e3ca125c56e8d66329 Brady Kelly <brady@bradykelly.net> 1514359278 +0200	commit: Index looking good but still empty.
+1daba22c73f21ce4103683e3ca125c56e8d66329 5f36fdae94c1ae0cffd2ca1ce98432977e2d7ba5 Brady Kelly <brady@bradykelly.net> 1514363537 +0200	commit: Good progress on one, shared view.
+5f36fdae94c1ae0cffd2ca1ce98432977e2d7ba5 45caf8657133747d7af3bfb7e909894efe61e02e Brady Kelly <brady@bradykelly.net> 1514365279 +0200	commit: Index still looks good, still empty. Create New link works fine.
+45caf8657133747d7af3bfb7e909894efe61e02e c9482752398c7273c9ac735f872cb0d651d2eb5a Brady Kelly <brady@bradykelly.net> 1514367694 +0200	commit: jQuery date pickers working but theme way off.
+c9482752398c7273c9ac735f872cb0d651d2eb5a 3e6690db64727d9e298763689068388d76071742 Brady Kelly <brady@bradykelly.net> 1514372194 +0200	commit: jQuery date-picker looks good in p.o.c.
+3e6690db64727d9e298763689068388d76071742 ca1d43dea134234533e52f30d909f6c1309fbcf3 Brady Kelly <brady@bradykelly.net> 1514372589 +0200	commit: All dates null on Create.
+ca1d43dea134234533e52f30d909f6c1309fbcf3 412e3ef54f354262edf00d743052ef9b27c91554 Brady Kelly <brady@bradykelly.net> 1514374928 +0200	commit: Ready to test Create.
+412e3ef54f354262edf00d743052ef9b27c91554 68248fda1c0c8922fbdf7ba4839f96af0a4f46b7 Brady Kelly <brady@bradykelly.net> 1514377377 +0200	commit: Create works and returns to better looking index.
+68248fda1c0c8922fbdf7ba4839f96af0a4f46b7 81f95c9da27b3655ed3fa9a85bb30be0dc90569b Brady Kelly <brady@bradykelly.net> 1514384213 +0200	commit: Good build after changing vm dates to strings.
+81f95c9da27b3655ed3fa9a85bb30be0dc90569b 28c4a42fcd1340bb6466f3c46f008f1dd522b2b2 Brady Kelly <brady@bradykelly.net> 1514439585 +0200	commit: Index working!!!
+28c4a42fcd1340bb6466f3c46f008f1dd522b2b2 afc81abcdaf2eb0b26f1fdd9a3696f2c73b1a080 Brady Kelly <brady@bradykelly.net> 1514521476 +0200	commit: Morning start with save for edit.
+afc81abcdaf2eb0b26f1fdd9a3696f2c73b1a080 d394a7bb797b30b15b706dbc550082950466d2f8 Brady Kelly <brady@bradykelly.net> 1514525614 +0200	commit: Edit works!
+d394a7bb797b30b15b706dbc550082950466d2f8 3b8a74f1d3ca415d5ebd3389feed14edceaa721b Brady Kelly <brady@bradykelly.net> 1514528701 +0200	commit: Delete works.
+3b8a74f1d3ca415d5ebd3389feed14edceaa721b f4459474847024a64b353e95a8bbad1e158db5c1 Brady Kelly <brady@bradykelly.net> 1514545931 +0200	commit: Busy switching to client-server to use API.
+f4459474847024a64b353e95a8bbad1e158db5c1 44263fcf10587187ef525b37a3eb8922ed5dc848 Brady Kelly <brady@bradykelly.net> 1514607783 +0200	commit: Builds OK after more coding on api client.
+44263fcf10587187ef525b37a3eb8922ed5dc848 ca07a01209ff3e1812efe5f9acb0f54c8baa8494 Brady Kelly <brady@bradykelly.net> 1514639777 +0200	commit: Lots of work on Create.
+ca07a01209ff3e1812efe5f9acb0f54c8baa8494 23f00b328214048661e13726d158abf97334d3f7 Brady Kelly <brady@bradykelly.net> 1514643007 +0200	commit: Insert working through API.
+23f00b328214048661e13726d158abf97334d3f7 bfa2d16cce49b240f61431e9f078143002a1cd0c Brady Kelly <brady@bradykelly.net> 1514689319 +0200	commit: Initial Get for edit working fine.
+bfa2d16cce49b240f61431e9f078143002a1cd0c 50d0d6621e6e5c947f16ff42b0c1fe74c88513d3 Brady Kelly <brady@bradykelly.net> 1514695269 +0200	commit: Edit works via API.
+50d0d6621e6e5c947f16ff42b0c1fe74c88513d3 23e50f52bdf61e09ab356bf0ead80f71835df067 Brady Kelly <brady@bradykelly.net> 1514700186 +0200	commit: Index works via api.
+23e50f52bdf61e09ab356bf0ead80f71835df067 9843c8fc0505d3ba77ea671fced47d52123c27ab Brady Kelly <brady@bradykelly.net> 1514703404 +0200	commit: Busy with Delete via api.
+9843c8fc0505d3ba77ea671fced47d52123c27ab b22dda41255522322d48eb295ffd6e5e5a8abf6b Brady Kelly <brady@bradykelly.net> 1514778942 +0200	commit: Good morning!
+b22dda41255522322d48eb295ffd6e5e5a8abf6b 34cc1983a091e3261781ffd9eea433ce3b5025f1 Brady Kelly <brady@bradykelly.net> 1514782450 +0200	commit: MVC project has complete zero data access .
+34cc1983a091e3261781ffd9eea433ce3b5025f1 7a9109e7999d685ec3204a52e163cfa88848ec0a Brady Kelly <brady@bradykelly.net> 1514789220 +0200	commit: Misc changes.
+7a9109e7999d685ec3204a52e163cfa88848ec0a ac77ae42bb5f9e54127ebd01570884931b423791 Brady Kelly <brady@bradykelly.net> 1514794301 +0200	commit: Misc changes.
+ac77ae42bb5f9e54127ebd01570884931b423791 6c812bfd9c9ec2fb210472a54de224ef4d0d2ee3 Brady Kelly <brady@bradykelly.net> 1514801683 +0200	commit: Added NB db backup.
+6c812bfd9c9ec2fb210472a54de224ef4d0d2ee3 1a89e55c727223865afdb8bf0a1a72bfd8d45b11 Brady Kelly <brady@bradykelly.net> 1514806825 +0200	commit: Good buld after adding autocomplete for IdNumber.
+1a89e55c727223865afdb8bf0a1a72bfd8d45b11 a41f2e0be46f20e5b54176ee90ee449ec5aac52d Brady Kelly <brady@bradykelly.net> 1514807232 +0200	commit: Testing autocomplete.
+a41f2e0be46f20e5b54176ee90ee449ec5aac52d 4bd1aea7727a3c8af01141bc752ed66f59bb033f Brady Kelly <brady@bradykelly.net> 1514810665 +0200	commit: IdNumber onblur working now. Screw auto-complete.
+4bd1aea7727a3c8af01141bc752ed66f59bb033f 7eaaf8d8ddaccf14fd41be3f9568aeb0daeaf108 Brady Kelly <brady@bradykelly.net> 1514812843 +0200	commit: No more auto-complete. Just onblur for id number.
+7eaaf8d8ddaccf14fd41be3f9568aeb0daeaf108 19cf7cafc7b6c8468913d802d81be9ef4ae14024 Brady Kelly <brady@bradykelly.net> 1514862693 +0200	commit: Early morning fiddling.
+19cf7cafc7b6c8468913d802d81be9ef4ae14024 1fe41b4c2efcba2c4c40e0fd0d559c3c675bf28d Brady Kelly <brady@bradykelly.net> 1514865235 +0200	commit: Good build after beefing up duplicate checks.
+1fe41b4c2efcba2c4c40e0fd0d559c3c675bf28d ea300907bb77da157dd5358adfa3a0f837e1ff08 Brady Kelly <brady@bradykelly.net> 1514869976 +0200	commit: Ready to test insert with dup persons.
+ea300907bb77da157dd5358adfa3a0f837e1ff08 81a400ecbec1219a48244013b0e64c6b0631c038 Brady Kelly <brady@bradykelly.net> 1514873127 +0200	commit: Create works after overhaul.
+81a400ecbec1219a48244013b0e64c6b0631c038 3206079baac26712da9d7fc072761ecb282a163f Brady Kelly <brady@bradykelly.net> 1514873809 +0200	commit: Removed archived flag from Employee and Person. Simpler to really delete.
+3206079baac26712da9d7fc072761ecb282a163f 78fd2fc0df4207285c37f12d72857235a76f9efa Brady Kelly <brady@bradykelly.net> 1514875547 +0200	commit: 1 to many working on create!
+78fd2fc0df4207285c37f12d72857235a76f9efa 5f7d0e4d83cb21ad219d2b8b7816bb5fb997c934 Brady Kelly <brady@bradykelly.net> 1514875842 +0200	commit: Edit working.
+5f7d0e4d83cb21ad219d2b8b7816bb5fb997c934 df310a222148b96ccf2741997e6601e3defb9f39 Brady Kelly <brady@bradykelly.net> 1514882722 +0200	commit: onBlur working for IdNumber.
+df310a222148b96ccf2741997e6601e3defb9f39 86d9aa8b8b19da13fc2b31ac33b58cd19418af97 Brady Kelly <brady@bradykelly.net> 1514884574 +0200	commit: Rest time.
+86d9aa8b8b19da13fc2b31ac33b58cd19418af97 721551b52e02c547e4545fcf1b48c23fcba4bca7 Brady Kelly <brady@bradykelly.net> 1514886874 +0200	commit: Id Number lookup much better.
+721551b52e02c547e4545fcf1b48c23fcba4bca7 5629a53f38c0e806170521e1f299e19f20690cf6 Brady Kelly <brady@bradykelly.net> 1514887594 +0200	commit: Fetch person on id number check working.
+5629a53f38c0e806170521e1f299e19f20690cf6 534501cc884c41075816de89844c6739d290911a Brady Kelly <brady@bradykelly.net> 1514890199 +0200	commit: Safety for a nap.
+534501cc884c41075816de89844c6739d290911a 1762ffb8f36f0fc14d3c71e0928cb1f1877fad7f Brady Kelly <brady@bradykelly.net> 1514950277 +0200	commit: Edit person works on create employee.
+1762ffb8f36f0fc14d3c71e0928cb1f1877fad7f 7082277b48e2546e3c9c7bf8ca09e846c806cde7 Brady Kelly <brady@bradykelly.net> 1514962470 +0200	commit: Trying new master/detail person/employees.
+7082277b48e2546e3c9c7bf8ca09e846c806cde7 159992c8523f68e2c2e65064299a460f1a03e354 Brady Kelly <brady@bradykelly.net> 1514972748 +0200	commit: Combined Person/Employee index rendering.

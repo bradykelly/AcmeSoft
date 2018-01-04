@@ -44,7 +44,7 @@ namespace AcmeSoft.Mvc
             }
         }
 
-        public async Task<EmployeeAllViewModel> CreateEmployeeAsync(EmployeeAllViewModel model)
+        public async Task<PersonEmployeeViewModel> CreateEmployeeAsync(PersonEmployeeViewModel model)
         {
             string json;
             Person pers;
@@ -83,7 +83,7 @@ namespace AcmeSoft.Mvc
 
             var emp = JsonConvert.DeserializeObject<Employee>(json);
 
-            var retModel = Mapper.Map<EmployeeAllViewModel>(emp);
+            var retModel = Mapper.Map<PersonEmployeeViewModel>(emp);
             Mapper.Map(pers, retModel);
 
             return retModel;
@@ -113,7 +113,7 @@ namespace AcmeSoft.Mvc
             return models;
         }
 
-        public async Task<EmployeeAllViewModel> GetEmployeeAsync(int id)
+        public async Task<PersonEmployeeViewModel> GetEmployeeAsync(int id)
         {
             // Get the employee by id.
             var json = await _client.GetStringAsync($"api/Employees/{id}");
@@ -132,7 +132,7 @@ namespace AcmeSoft.Mvc
             var pers = JsonConvert.DeserializeObject<Person>(json);
 
             // Build up and return a viewmodel.
-            var model = Mapper.Map<EmployeeAllViewModel>(emp);
+            var model = Mapper.Map<PersonEmployeeViewModel>(emp);
             Mapper.Map(pers, model);
             return model;
         }
@@ -176,7 +176,7 @@ namespace AcmeSoft.Mvc
             return persons;
         }
 
-        public async Task<EmployeeAllViewModel> UpdateEmployeeAsync(EmployeeAllViewModel model)
+        public async Task<PersonEmployeeViewModel> UpdateEmployeeAsync(PersonEmployeeViewModel model)
         {
             // Update the Person and then read back the new Person part of the model.
             var pers = Mapper.Map<Person>(model);
@@ -193,12 +193,12 @@ namespace AcmeSoft.Mvc
             emp = JsonConvert.DeserializeObject<Employee>(json);
 
             // Populate the return model with the updated Person and Employee records.
-            var retModel = Mapper.Map<EmployeeAllViewModel>(pers);
+            var retModel = Mapper.Map<PersonEmployeeViewModel>(pers);
             Mapper.Map(emp, retModel);
             return retModel;
         }
 
-        public async Task DeleteEmployeeAsync(EmployeeAllViewModel model)
+        public async Task DeleteEmployeeAsync(PersonEmployeeViewModel model)
         {
             using (var tx = new TransactionScope(TransactionScopeOption.RequiresNew, TransactionScopeAsyncFlowOption.Enabled))
             {

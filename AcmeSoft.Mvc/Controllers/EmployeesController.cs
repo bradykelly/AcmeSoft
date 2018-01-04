@@ -8,6 +8,7 @@ using AcmeSoft.Mvc.Models;
 using AcmeSoft.Mvc.ViewModels;
 using AcmeSoft.Shared.Models;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 
 namespace AcmeSoft.Mvc.Controllers
@@ -29,37 +30,12 @@ namespace AcmeSoft.Mvc.Controllers
 
         #region Actions
 
-        [HttpGet]
-        public async Task<IActionResult> Index()
-        {
-            var employees = await _apiClient.GetEmployeesAsync();
-            var persons = await _apiClient.GetPersonsAsync();
 
-            var emps = employees.Join(persons, emp => emp.PersonId, pers => pers.PersonId, (emp, pers) => new EmployeeAllViewModel
-            {
-                LastName = pers.LastName,
-                FirstName = pers.FirstName,
-                BirthDate = pers.BirthDate.ToString(AppConstants.DefaultDateFormat),
-                IdNumber = pers.IdNumber,
-                PersonId = emp.PersonId,
-                EmployeeId = emp.EmployeeId,
-                EmployeeNum = emp.EmployeeNum,
-                EmployedDate = emp.EmployedDate.ToString(AppConstants.DefaultDateFormat),
-                TerminatedDate = FormatNullableDateTime(emp.TerminatedDate)
-            });
-
-            var model = new EmployeeAllIndexViewModel
-            {
-                ModelPurpose = ViewModelPurpose.Index,
-                Items = emps
-            };
-            return View(model);
-        }
 
         [HttpGet]
         public IActionResult Create()
         {
-            var model = new EmployeeAllViewModel
+            var model = new PersonEmployeeViewModel
             {
                 ModelPurpose = ViewModelPurpose.Create
             };
@@ -68,7 +44,7 @@ namespace AcmeSoft.Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,IdNumber,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeAllViewModel model)
+        public async Task<IActionResult> Create([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,IdNumber,EmployeeNum,EmployedDate,TerminatedDate")] PersonEmployeeViewModel model)
         {
             if (!string.IsNullOrWhiteSpace(model.TerminatedDate?.Trim()))
             {
@@ -117,7 +93,7 @@ namespace AcmeSoft.Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,IdNumber,EmployeeNum,EmployedDate,TerminatedDate")] EmployeeAllViewModel model)
+        public async Task<IActionResult> Edit([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,IdNumber,EmployeeNum,EmployedDate,TerminatedDate")] PersonEmployeeViewModel model)
         {
             // NB Check id number for different number = different person.
             if (!string.IsNullOrWhiteSpace(model.TerminatedDate?.Trim()))
@@ -180,7 +156,7 @@ namespace AcmeSoft.Mvc.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(EmployeeAllViewModel model)
+        public async Task<IActionResult> DeleteConfirmed(PersonEmployeeViewModel model)
         {
             await _apiClient.DeleteEmployeeAsync(model);
             return RedirectToAction(nameof(Index));
@@ -190,22 +166,18 @@ namespace AcmeSoft.Mvc.Controllers
 
         #region Helpers
 
-        private async Task<bool> EmployeeNumExistsAsync(EmployeeAllViewModel model)
+        private async Task<bool> EmployeeNumExistsAsync(PersonEmployeeViewModel model)
         {
             var emp = await _apiClient.GetByEmpNumAsync(model.EmployeeNum, model.EmployeeId);
             return emp != null;
         }
 
-        private async Task<bool> IdNumExistsAsync(EmployeeAllViewModel model)
+        private async Task<bool> IdNumExistsAsync(PersonEmployeeViewModel model)
         {
             var emp = await _apiClient.GetByIdNumberAsync(model.IdNumber, model.PersonId);
             return emp != null;
         }
 
-        private string FormatNullableDateTime(DateTime? dateTime)
-        {
-            return dateTime?.ToString(AppConstants.DefaultDateFormat);
-        } 
 
         #endregion
     }

@@ -4,12 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using AcmeSoft.Mvc.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AcmeSoft.Mvc.ViewModels
 {
-    public class PersonViewModel
-    {
+    public class PersonViewModel: BaseViewModel
+    {        
         [Key]
         [HiddenInput(DisplayValue = false)]
         public int PersonId { get; set; }
