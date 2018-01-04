@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AcmeSoft.Api\AcmeSoft.Api.csproj" />
     <ProjectReference Include="..\AcmeSoft.Shared\AcmeSoft.Shared.csproj" />
   </ItemGroup>
 

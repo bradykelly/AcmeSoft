@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AcmeSoft.Api.Controllers;
 using AcmeSoft.Mvc.Contracts;
 using AcmeSoft.Mvc.Controllers.Base;
 using AcmeSoft.Mvc.Models;
@@ -41,14 +42,18 @@ namespace AcmeSoft.Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(PersonViewModel model)
+        public async Task<IActionResult> Create(PersonViewModel model)
         {
-            // NB Check for dup Id.
+            var idPers = await _apiClient.GetByIdNumberAsync(model.IdNumber);
+            if (idPers != null && idPers.IdNumber == model.IdNumber)
+            {
+                ModelState.AddModelError("IdNumber", "This Id Number is already in use.");
+            }
 
             if (ModelState.IsValid)
             {
                 var pers = Mapper.Map<Person>(model);
-                _apiClient.CreatePersonAsync(pers);
+                await _apiClient.CreatePersonAsync(pers);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -75,11 +80,11 @@ namespace AcmeSoft.Mvc.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var pers = _apiClient.GetByPersonIdAsync(id);
+            var pers = await _apiClient.GetByPersonIdAsync(id);
             var model = Mapper.Map<PersonViewModel>(pers);
-            return View("Details", model);
+            return View("Edit", model);
         }
 
         [HttpPost]

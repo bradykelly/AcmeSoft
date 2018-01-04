@@ -18,10 +18,10 @@ namespace AcmeSoft.Mvc.Mapping
                     .ForMember(dest => dest.EmployedDate, opt => opt.ResolveUsing(src => src.EmployedDate?.ToString(AppConstants.DefaultDateFormat)))
                     .ForMember(dest => dest.TerminatedDate, opt => opt.ResolveUsing(src => src.TerminatedDate?.ToString(AppConstants.DefaultDateFormat)));
 
-                cfg.CreateMap<Person, PersonViewModel>()
+                cfg.CreateMap<Person, PersonViewModel>(MemberList.None)
                     .ForMember(dest => dest.BirthDate, opt => opt.ResolveUsing(src => src.BirthDate.ToString(AppConstants.DefaultDateFormat)));
 
-                cfg.CreateMap<PersonViewModel, Person>()
+                cfg.CreateMap<PersonViewModel, Person>(MemberList.None)
                     .ForMember(dest => dest.BirthDate,
                         opt => opt.ResolveUsing(src => DateTime.ParseExact(src.BirthDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture)));
 
