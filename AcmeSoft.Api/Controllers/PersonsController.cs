@@ -19,7 +19,6 @@ namespace AcmeSoft.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            // Only return non-deleted for selection lists, reports etc.
             var persons = Db.Persons.ToList();
             return Ok(persons);
         }

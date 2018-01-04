@@ -91,11 +91,15 @@ namespace AcmeSoft.Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(PersonViewModel model)
+        public async Task<IActionResult> Edit(PersonViewModel model)
         {
-            // NB Validation for Id.
+            var idPers = await _apiClient.GetByIdNumberAsync(model.IdNumber);
+            if (idPers != null && idPers.IdNumber == model.IdNumber)
+            {
+                ModelState.AddModelError("IdNumber", "This Id Number is already in use.");
+            }
 
-            _apiClient.UpdatePersonAsync(model);
+            await _apiClient.UpdatePersonAsync(model);
             return RedirectToAction(nameof(Index));
         }
 
