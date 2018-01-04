@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Globalization;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AcmeSoft.Mvc.Contracts;
-using Microsoft.AspNetCore.Mvc;
 using AcmeSoft.Mvc.Models;
 using AcmeSoft.Mvc.ViewModels;
 using AcmeSoft.Shared.Models;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace AcmeSoft.Mvc.Controllers
@@ -17,178 +17,93 @@ namespace AcmeSoft.Mvc.Controllers
     {
         private readonly IApiClient _apiClient;
 
-        /// <summary>
-        /// Instantiates a new <see cref="EmployeesController"/> with injected dependencies where required.
-        /// </summary>
-        /// <param name="apiClient">An <see cref="IApiClient"/> implementation for injection into the <c>controller</c>.</param>
-        /// <param name="config">An <see cref="IConfiguration"/> implementation for injection into the <c>controller</c>.</param>
         public EmployeesController(IConfiguration config, IApiClient apiClient)
         {
             _apiClient = apiClient;
             _apiClient.BaseAddress = config["Api:Url"];
         }
 
-        #region Actions
-
-        public async Task<IActionResult> GetByPersonId(int personId)
+        [HttpGet]
+        public ActionResult Index()
         {
-            
+            return View();
+        }
+
+        [HttpGet]            
+        public ActionResult Details(int id)
+        {
+            return View();
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public ActionResult Create(int personId)
         {
-            var model = new PersonEmployeeViewModel
-            {
-                ModelPurpose = ViewModelPurpose.Create
-            };
-            return View("Details", model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,IdNumber,EmployeeNum,EmployedDate,TerminatedDate")] PersonEmployeeViewModel model)
-        {
-            if (!string.IsNullOrWhiteSpace(model.TerminatedDate?.Trim()))
-            {
-                var employed = DateTime.ParseExact(model.EmployedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
-                var terminated = DateTime.ParseExact(model.TerminatedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
-                if (terminated <= employed)
-                {
-                    ModelState.AddModelError("TerminatedDate", "Terminated date must be greater than Employed Date.");
-                    ModelState.AddModelError("EmployedDate", "Employed date must be less than or equal to Terminated Date.");
-                }
-            }
-
-            if (await EmployeeNumExistsAsync(model))
-            {
-                ModelState.AddModelError("EmployeeNum", "Employee number already in use");
-            }
-
-            if (ModelState.IsValid)
-            {
-                ////await _apiClient.CreateEmployeeAsync(model);
-                return RedirectToAction(nameof(Index));
-            }
-
+            var emp = new Employee();
+            emp.PersonId = personId;
+            var model = Mapper.Map<EmployeeViewModel>(emp);
             model.ModelPurpose = ViewModelPurpose.Create;
-            return View("Details", model);
+            return View();
         }
 
-        ////[HttpGet("GetByIdNumber/{idNumber}")]
-        public async Task<IActionResult> GetByIdNumber(string idNumber)
-        {
-            return Json(await _apiClient.GetByIdNumberAsync(idNumber));
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> GetForPerson(int personId)
-        {
-            var emps = await _apiClient.get
-            return Ok(emps);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var model = await _apiClient.GetEmployeeAsync(id.Value);
-            model.ModelPurpose = ViewModelPurpose.Edit;
-            return View("Details", model);
-        }
-
+        // POST: Employmee/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("EmployeeId,PersonId,LastName,FirstName,BirthDate,IdNumber,EmployeeNum,EmployedDate,TerminatedDate")] PersonEmployeeViewModel model)
+        public ActionResult Create(IFormCollection collection)
         {
-            // NB Check id number for different number = different person.
-            if (!string.IsNullOrWhiteSpace(model.TerminatedDate?.Trim()))
+            try
             {
-                var employed = DateTime.ParseExact(model.EmployedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
-                var terminated = DateTime.ParseExact(model.TerminatedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
-                if (terminated <= employed)
-                {
-                    ModelState.AddModelError("TerminatedDate", "Terminated date must be greater than Employed Date.");
-                    ModelState.AddModelError("EmployedDate", "Employed date must be less than or equal to Terminated Date.");
-                }
-            }
+                // TODO: Add insert logic here
 
-            if (await EmployeeNumExistsAsync(model))
-            {
-                ModelState.AddModelError("EmployeeNum", "Employee number already in use");
-            }
-
-            if (await IdNumExistsAsync(model))
-            {
-                ModelState.AddModelError("IdNumber", "Id Number number already in use");
-            }
-
-            if (ModelState.IsValid)
-            {
-                var emp = Mapper.Map<Employee>(model);
-
-                // Don't know how to do this conditional mapping with AutoMapper. Rather keep it simple.
-                if (!string.IsNullOrWhiteSpace(model.TerminatedDate))
-                {
-                    emp.TerminatedDate = DateTime.ParseExact(model.TerminatedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
-                    Mapper.Map(emp, model);
-                }
-
-                await _apiClient.UpdateEmployeeAsync(model);
                 return RedirectToAction(nameof(Index));
             }
-
-            model.ModelPurpose = ViewModelPurpose.Edit;
-            return View("Details", model);
+            catch
+            {
+                return View();
+            }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Employmee/Edit/5
+        public ActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var model = await _apiClient.GetEmployeeAsync(id.Value);
-            if (model == null)
-            {
-                return NotFound();
-            }
-
-            model.ModelPurpose = ViewModelPurpose.Delete;
-            return View("Details", model);
+            return View();
         }
 
-        [HttpPost, ActionName("Delete")]
+        // POST: Employmee/Edit/5
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(PersonEmployeeViewModel model)
+        public ActionResult Edit(EmployeeViewModel model)
         {
-            await _apiClient.DeleteEmployeeAsync(model);
+            // TODO: Add update logic here
+
             return RedirectToAction(nameof(Index));
-        } 
-
-        #endregion
-
-        #region Helpers
-
-        private async Task<bool> EmployeeNumExistsAsync(PersonEmployeeViewModel model)
-        {
-            var emp = await _apiClient.GetByEmpNumAsync(model.EmployeeNum, model.EmployeeId);
-            return emp != null;
         }
 
-        private async Task<bool> IdNumExistsAsync(PersonEmployeeViewModel model)
+        // GET: Employmee/Delete/5
+        public ActionResult Delete(int id)
         {
-            var emp = await _apiClient.GetByIdNumberAsync(model.IdNumber, model.PersonId);
-            return emp != null;
+            return View();
         }
 
+        // POST: Employmee/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
 
-        #endregion
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        private string BuildEmpNum(string lastName)
+        {
+            var prefix = lastName.Substring(0, 3);
+        }
     }
 }

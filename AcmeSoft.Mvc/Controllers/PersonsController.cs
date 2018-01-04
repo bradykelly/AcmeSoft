@@ -106,25 +106,17 @@ namespace AcmeSoft.Mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
+            var model = await _apiClient.GetByPersonIdAsync(id);
             await _apiClient.DeletePersonAsync(id);
-            return RedirectToAction("Index");
+            return View("Edit", model);
         }
 
-        // POST: Persons/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(PersonViewModel model)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _apiClient.DeletePersonAsync(model.PersonId);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -83,6 +83,7 @@ namespace AcmeSoft.Mvc
         {
             var pers = Mapper.Map<Person>(model);
             var resp = await _client.PutAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(pers, Formatting.Indented), Encoding.UTF8, "application/json"));
+            resp.EnsureSuccessStatusCode();
             var json = await resp.Content.ReadAsStringAsync();
             pers = JsonConvert.DeserializeObject<Person>(json);
             return Mapper.Map<PersonViewModel>(pers);

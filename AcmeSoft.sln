@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcmeSoft.Mvc", "AcmeSoft.Mv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{03043105-15A7-4754-84A5-49D801938AC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcmeSoft.Shared", "AcmeSoft.Shared\AcmeSoft.Shared.csproj", "{67CDEBA6-4D39-4FCA-BDFE-74FB0BF8A5D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcmeSoft.Shared", "AcmeSoft.Shared\AcmeSoft.Shared.csproj", "{67CDEBA6-4D39-4FCA-BDFE-74FB0BF8A5D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeleteTest", "DeleteTest\DeleteTest.csproj", "{2F520B17-DBF1-488B-9219-5CCB1AB1B069}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{67CDEBA6-4D39-4FCA-BDFE-74FB0BF8A5D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67CDEBA6-4D39-4FCA-BDFE-74FB0BF8A5D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67CDEBA6-4D39-4FCA-BDFE-74FB0BF8A5D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F520B17-DBF1-488B-9219-5CCB1AB1B069}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F520B17-DBF1-488B-9219-5CCB1AB1B069}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F520B17-DBF1-488B-9219-5CCB1AB1B069}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F520B17-DBF1-488B-9219-5CCB1AB1B069}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
