@@ -36,7 +36,7 @@ namespace AcmeSoft.Mvc.Controllers
             var model = Mapper.Map<PersonViewModel>(pers);
             model.BirthDate = null;
             model.ModelPurpose = ViewModelPurpose.Create;
-            return View("Details", model);
+            return View("Edit", model);
         }
 
         [HttpPost]
@@ -52,7 +52,7 @@ namespace AcmeSoft.Mvc.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View("Details", model);
+            return View("Edit", model);
         }
 
         [HttpGet]
@@ -65,6 +65,13 @@ namespace AcmeSoft.Mvc.Controllers
                 Items = persEmps
             };
             return View(model);
+        }
+
+
+        public async Task<IActionResult> GetByIdNumber(string idNumber)
+        {
+            var pers = await _apiClient.GetByIdNumberAsync(idNumber);
+            return Ok(pers);
         }
 
         [HttpGet]
@@ -88,9 +95,8 @@ namespace AcmeSoft.Mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var pers = await _apiClient.GetByPersonIdAsync(id);
-            _apiClient.DeleteEmployeeAsync()
-            return View();
+            await _apiClient.DeletePersonAsync(id);
+            return RedirectToAction("Index");
         }
 
         // POST: Persons/Delete/5

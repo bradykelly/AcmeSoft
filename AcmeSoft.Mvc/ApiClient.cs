@@ -51,6 +51,54 @@ namespace AcmeSoft.Mvc
             var json = await resp.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Person>(json);
         }
+    
+        public async Task<PersonViewModel> GetByPersonIdAsync(int personId)
+        {
+            var json = await _client.GetStringAsync($"api/Persons/{personId}");
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return null;
+            }
+            var pers = JsonConvert.DeserializeObject<PersonViewModel>(json);
+            return pers;
+        }
+
+        [HttpGet]
+        public async Task<Person> GetByIdNumberAsync(string idNumber, int? excludeId = null)
+        {
+            var json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{idNumber}");
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return null;
+            }
+            var pers = JsonConvert.DeserializeObject<Person>(json);
+            if (excludeId.HasValue && pers.PersonId == excludeId)
+            {
+                return null;
+            }
+            return pers;
+        }
+
+        public async Task<PersonViewModel> UpdatePersonAsync(PersonViewModel model)
+        {
+            var pers = Mapper.Map<Person>(model);
+            var resp = await _client.PutAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(pers)));
+            var json = await resp.Content.ReadAsStringAsync();
+            pers = JsonConvert.DeserializeObject<Person>(json);
+            return Mapper.Map<PersonViewModel>(pers);
+        }
+
+        public async Task DeletePersonAsync(int id)
+        {
+            var resp = await _client.DeleteAsync($"api/Persons/{id}");
+            resp.EnsureSuccessStatusCode();
+        }
+
+
+
+
+
+
 
         public async Task<PersonEmployeeViewModel> CreateEmployeeAsync(PersonEmployeeViewModel model)
         {
@@ -156,21 +204,6 @@ namespace AcmeSoft.Mvc
             return model;
         }
 
-        [HttpGet]
-        public async Task<Person> GetByIdNumberAsync(string idNumber, int? excludeId = null)
-        {
-            var json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{idNumber}");
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                return null;
-            }
-            var pers = JsonConvert.DeserializeObject<Person>(json);
-            if (excludeId.HasValue && pers.PersonId == excludeId)
-            {
-                return null;
-            }
-            return pers;
-        }
 
         public async Task<Employee> GetByEmpNumAsync(string empNumber, int? excludeId = null)
         {
@@ -185,17 +218,6 @@ namespace AcmeSoft.Mvc
                 return null;
             }
             return emp;
-        }
-
-        public async Task<PersonViewModel> GetByPersonIdAsync(int personId)
-        {
-            var json = await _client.GetStringAsync($"api/Persons/{personId}");
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                return null;
-            }
-            var pers = JsonConvert.DeserializeObject<PersonViewModel>(json);
-            return pers;
         }
 
         public async Task<PersonEmployeeViewModel> UpdateEmployeeAsync(PersonEmployeeViewModel model)
@@ -234,22 +256,6 @@ namespace AcmeSoft.Mvc
 
                 tx.Complete();
             }
-        }
-
-        public Task<List<string>> GetIdNumbersNamesAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<List<string>> GetIdNumbersNamesAsync(string term)
-        {
-            var json = await _client.GetStringAsync($"api/Persons/IdNumbers/{term}");
-            if (json == null)
-            {
-                return null;
-            }
-            var nums = JsonConvert.DeserializeObject<List<string>>(json);
-            return nums;
         }
     }
 }
