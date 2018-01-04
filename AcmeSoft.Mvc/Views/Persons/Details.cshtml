@@ -53,4 +53,14 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(function() {
+            if ($("#ModelPurpose").val() === "Create") {
+                $("#addEmpButton").addClass("hidden");
+            };
+            if ($("#ModelPurpose").val() === "Edit") {
+                $("#LastName").attr("readonly", "readonly");
+            };
+        });
+    </script>
 }

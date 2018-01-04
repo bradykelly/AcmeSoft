@@ -30,7 +30,10 @@ namespace AcmeSoft.Mvc.Controllers
 
         #region Actions
 
-
+        public async Task<IActionResult> GetByPersonId(int personId)
+        {
+            
+        }
 
         [HttpGet]
         public IActionResult Create()
@@ -62,11 +65,11 @@ namespace AcmeSoft.Mvc.Controllers
                 ModelState.AddModelError("EmployeeNum", "Employee number already in use");
             }
 
-            ////if (ModelState.IsValid)
-            ////{
-            ////    await _apiClient.CreateEmployeeAsync(model);
-            ////    return RedirectToAction(nameof(Index));
-            ////}
+            if (ModelState.IsValid)
+            {
+                ////await _apiClient.CreateEmployeeAsync(model);
+                return RedirectToAction(nameof(Index));
+            }
 
             model.ModelPurpose = ViewModelPurpose.Create;
             return View("Details", model);
@@ -76,6 +79,13 @@ namespace AcmeSoft.Mvc.Controllers
         public async Task<IActionResult> GetByIdNumber(string idNumber)
         {
             return Json(await _apiClient.GetByIdNumberAsync(idNumber));
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetForPerson(int personId)
+        {
+            var emps = await _apiClient.get
+            return Ok(emps);
         }
 
         [HttpGet]

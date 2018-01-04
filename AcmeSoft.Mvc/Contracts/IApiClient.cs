@@ -10,13 +10,21 @@ namespace AcmeSoft.Mvc.Contracts
     {
         string BaseAddress { get; set; }
         Task<Person> CreatePersonAsync(Person model);
+        Task<PersonViewModel> GetByPersonIdAsync(int personId);
+        Task<Person> GetByIdNumberAsync(string idNumber, int? excludeId = null);
+        Task<PersonViewModel> UpdatePersonAsync(PersonViewModel model);
+        Task DeletePersonAsync(PersonViewModel model);
+
+        Task<List<PersonEmployeeViewModel>> GetJoinedPersEmpsAsync();
         Task<List<Employee>> GetEmployeesAsync();
+        Task<List<EmployeeViewModel>> GetEmployeesByPersonAsync(int personId);
         Task<List<Person>> GetPersonsAsync();
-        Task<List<PersonEmployeeViewModel>> GetPersEmpsAsync();
-        Task<IEnumerable<PersonViewModel>> GetPersonModelsAsync();
+
+
+        Task<IEnumerable<PersonViewModel>> GetPersonsAsync();
         Task<IEnumerable<EmployeeViewModel>> GetPersonEmployeesAsync(int personId);
         Task<PersonEmployeeViewModel> GetEmployeeAsync(int id);
-        Task<Person> GetByIdNumberAsync(string idNumber, int? excludeId = null);
+        
         Task<Employee> GetByEmpNumAsync(string empNumber, int? excludeId = null);
         Task<PersonEmployeeViewModel> UpdateEmployeeAsync(PersonEmployeeViewModel model);
         Task DeleteEmployeeAsync(PersonEmployeeViewModel model);

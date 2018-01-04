@@ -25,6 +25,7 @@ namespace AcmeSoft.Mvc.ViewModels
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
+        [Required(AllowEmptyStrings = false)]
         [Column(TypeName = "date")]
         [Display(Name = "Date of Birth")]
         public string BirthDate { get; set; }

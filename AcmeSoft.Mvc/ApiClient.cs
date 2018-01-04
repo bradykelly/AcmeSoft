@@ -44,6 +44,14 @@ namespace AcmeSoft.Mvc
             }
         }
 
+        public async Task<Person> CreatePersonAsync(Person person)
+        {
+            var resp = await _client.PostAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(person, Formatting.Indented), Encoding.UTF8, "application/json"));
+            resp.EnsureSuccessStatusCode();
+            var json = await resp.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<Person>(json);
+        }
+
         public async Task<PersonEmployeeViewModel> CreateEmployeeAsync(PersonEmployeeViewModel model)
         {
             string json;
@@ -89,14 +97,6 @@ namespace AcmeSoft.Mvc
             return retModel;
         }
 
-        public async Task<Person> CreatePersonAsync(Person person)
-        {
-            var resp = await _client.PostAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(person, Formatting.Indented), Encoding.UTF8, "application/json"));
-            resp.EnsureSuccessStatusCode();
-            var json = await resp.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<Person>(json);
-        }
-
         public async Task<List<Employee>> GetEmployeesAsync()
         {
             // Just get all Employees.
@@ -105,7 +105,7 @@ namespace AcmeSoft.Mvc
             return employees;
         }
 
-        public async Task<List<PersonEmployeeViewModel>> GetPersEmpsAsync()
+        public async Task<List<PersonEmployeeViewModel>> GetJoinedPersEmpsAsync()
         {
             var json = await _client.GetStringAsync("api/Persons/PersonEmployees");
             if (string.IsNullOrWhiteSpace(json))
@@ -116,7 +116,7 @@ namespace AcmeSoft.Mvc
             return Mapper.Map<List<PersonEmployeeViewModel>>(persons);
         }
 
-        public async Task<IEnumerable<PersonViewModel>> GetPersonModelsAsync()
+        public async Task<IEnumerable<PersonViewModel>> GetPersonsAsync()
         {
             var json = await _client.GetStringAsync("api/Persons");
             var persons = JsonConvert.DeserializeObject<List<PersonViewModel>>(json);
@@ -187,12 +187,15 @@ namespace AcmeSoft.Mvc
             return emp;
         }
 
-        public async Task<List<Person>> GetPersonsAsync()
+        public async Task<PersonViewModel> GetByPersonIdAsync(int personId)
         {
-            // Just get all Persons.
-            var json = await _client.GetStringAsync("api/Persons");
-            var persons = JsonConvert.DeserializeObject<List<Person>>(json);
-            return persons;
+            var json = await _client.GetStringAsync($"api/Persons/{personId}");
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return null;
+            }
+            var pers = JsonConvert.DeserializeObject<PersonViewModel>(json);
+            return pers;
         }
 
         public async Task<PersonEmployeeViewModel> UpdateEmployeeAsync(PersonEmployeeViewModel model)

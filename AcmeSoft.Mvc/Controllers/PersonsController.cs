@@ -30,26 +30,6 @@ namespace AcmeSoft.Mvc.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
-        {
-            var persEmps = await _apiClient.GetPersEmpsAsync();
-
-            var model = new PersEmpIndexViewModel()
-            {
-                ModelPurpose = ViewModelPurpose.Index,
-                Items = persEmps
-            };
-            return View(model);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> GetEmployees(int id)
-        {
-            var emps = await _apiClient.GetPersonEmployeesAsync(id);
-            return Ok(emps);
-        }
-
-        [HttpGet]
         public ActionResult Create()
         {
             var pers = new Person();
@@ -75,32 +55,41 @@ namespace AcmeSoft.Mvc.Controllers
             return View("Details", model);
         }
 
-        // GET: Persons/Edit/5
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var persEmps = await _apiClient.GetJoinedPersEmpsAsync();
+            var model = new PersEmpIndexViewModel()
+            {
+                ModelPurpose = ViewModelPurpose.Index,
+                Items = persEmps
+            };
+            return View(model);
+        }
+
+        [HttpGet]
         public ActionResult Edit(int id)
         {
-            return View();
+            var pers = _apiClient.GetByPersonIdAsync(id);
+            var model = Mapper.Map<PersonViewModel>(pers);
+            return View("Details", model);
         }
 
-        // POST: Persons/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(PersonViewModel model)
         {
-            try
-            {
-                // TODO: Add update logic here
+            // NB Validation for Id.
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _apiClient.UpdatePersonAsync(model);
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: Persons/Delete/5
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
         {
+            var pers = await _apiClient.GetByPersonIdAsync(id);
+            _apiClient.DeleteEmployeeAsync()
             return View();
         }
 
