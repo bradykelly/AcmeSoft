@@ -89,12 +89,31 @@ namespace AcmeSoft.Mvc
             return retModel;
         }
 
+        public async Task<Person> CreatePersonAsync(Person person)
+        {
+            var resp = await _client.PostAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(person, Formatting.Indented), Encoding.UTF8, "application/json"));
+            resp.EnsureSuccessStatusCode();
+            var json = await resp.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<Person>(json);
+        }
+
         public async Task<List<Employee>> GetEmployeesAsync()
         {
             // Just get all Employees.
             var json = await _client.GetStringAsync("api/Employees");
             var employees = JsonConvert.DeserializeObject<List<Employee>>(json);
             return employees;
+        }
+
+        public async Task<List<PersonEmployeeViewModel>> GetPersEmpsAsync()
+        {
+            var json = await _client.GetStringAsync("api/Persons/PersonEmployees");
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return new List<PersonEmployeeViewModel>();
+            }
+            var persons = JsonConvert.DeserializeObject<List<PersonEmployee>>(json);
+            return Mapper.Map<List<PersonEmployeeViewModel>>(persons);
         }
 
         public async Task<IEnumerable<PersonViewModel>> GetPersonModelsAsync()

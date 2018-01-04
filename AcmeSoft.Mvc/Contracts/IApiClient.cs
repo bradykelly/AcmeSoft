@@ -9,9 +9,10 @@ namespace AcmeSoft.Mvc.Contracts
     public interface IApiClient
     {
         string BaseAddress { get; set; }
-        Task<PersonEmployeeViewModel> CreateEmployeeAsync(PersonEmployeeViewModel model);
+        Task<Person> CreatePersonAsync(Person model);
         Task<List<Employee>> GetEmployeesAsync();
         Task<List<Person>> GetPersonsAsync();
+        Task<List<PersonEmployeeViewModel>> GetPersEmpsAsync();
         Task<IEnumerable<PersonViewModel>> GetPersonModelsAsync();
         Task<IEnumerable<EmployeeViewModel>> GetPersonEmployeesAsync(int personId);
         Task<PersonEmployeeViewModel> GetEmployeeAsync(int id);

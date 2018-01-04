@@ -44,8 +44,6 @@ namespace AcmeSoft.Mvc.ViewModels
         [Display(Name = "Date Terminated")]
         public string TerminatedDate { get; set; }
 
-        public DateTime? Archived { get; set; }
-
         public override string ViewHeading => "PersonEmployee";
     }
 }

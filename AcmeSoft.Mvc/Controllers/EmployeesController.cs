@@ -62,11 +62,11 @@ namespace AcmeSoft.Mvc.Controllers
                 ModelState.AddModelError("EmployeeNum", "Employee number already in use");
             }
 
-            if (ModelState.IsValid)
-            {
-                await _apiClient.CreateEmployeeAsync(model);
-                return RedirectToAction(nameof(Index));
-            }
+            ////if (ModelState.IsValid)
+            ////{
+            ////    await _apiClient.CreateEmployeeAsync(model);
+            ////    return RedirectToAction(nameof(Index));
+            ////}
 
             model.ModelPurpose = ViewModelPurpose.Create;
             return View("Details", model);

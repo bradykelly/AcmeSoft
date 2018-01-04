@@ -27,7 +27,7 @@ namespace AcmeSoft.Mvc.ViewModels
 
         [Column(TypeName = "date")]
         [Display(Name = "Date of Birth")]
-        public DateTime BirthDate { get; set; }
+        public string BirthDate { get; set; }
 
         [Required(AllowEmptyStrings = false)]
         [StringLength(13)]

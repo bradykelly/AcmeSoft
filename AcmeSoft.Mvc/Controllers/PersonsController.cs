@@ -32,26 +32,12 @@ namespace AcmeSoft.Mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var employees = await _apiClient.GetEmployeesAsync();
-            var persons = await _apiClient.GetPersonsAsync();
+            var persEmps = await _apiClient.GetPersEmpsAsync();
 
-            var emps = employees.Join(persons, emp => emp.PersonId, pers => pers.PersonId, (emp, pers) => new PersonEmployeeViewModel
-            {
-                LastName = pers.LastName,
-                FirstName = pers.FirstName,
-                BirthDate = pers.BirthDate.ToString(AppConstants.DefaultDateFormat),
-                IdNumber = pers.IdNumber,
-                PersonId = emp.PersonId,
-                EmployeeId = emp.EmployeeId,
-                EmployeeNum = emp.EmployeeNum,
-                EmployedDate = emp.EmployedDate.ToString(AppConstants.DefaultDateFormat),
-                TerminatedDate = FormatNullableDateTime(emp.TerminatedDate)
-            });
-
-            var model = new PersonEmployeeIndexViewModel()
+            var model = new PersEmpIndexViewModel()
             {
                 ModelPurpose = ViewModelPurpose.Index,
-                Items = emps
+                Items = persEmps
             };
             return View(model);
         }
@@ -68,24 +54,25 @@ namespace AcmeSoft.Mvc.Controllers
         {
             var pers = new Person();
             var model = Mapper.Map<PersonViewModel>(pers);
+            model.BirthDate = null;
             model.ModelPurpose = ViewModelPurpose.Create;
             return View("Details", model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(PersonViewModel model)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            // NB Check for dup Id.
 
+            if (ModelState.IsValid)
+            {
+                var pers = Mapper.Map<Person>(model);
+                _apiClient.CreatePersonAsync(pers);
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+
+            return View("Details", model);
         }
 
         // GET: Persons/Edit/5

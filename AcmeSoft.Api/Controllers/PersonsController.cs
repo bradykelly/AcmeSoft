@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AcmeSoft.Api.Controllers.Base;
 using AcmeSoft.Api.Data;
 using AcmeSoft.Shared.Models;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,9 +48,16 @@ namespace AcmeSoft.Api.Controllers
         }
 
         [HttpGet("GetPersonEmployees/{personId}")]
-        public async Task<IActionResult> GetPersonEmployees(int personId)
+        public async Task<IActionResult> GetPersonSubEmployees(int personId)
         {
             var emps = await Db.Employees.Where(e => e.PersonId == personId).ToListAsync();
+            return Ok(emps);
+        }
+
+        [HttpGet("PersonEmployees")]
+        public async Task<IActionResult> PersonEmployees()
+        {
+            var emps = await Db.PersonEmployees.ToListAsync();
             return Ok(emps);
         }
 
