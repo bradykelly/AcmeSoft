@@ -1,10 +1,12 @@
-﻿@model AcmeSoft.Mvc.ViewModels.PersonViewModel
+﻿@using AcmeSoft.Mvc.ViewModels
+@model AcmeSoft.Mvc.ViewModels.PersonViewModel
 @{
     ViewData["Title"] = "Create";
 }
 
 <h3>@Model.ViewHeading</h3>
 <hr />
+<h4>Person</h4>
 <form asp-action="@Model.FormAction">
     <div class="row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -37,9 +39,6 @@
             </div>
         </div>
     </div>
-    <hr />
-    <h4>Employments</h4>
-    @Html.Partial("_EmployeeTable")
     <div class="row">
         <div class="col-md-offset-4 col-md-4 text-right">
             <div class="form-group">
@@ -48,6 +47,8 @@
             </div>
         </div>
     </div>
+    <h4>Employment</h4>
+    @Html.Partial("_EmployeeTable", new List<EmployeeViewModel>())
 </form>
 
 @section Scripts {
