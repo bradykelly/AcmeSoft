@@ -1,4 +1,5 @@
-﻿using AcmeSoft.Mvc.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using AcmeSoft.Mvc.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AcmeSoft.Mvc.ViewModels
@@ -8,8 +9,10 @@ namespace AcmeSoft.Mvc.ViewModels
         [HiddenInput(DisplayValue = false)]
         public ViewModelPurpose ModelPurpose { get; set; }
 
+        [ScaffoldColumn(false)]
         public virtual string ViewHeading => "Employees";
 
+        [ScaffoldColumn(false)]
         public virtual string FormAction
         {
             get

@@ -6,6 +6,8 @@ using AcmeSoft.Mvc.Contracts;
 using AcmeSoft.Mvc.Controllers.Base;
 using AcmeSoft.Mvc.Models;
 using AcmeSoft.Mvc.ViewModels;
+using AcmeSoft.Shared.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -61,13 +63,15 @@ namespace AcmeSoft.Mvc.Controllers
             return Ok(emps);
         }
 
-        // GET: Persons/Create
+        [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            var pers = new Person();
+            var model = Mapper.Map<PersonViewModel>(pers);
+            model.ModelPurpose = ViewModelPurpose.Create;
+            return View("Details", model);
         }
 
-        // POST: Persons/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)

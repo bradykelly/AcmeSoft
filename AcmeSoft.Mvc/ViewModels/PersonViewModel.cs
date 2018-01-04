@@ -33,5 +33,28 @@ namespace AcmeSoft.Mvc.ViewModels
         [StringLength(13)]
         [Display(Name = "Id Number")]
         public string IdNumber { get; set; }
+
+        [ScaffoldColumn(false)]
+        public override string ViewHeading
+        {
+            get
+            {
+                switch (ModelPurpose)
+                {
+                    case ViewModelPurpose.Create:
+                        return "Create Employee";
+                    case ViewModelPurpose.Index:
+                        return "Employee Index";
+                    case ViewModelPurpose.View:
+                        return "Employee Details"; 
+                    case ViewModelPurpose.Edit:
+                        return "Edit Employee"; 
+                    case ViewModelPurpose.Delete:
+                        return "Delete Employee"; 
+                    default:
+                        return string.Empty;
+                }
+            }
+        }
     }
 }
