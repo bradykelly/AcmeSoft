@@ -84,6 +84,8 @@ namespace AcmeSoft.Mvc.Controllers
         {
             var pers = await _apiClient.GetByPersonIdAsync(id);
             var model = Mapper.Map<PersonViewModel>(pers);
+            model.BirthDate = model.BirthDate.Substring(0, 10);
+            model.ModelPurpose = ViewModelPurpose.Edit;
             return View("Edit", model);
         }
 
