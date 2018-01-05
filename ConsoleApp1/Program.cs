@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -16,8 +17,7 @@ namespace ConsoleApp1
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            var resp = await _client.DeleteAsync("api/Values");
-            resp.EnsureSuccessStatusCode();
+            var conn = new SqlConnection("data source=(local);initial catalog=AcmeSoft;integrated security=SSPI;MultipleActiveResultSets=true;");
         }
     }
 }

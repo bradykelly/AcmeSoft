@@ -1,0 +1,71 @@
+﻿@model AcmeSoft.Gui.ViewModels.PersonIndexViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3>@Model.ViewHeading</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.BirthDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.IdNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.EmployeeNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.EmployedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.TerminatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModelPurpose)
+            </th>
+            <th>
+                <a asp-action="Create">Create New</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BirthDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeNum)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminatedDate)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.PersonId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.PersonId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
