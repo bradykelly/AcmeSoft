@@ -35,10 +35,19 @@ namespace AcmeSoft.Api.Controllers
             return "value";
         }
 
-        // POST api/<controller>
-        [HttpPost]
-        public void Post([FromBody]string value)
+        [HttpGet("GetByIdNumber/{idNumber}")]
+        [Produces(typeof(Person))]
+        public async Task<IActionResult> GetByIdNumber(string idNumber)
         {
+            return Ok(await Db.Persons.SingleOrDefaultAsync(p => p.IdNumber == idNumber));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody]Person person)
+        {
+            Db.Add(person);
+            await Db.SaveChangesAsync();
+            return Ok();
         }
 
         // PUT api/<controller>/5

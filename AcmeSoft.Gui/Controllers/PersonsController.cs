@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using AcmeSoft.Gui.Models;
 using AcmeSoft.Gui.ViewModels;
@@ -45,6 +46,27 @@ namespace AcmeSoft.Gui.Controllers
             var model = Mapper.Map<PersonViewModel>(pers);
             model.BirthDate = null;
             model.ModelPurpose = ViewModelPurpose.Create;
+            return View("Edit", model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(PersonViewModel model)
+        {
+            var json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{model.IdNumber}");
+            if (!string.IsNullOrWhiteSpace(json))
+            {
+                ModelState.AddModelError("IdNumber", "Id Number already in use");
+            }
+
+            if (ModelState.IsValid)
+            {
+                var pers = Mapper.Map<Person>(model);
+                var resp = await _client.PostAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(pers, Formatting.Indented), Encoding.UTF8, "application/json"));
+                resp.EnsureSuccessStatusCode();
+                return RedirectToAction("Index");
+            }
+
             return View("Edit", model);
         }
     }
