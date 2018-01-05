@@ -125,6 +125,7 @@ namespace AcmeSoft.Gui.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(PersonViewModel model)
         {
+            // NB Check for linked Employee records before delete.
             var resp = await _client.DeleteAsync($"api/Persons/{model.PersonId}");
             resp.EnsureSuccessStatusCode();
             return RedirectToAction("Index");
