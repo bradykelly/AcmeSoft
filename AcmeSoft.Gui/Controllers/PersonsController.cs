@@ -39,6 +39,7 @@ namespace AcmeSoft.Gui.Controllers
             return View(index);
         }
 
+        [HttpGet]
         [Produces(typeof(PersonViewModel))]
         public ActionResult Create()
         {
@@ -67,6 +68,21 @@ namespace AcmeSoft.Gui.Controllers
                 return RedirectToAction("Index");
             }
 
+            return View("Edit", model);
+        }
+
+        [HttpGet]
+        [Produces(typeof(PersonViewModel))]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var json = await _client.GetStringAsync($"api/Persons/{id}");
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return NotFound();
+            }
+            var pers = JsonConvert.DeserializeObject<Person>(json);
+            var model = Mapper.Map<PersonViewModel>(pers);
+            model.ModelPurpose = ViewModelPurpose.Edit;
             return View("Edit", model);
         }
     }

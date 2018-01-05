@@ -28,11 +28,11 @@ namespace AcmeSoft.Api.Controllers
             return Ok(await Db.PersonEmployees.ToListAsync());
         }
 
-        // GET api/<controller>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        [Produces(typeof(Person))]
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            return Ok(await Db.Persons.SingleOrDefaultAsync(p => p.PersonId == id));
         }
 
         [HttpGet("GetByIdNumber/{idNumber}")]
