@@ -85,5 +85,26 @@ namespace AcmeSoft.Gui.Controllers
             model.ModelPurpose = ViewModelPurpose.Edit;
             return View("Edit", model);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(PersonViewModel model)
+        {
+            var json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{model.IdNumber}");
+            if (!string.IsNullOrWhiteSpace(json))
+            {
+                ModelState.AddModelError("IdNumber", "Id Number already in use");
+            }
+
+            if (ModelState.IsValid)
+            {
+                var pers = Mapper.Map<Person>(model);
+                var resp = await _client.PutAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(pers, Formatting.Indented), Encoding.UTF8, "application/json"));
+                resp.EnsureSuccessStatusCode();
+                return RedirectToAction("Index");
+            }
+
+            return View("Edit", model);
+        }
     }
 }

@@ -52,8 +52,11 @@ namespace AcmeSoft.Api.Controllers
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public async Task<IActionResult> Put([FromBody] Person person)
         {
+            Db.Update(person);
+            await Db.SaveChangesAsync();
+            return Ok();
         }
 
         // DELETE api/<controller>/5
