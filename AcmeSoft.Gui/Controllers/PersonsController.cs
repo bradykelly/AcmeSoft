@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using AcmeSoft.Gui.Models;
 using AcmeSoft.Gui.ViewModels;
+using AcmeSoft.Shared.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
@@ -25,23 +28,24 @@ namespace AcmeSoft.Gui.Controllers
         [Produces(typeof(IEnumerable<PersonViewModel>))]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<PersonViewModel> models;
-
             var json = await _client.GetStringAsync("api/Persons");
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                models = new List<PersonViewModel>();
-            }
-            else
-            {
-                models = JsonConvert.DeserializeObject<IEnumerable<PersonViewModel>>(json);
-            }
+            var models = string.IsNullOrWhiteSpace(json) ? new List<PersonViewModel>() : JsonConvert.DeserializeObject<IEnumerable<PersonViewModel>>(json);
 
             var index = new PersonIndexViewModel
             {
                 Items = models
             };
             return View(index);
+        }
+
+        [Produces(typeof(PersonViewModel))]
+        public ActionResult Create()
+        {
+            var pers = new Person();
+            var model = Mapper.Map<PersonViewModel>(pers);
+            model.BirthDate = null;
+            model.ModelPurpose = ViewModelPurpose.Create;
+            return View("Edit", model);
         }
     }
 }

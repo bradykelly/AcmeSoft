@@ -1,0 +1,40 @@
+﻿@model IEnumerable<AcmeSoft.Gui.ViewModels.EmployeeViewModel>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TerminatedDate)
+            </th>
+            <th>
+                <a id="addEmpButton" asp-action="Create">Create New</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeNum)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminatedDate)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {id = item.EmployeeId}) |
+                    @Html.ActionLink("Delete", "Delete", new {id = item.EmployeeId})
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
