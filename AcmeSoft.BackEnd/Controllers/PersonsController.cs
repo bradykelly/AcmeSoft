@@ -17,12 +17,12 @@ namespace AcmeSoft.Api.Controllers
         {
         }
 
-        [HttpGet]
-        [Produces(typeof(IEnumerable<Person>))]
-        public IActionResult Get()
+        [HttpGet("PersonEmployees")]
+        [Produces(typeof(IEnumerable<PersonEmployeeDto>))]
+        public async Task<IActionResult> PersonEmployees()
         {
-            var persons = Db.Persons.ToList();
-            return Ok(persons);
+            var emps = await Db.PersonEmployees.ToListAsync();
+            return Ok(emps);
         }
 
         [HttpGet("{id}")]
@@ -47,20 +47,6 @@ namespace AcmeSoft.Api.Controllers
             }
 
             return Ok(pers);
-        }
-
-        [HttpGet("GetPersonEmployees/{personId}")]
-        public async Task<IActionResult> GetPersonSubEmployees(int personId)
-        {
-            var emps = await Db.Employees.Where(e => e.PersonId == personId).ToListAsync();
-            return Ok(emps);
-        }
-
-        [HttpGet("PersonEmployees")]
-        public async Task<IActionResult> PersonEmployees()
-        {
-            var emps = await Db.PersonEmployees.ToListAsync();
-            return Ok(emps);
         }
 
         [HttpPost]

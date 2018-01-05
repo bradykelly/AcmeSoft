@@ -53,9 +53,14 @@ namespace AcmeSoft.Mvc
             return JsonConvert.DeserializeObject<Person>(json);
         }
 
-        public Task<IEnumerable<PersonEmployeeDto>> GetPersEmpsJoined()
+        public async Task<IEnumerable<PersonEmployeeDto>> GetPersEmpsJoined()
         {
-            throw new NotImplementedException();
+            var json = await _client.GetStringAsync("api/Persons/PersonEmployees");
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return new List<PersonEmployeeDto>();
+            }
+            return JsonConvert.DeserializeObject<IEnumerable<PersonEmployeeDto>>(json);
         }
 
         public async Task<PersonViewModel> GetByPersonIdAsync(int personId)
