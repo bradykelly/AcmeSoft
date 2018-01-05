@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -12,10 +13,17 @@ namespace AcmeSoft.Mvc.ViewModels
     public class EmployeeViewModel: BaseViewModel
     {
         [Key]
+        [HiddenInput(DisplayValue = false)]
         public int EmployeeId { get; set; }
 
         [HiddenInput(DisplayValue = false)]
         public int PersonId { get; set; }
+
+        [ReadOnly(true)]
+        public string LastName { get; set; }
+
+        [ReadOnly(true)]
+        public string IdNumber { get; set; }
 
         [Required(AllowEmptyStrings = false)]
         [StringLength(16)]

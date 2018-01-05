@@ -8,6 +8,8 @@ namespace AcmeSoft.Mvc.Contracts
 {
     public interface IApiClient
     {
+        // NB Align interface and implementation.
+
         string BaseAddress { get; set; }
         Task<Person> CreatePersonAsync(Person model);
         Task<PersonViewModel> GetByPersonIdAsync(int personId);
@@ -15,13 +17,14 @@ namespace AcmeSoft.Mvc.Contracts
         Task<PersonViewModel> UpdatePersonAsync(PersonViewModel model);
         Task DeletePersonAsync(int id);
 
-        Task<List<PersonEmployeeViewModel>> GetJoinedPersEmpsAsync();
-        Task<List<Employee>> GetEmployeesAsync();
+        Task<EmployeeViewModel> CreateEmployee(int personId);
+        Task<IEnumerable<EmployeeViewModel>> GetEmployeesByPersonIdAsync(int personId);
 
-        Task<IEnumerable<EmployeeViewModel>> GetPersonEmployeesAsync(int personId);
-        Task<PersonEmployeeViewModel> GetEmployeeAsync(int id);
+        ////Task<List<PersonEmployeeViewModel>> GetJoinedPersEmpsAsync();
+        
+        Task<EmployeeViewModel> GetEmployeeAsync(int id);
         
         Task<Employee> GetByEmpNumAsync(string empNumber, int? excludeId = null);
-        Task<PersonEmployeeViewModel> UpdateEmployeeAsync(PersonEmployeeViewModel model);
+        Task<EmployeeViewModel> UpdateEmployeeAsync(EmployeeViewModel model);
     }
 }

@@ -24,9 +24,31 @@ namespace AcmeSoft.Mvc.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Create(int personId)
         {
+            var emp = new Employee
+            {
+                PersonId = personId
+            };
+            var model = Mapper.Map<EmployeeViewModel>(emp);
+            model.ModelPurpose = ViewModelPurpose.Create;
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(EmployeeViewModel model)
+        {
+            
+        }
+
+        [HttpGet]
+        [Produces(typeof(IEnumerable<EmployeeViewModel>))]
+        public async Task<IActionResult> GetByPersonId(int personId)
+        {
+            var emps = await _apiClient.GetEmployeesByPersonIdAsync(personId);
+            var models = Mapper.Map<IEnumerable<EmployeeViewModel>>(emps);
+            return Ok(models);
         }
 
         [HttpGet]            
@@ -35,32 +57,7 @@ namespace AcmeSoft.Mvc.Controllers
             return View();
         }
 
-        [HttpGet]
-        public ActionResult Create(int personId)
-        {
-            var emp = new Employee();
-            emp.PersonId = personId;
-            var model = Mapper.Map<EmployeeViewModel>(emp);
-            model.ModelPurpose = ViewModelPurpose.Create;
-            return View();
-        }
 
-        // POST: Employmee/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
         // GET: Employmee/Edit/5
         public ActionResult Edit(int id)
@@ -99,11 +96,6 @@ namespace AcmeSoft.Mvc.Controllers
             {
                 return View();
             }
-        }
-
-        private string BuildEmpNum(string lastName)
-        {
-            var prefix = lastName.Substring(0, 3);
         }
     }
 }

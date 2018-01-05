@@ -60,17 +60,17 @@ namespace AcmeSoft.Mvc.Controllers
             return View("Edit", model);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Index()
-        {
-            var persEmps = await _apiClient.GetJoinedPersEmpsAsync();
-            var model = new PersEmpIndexViewModel()
-            {
-                ModelPurpose = ViewModelPurpose.Index,
-                Items = persEmps
-            };
-            return View(model);
-        }
+        ////[HttpGet]
+        ////public async Task<IActionResult> Index()
+        ////{
+        ////    var persEmps = await _apiClient.GetJoinedPersEmpsAsync();
+        ////    var model = new PersEmpIndexViewModel()
+        ////    {
+        ////        ModelPurpose = ViewModelPurpose.Index,
+        ////        Items = persEmps
+        ////    };
+        ////    return View(model);
+        ////}
 
 
         public async Task<IActionResult> GetByIdNumber(string idNumber)

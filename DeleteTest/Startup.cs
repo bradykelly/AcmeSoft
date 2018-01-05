@@ -17,6 +17,7 @@ namespace DeleteTest
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            var connstr = Configuration.GetConnectionString("DefaultConnection");
         }
 
         public IConfiguration Configuration { get; }

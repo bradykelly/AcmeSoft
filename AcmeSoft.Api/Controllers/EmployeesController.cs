@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AcmeSoft.Api.Controllers.Base;
 using AcmeSoft.Api.Data;
@@ -35,25 +36,10 @@ namespace AcmeSoft.Api.Controllers
         }
 
         [HttpGet("GetByPersonId/{id}")]
+        [Produces(typeof(List<Employee>))]
         public async Task<IActionResult> GetByPersonId(int id)
         {
             return Ok(await Db.Employees.Where(e => e.PersonId == id).ToListAsync());
-        }
-
-        [HttpGet("GetByEmpNumber/{empNumber}")]
-        public async Task<IActionResult> GetByEmpNumber(string empNumber, int? excludeId = null)
-        {
-            var emp = await Db.Employees.SingleOrDefaultAsync(e => e.EmployeeNum == empNumber);
-            if (emp == null)
-            {
-                // Avoid unecessary exception processing.
-                return Ok(null);
-            }
-            if (excludeId.HasValue && emp.EmployeeId == excludeId)
-            {
-                return Ok(null);
-            }
-            return Ok(emp);
         }
 
         [HttpPost]
