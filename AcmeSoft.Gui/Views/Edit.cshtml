@@ -1,0 +1,54 @@
+﻿@model AcmeSoft.Gui.ViewModels.EmployeeViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h3>@Model.ViewHeading</h3>
+<form asp-action="@Model.FormAction">
+    <div class="row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ModelPurpose" />
+        <input type="hidden" asp-for="PersonId" />
+        <input type="hidden" asp-for="EmployeeId" />
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" readonly="readonly" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="IdNumber" class="control-label"></label>
+                <input asp-for="IdNumber" class="form-control" readonly="readonly" />
+                <span asp-validation-for="IdNumber" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="EmployedDate" class="control-label"></label>
+                <input asp-for="EmployedDate" class="form-control" placeholder="YYYY-MM-DD" />
+                <span asp-validation-for="EmployedDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="TerminatedDate" class="control-label"></label>
+                <input asp-for="TerminatedDate" class="form-control" placeholder="YYYY-MM-DD" />
+                <span asp-validation-for="TerminatedDate" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4 text-right">
+            <div class="form-group">
+                <input type="submit" value="@Model.ButtonText" class="btn btn-default" />
+                <a asp-action="Index" class="btn btn-default">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>

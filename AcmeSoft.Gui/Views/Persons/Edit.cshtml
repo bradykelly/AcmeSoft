@@ -42,7 +42,7 @@
     <div class="row">
         <div class="col-md-offset-4 col-md-4 text-right">
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="@Model.ButtonText" class="btn btn-default" />
                 <a asp-action="Index" class="btn btn-default">Cancel</a>
             </div>
         </div>
@@ -57,9 +57,6 @@
         $(function() {
             if ($("#ModelPurpose").val() === "Create") {
                 $("#addEmpButton").addClass("hidden");
-            };
-            if ($("#ModelPurpose").val() === "Edit") {
-                $("#LastName").attr("readonly", "readonly");
             };
         });
     </script>

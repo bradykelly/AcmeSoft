@@ -51,7 +51,7 @@ namespace AcmeSoft.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] Person person)
+        public async Task<IActionResult> Put([FromBody]Person person)
         {
             Db.Update(person);
             await Db.SaveChangesAsync();

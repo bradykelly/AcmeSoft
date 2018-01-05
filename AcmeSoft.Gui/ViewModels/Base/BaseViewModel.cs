@@ -32,5 +32,26 @@ namespace AcmeSoft.Gui.ViewModels.Base
                 }
             }
         }
+
+
+        public virtual string ButtonText
+        {
+            get
+            {
+                switch (ModelPurpose)
+                {
+                    case ViewModelPurpose.Create:
+                        return "Create";
+                    case ViewModelPurpose.View:
+                        return "Update";
+                    case ViewModelPurpose.Edit:
+                        return "Update";
+                    case ViewModelPurpose.Delete:
+                        return "Delete";
+                    default:
+                        return null;
+                }
+            }
+        }
     }
 }
