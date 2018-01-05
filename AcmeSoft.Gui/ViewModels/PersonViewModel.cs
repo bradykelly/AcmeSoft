@@ -26,6 +26,7 @@ namespace AcmeSoft.Gui.ViewModels
         [Required(AllowEmptyStrings = false)]
         [Column(TypeName = "date")]
         [Display(Name = "Date of Birth")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public string BirthDate { get; set; }
 
         [Required(AllowEmptyStrings = false)]
@@ -42,7 +43,7 @@ namespace AcmeSoft.Gui.ViewModels
         public string EmployedDate { get; set; }
 
         [ReadOnly(true)]
-        [Display(Name = "Employed")]
+        [Display(Name = "Terminated")]
         public string TerminatedDate { get; set; }
 
         [ScaffoldColumn(false)]

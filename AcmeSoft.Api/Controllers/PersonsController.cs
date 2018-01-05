@@ -58,10 +58,13 @@ namespace AcmeSoft.Api.Controllers
             return Ok();
         }
 
-        // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            var pers = await Db.Persons.SingleOrDefaultAsync(p => p.PersonId == id);
+            Db.Remove(pers);
+            await Db.SaveChangesAsync();
+            return Ok();
         }
     }
 }

@@ -106,5 +106,28 @@ namespace AcmeSoft.Gui.Controllers
 
             return View("Edit", model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var json = await _client.GetStringAsync($"api/Persons/{id}");
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return NotFound();
+            }
+            var pers = JsonConvert.DeserializeObject<Person>(json);
+            var model = Mapper.Map<PersonViewModel>(pers);
+            model.ModelPurpose = ViewModelPurpose.Delete;
+            return View("Edit", model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(PersonViewModel model)
+        {
+            var resp = await _client.DeleteAsync($"api/Persons/{model.PersonId}");
+            resp.EnsureSuccessStatusCode();
+            return RedirectToAction("Index");
+        }
     }
 }
