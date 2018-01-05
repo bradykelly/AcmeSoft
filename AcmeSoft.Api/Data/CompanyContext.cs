@@ -12,7 +12,7 @@ namespace AcmeSoft.Api.Data
 
         public DbSet<Person> Persons { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<PersonEmployee> PersonEmployees { get; set; }
+        public DbSet<PersonEmployeeDto> PersonEmployees { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -34,6 +35,18 @@ namespace AcmeSoft.Mvc.ViewModels
         [StringLength(13)]
         [Display(Name = "Id Number")]
         public string IdNumber { get; set; }
+
+        [ReadOnly(true)]
+        [Display(Name = "Emp. Number")]
+        public string EmployeeNum { get; set; }
+
+        [ReadOnly(true)]
+        [Display(Name = "Employed")]
+        public string EmployedDate { get; set; }
+
+        [ReadOnly(true)]
+        [Display(Name = "Employed")]
+        public string TerminatedDate { get; set; }
 
         [ScaffoldColumn(false)]
         public override string ViewHeading

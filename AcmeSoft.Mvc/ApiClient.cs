@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using AcmeSoft.Mvc.Contracts;
+using AcmeSoft.Mvc.Models;
 using AcmeSoft.Mvc.ViewModels;
 using AcmeSoft.Shared.Models;
 using AutoMapper;
@@ -51,7 +52,12 @@ namespace AcmeSoft.Mvc
             var json = await resp.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Person>(json);
         }
-    
+
+        public Task<IEnumerable<PersonEmployeeDto>> GetPersEmpsJoined()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<PersonViewModel> GetByPersonIdAsync(int personId)
         {
             var json = await _client.GetStringAsync($"api/Persons/{personId}");
@@ -95,18 +101,13 @@ namespace AcmeSoft.Mvc
             resp.EnsureSuccessStatusCode();
         }
 
-        public async Task<EmployeeViewModel> CreateEmployeeAsync(int personId)
+        public async Task<EmployeeViewModel> CreateEmployeeAsync(Employee employee)
         {
-            var emp = new Employee
-            {
-                PersonId = personId
-            };
-           
-            var resp = await _client.PostAsync("api/Employees", new StringContent(JsonConvert.SerializeObject(emp, Formatting.Indented), Encoding.UTF8, "application/json"));
+            var resp = await _client.PostAsync("api/Employees", new StringContent(JsonConvert.SerializeObject(employee, Formatting.Indented), Encoding.UTF8, "application/json"));
             resp.EnsureSuccessStatusCode();
             var json = await resp.Content.ReadAsStringAsync();
-            emp = JsonConvert.DeserializeObject<Employee>(json);
-            var model = Mapper.Map<EmployeeViewModel>(emp);
+            employee = JsonConvert.DeserializeObject<Employee>(json);
+            var model = Mapper.Map<EmployeeViewModel>(employee);
             return model;
         }
 

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AcmeSoft.Api.Controllers;
+﻿using System.Threading.Tasks;
 using AcmeSoft.Mvc.Contracts;
 using AcmeSoft.Mvc.Controllers.Base;
 using AcmeSoft.Mvc.Models;
 using AcmeSoft.Mvc.ViewModels;
 using AcmeSoft.Shared.Models;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -60,17 +55,17 @@ namespace AcmeSoft.Mvc.Controllers
             return View("Edit", model);
         }
 
-        ////[HttpGet]
-        ////public async Task<IActionResult> Index()
-        ////{
-        ////    var persEmps = await _apiClient.GetJoinedPersEmpsAsync();
-        ////    var model = new PersEmpIndexViewModel()
-        ////    {
-        ////        ModelPurpose = ViewModelPurpose.Index,
-        ////        Items = persEmps
-        ////    };
-        ////    return View(model);
-        ////}
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var persEmps = await _apiClient.GetPersEmpsJoined();
+            var model = new PersonIndexViewModel
+            {
+                ModelPurpose = ViewModelPurpose.Index
+                ////Items = persEmps
+            };
+            return View(model);
+        }
 
 
         public async Task<IActionResult> GetByIdNumber(string idNumber)

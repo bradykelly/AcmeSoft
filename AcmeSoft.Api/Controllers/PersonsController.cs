@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AcmeSoft.Api.Controllers.Base;
 using AcmeSoft.Api.Data;
@@ -17,6 +18,7 @@ namespace AcmeSoft.Api.Controllers
         }
 
         [HttpGet]
+        [Produces(typeof(IEnumerable<Person>))]
         public IActionResult Get()
         {
             var persons = Db.Persons.ToList();
@@ -24,6 +26,7 @@ namespace AcmeSoft.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [Produces(typeof(Person))]
         public async Task<IActionResult> Get(int id)
         {
             var pers = await Db.Persons.SingleOrDefaultAsync(p => p.PersonId == id);

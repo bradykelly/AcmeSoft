@@ -32,14 +32,15 @@ namespace AcmeSoft.Mvc.Controllers
             };
             var model = Mapper.Map<EmployeeViewModel>(emp);
             model.ModelPurpose = ViewModelPurpose.Create;
-            return View();
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(EmployeeViewModel model)
+        public async Task Create(EmployeeViewModel model)
         {
-            
+            var emp = Mapper.Map<Employee>(model);
+            await _apiClient.CreateEmployeeAsync(emp);
         }
 
         [HttpGet]
@@ -59,21 +60,23 @@ namespace AcmeSoft.Mvc.Controllers
 
 
 
-        // GET: Employmee/Edit/5
-        public ActionResult Edit(int id)
+
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            var emp = await _apiClient.GetEmployeeAsync(id);
+            var model = Mapper.Map<EmployeeViewModel>(emp);
+            return View("Details", model);
         }
 
-        // POST: Employmee/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(EmployeeViewModel model)
-        {
-            // TODO: Add update logic here
+        ////// POST: Employmee/Edit/5
+        ////[HttpPost]
+        ////[ValidateAntiForgeryToken]
+        ////public ActionResult Edit(EmployeeViewModel model)
+        ////{
+        ////    // TODO: Add update logic here
 
-            return RedirectToAction(nameof(Index));
-        }
+        ////    return RedirectToAction(nameof(Index));
+        ////}
 
         // GET: Employmee/Delete/5
         public ActionResult Delete(int id)
@@ -81,21 +84,21 @@ namespace AcmeSoft.Mvc.Controllers
             return View();
         }
 
-        // POST: Employmee/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
+        ////// POST: Employmee/Delete/5
+        ////[HttpPost]
+        ////[ValidateAntiForgeryToken]
+        ////public ActionResult Delete(int id, IFormCollection collection)
+        ////{
+        ////    try
+        ////    {
+        ////        // TODO: Add delete logic here
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        ////        return RedirectToAction(nameof(Index));
+        ////    }
+        ////    catch
+        ////    {
+        ////        return View();
+        ////    }
+        ////}
     }
 }

@@ -13,7 +13,7 @@ namespace AcmeSoft.Mvc.Mapping
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<PersonEmployee, PersonEmployeeViewModel>()
+                cfg.CreateMap<PersonEmployeeDto, PersonViewModel>()
                     .ForMember(dest => dest.BirthDate, opt => opt.ResolveUsing(src => src.BirthDate.ToString(AppConstants.DefaultDateFormat)))
                     .ForMember(dest => dest.EmployedDate, opt => opt.ResolveUsing(src => src.EmployedDate?.ToString(AppConstants.DefaultDateFormat)))
                     .ForMember(dest => dest.TerminatedDate, opt => opt.ResolveUsing(src => src.TerminatedDate?.ToString(AppConstants.DefaultDateFormat)));
@@ -27,11 +27,11 @@ namespace AcmeSoft.Mvc.Mapping
 
 
 
-                cfg.CreateMap<Employee, PersonEmployeeViewModel>()
+                cfg.CreateMap<Employee, PersonViewModel>()
                     .ForMember(dest => dest.EmployedDate, opt => opt.ResolveUsing(src => src.EmployedDate.ToString(AppConstants.DefaultDateFormat)))
                     .ForMember(dest => dest.TerminatedDate, opt => opt.ResolveUsing(src => src.TerminatedDate?.ToString(AppConstants.DefaultDateFormat)));
 
-                cfg.CreateMap<PersonEmployeeViewModel, Employee>()
+                cfg.CreateMap<PersonViewModel, Employee>()
                     .ForMember(dest => dest.EmployedDate,
                         opt => opt.ResolveUsing(src => DateTime.ParseExact(src.EmployedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture)));
             });

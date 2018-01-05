@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AcmeSoft.Shared.Models
 {
     [Table("vwPersEmp")]
-    public class PersonEmployee
+    public class PersonEmployeeDto
     {
         // This class maps to a view, i.e. read only, so no validation attributes are required.
 
