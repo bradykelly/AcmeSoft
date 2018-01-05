@@ -1,0 +1,15 @@
+﻿.has-date-picker {
+    border-color: green;
+}
+
+.date-prompt {
+    margin-right: 10px;
+    color: green;
+}
+
+.delete-prompt {
+    margin-right: 10px;
+    font-size: medium;
+    font-weight: bold;
+    color: red;
+}

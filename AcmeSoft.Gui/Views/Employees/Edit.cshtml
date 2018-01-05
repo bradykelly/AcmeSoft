@@ -12,6 +12,18 @@
         <input type="hidden" asp-for="EmployeeId" />
     </div>
     <div class="row">
+        <div class="col-md-8">
+            @if (Model.ModelPurpose == ViewModelPurpose.Create || Model.ModelPurpose == ViewModelPurpose.Edit)
+            {
+                <p class="date-prompt">* Click inside the date fields to show a date selector.</p>
+            }
+            @if (Model.ModelPurpose == ViewModelPurpose.Delete)
+            {
+                <p class="delete-prompt">Are you sure you want to delete this employee?</p>
+            }
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="LastName" class="control-label"></label>
@@ -31,14 +43,14 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="EmployedDate" class="control-label"></label>
-                <input asp-for="EmployedDate" class="form-control" placeholder="YYYY-MM-DD" />
+                <input asp-for="EmployedDate" class="form-control has-date-picker" placeholder="YYYY-MM-DD" />
                 <span asp-validation-for="EmployedDate" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="TerminatedDate" class="control-label"></label>
-                <input asp-for="TerminatedDate" class="form-control" placeholder="YYYY-MM-DD" />
+                <input asp-for="TerminatedDate" class="form-control has-date-picker" placeholder="YYYY-MM-DD" />
                 <span asp-validation-for="TerminatedDate" class="text-danger"></span>
             </div>
         </div>
