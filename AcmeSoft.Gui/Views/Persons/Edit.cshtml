@@ -70,6 +70,9 @@
             if ($("#ModelPurpose").val() === "Create") {
                 $("#addEmpButton").addClass("hidden");
             };
+            if ($("#ModelPurpose").val() === "Delete") {
+                $("input").attr("readonly", "readonly");
+            }
         });
     </script>
 }
