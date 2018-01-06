@@ -19,14 +19,14 @@ namespace AcmeSoft.Mvc.Contracts
         Task<PersonViewModel> UpdatePersonAsync(PersonViewModel model);
         Task DeletePersonAsync(int id);
 
-        Task<EmployeeViewModel> CreateEmployeeAsync(Employee employee);
+        Task<EmployeeViewModel> CreateEmployeeAsync(Employment employee);
         Task<IEnumerable<EmployeeViewModel>> GetEmployeesByPersonIdAsync(int personId);
 
         ////Task<List<PersonEmployeeViewModel>> GetJoinedPersEmpsAsync();
         
         Task<EmployeeViewModel> GetEmployeeAsync(int id);
         
-        Task<Employee> GetByEmpNumAsync(string empNumber, int? excludeId = null);
+        Task<Employment> GetByEmpNumAsync(string empNumber, int? excludeId = null);
         Task<EmployeeViewModel> UpdateEmployeeAsync(EmployeeViewModel model);
     }
 }

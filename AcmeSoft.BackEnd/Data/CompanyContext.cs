@@ -1,6 +1,6 @@
 ﻿using AcmeSoft.Shared.Models;
 using Microsoft.EntityFrameworkCore;
-using Employee = AcmeSoft.Shared.Models.Employee;
+using Employment = AcmeSoft.Shared.Models.Employment;
 
 namespace AcmeSoft.Api.Data
 {
@@ -11,12 +11,12 @@ namespace AcmeSoft.Api.Data
         }
 
         public DbSet<Person> Persons { get; set; }
-        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Employment> Employees { get; set; }
         public DbSet<PersonEmployeeDto> PersonEmployees { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Employee>()
+            modelBuilder.Entity<Employment>()
                 .HasOne(e => e.Person)
                 .WithMany()
                 .HasForeignKey(e => e.PersonId);

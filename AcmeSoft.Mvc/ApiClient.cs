@@ -106,12 +106,12 @@ namespace AcmeSoft.Mvc
             resp.EnsureSuccessStatusCode();
         }
 
-        public async Task<EmployeeViewModel> CreateEmployeeAsync(Employee employee)
+        public async Task<EmployeeViewModel> CreateEmployeeAsync(Employment employee)
         {
             var resp = await _client.PostAsync("api/Employees", new StringContent(JsonConvert.SerializeObject(employee, Formatting.Indented), Encoding.UTF8, "application/json"));
             resp.EnsureSuccessStatusCode();
             var json = await resp.Content.ReadAsStringAsync();
-            employee = JsonConvert.DeserializeObject<Employee>(json);
+            employee = JsonConvert.DeserializeObject<Employment>(json);
             var model = Mapper.Map<EmployeeViewModel>(employee);
             return model;
         }
@@ -119,7 +119,7 @@ namespace AcmeSoft.Mvc
         public async Task<IEnumerable<EmployeeViewModel>> GetEmployeesByPersonIdAsync(int personId)
         {
             var json = await _client.GetStringAsync("api/Persons/GetByPersonId");
-            var persons = JsonConvert.DeserializeObject<List<Employee>>(json);
+            var persons = JsonConvert.DeserializeObject<List<Employment>>(json);
             var models = Mapper.Map<IEnumerable<EmployeeViewModel>>(persons);
             return models;
         }
@@ -158,7 +158,7 @@ namespace AcmeSoft.Mvc
             {
                 return null;
             }
-            var emp = JsonConvert.DeserializeObject<Employee>(json);
+            var emp = JsonConvert.DeserializeObject<Employment>(json);
 
             // Get the person linked to the Employee.
             json = await _client.GetStringAsync($"api/Persons/{emp.PersonId}");
@@ -175,14 +175,14 @@ namespace AcmeSoft.Mvc
         }
 
 
-        public async Task<Employee> GetByEmpNumAsync(string empNumber, int? excludeId = null)
+        public async Task<Employment> GetByEmpNumAsync(string empNumber, int? excludeId = null)
         {
             var json = await _client.GetStringAsync($"api/Employees/GetByEmpNumber/{empNumber}");
             if (string.IsNullOrWhiteSpace(json))
             {
                 return null;
             }
-            var emp = JsonConvert.DeserializeObject<Employee>(json);
+            var emp = JsonConvert.DeserializeObject<Employment>(json);
             if (excludeId.HasValue && emp.EmployeeId == excludeId)
             {
                 return null;
@@ -200,11 +200,11 @@ namespace AcmeSoft.Mvc
             pers = JsonConvert.DeserializeObject<Person>(json);
 
             // Update the Employee and then read back the new Employee part of the model.
-            var emp = Mapper.Map<Employee>(model);
+            var emp = Mapper.Map<Employment>(model);
             var respE = await _client.PutAsync("api/Employees", new StringContent(JsonConvert.SerializeObject(emp), Encoding.UTF8, "application/json"));
             respE.EnsureSuccessStatusCode();
             json = await respE.Content.ReadAsStringAsync();
-            emp = JsonConvert.DeserializeObject<Employee>(json);
+            emp = JsonConvert.DeserializeObject<Employment>(json);
 
             // Populate the return model with the updated Person and Employee records.
             var empModel = Mapper.Map<EmployeeViewModel>(pers);

@@ -26,7 +26,7 @@ namespace AcmeSoft.Mvc.Controllers
         [HttpGet]
         public ActionResult Create(int personId)
         {
-            var emp = new Employee
+            var emp = new Employment
             {
                 PersonId = personId
             };
@@ -39,7 +39,7 @@ namespace AcmeSoft.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task Create(EmployeeViewModel model)
         {
-            var emp = Mapper.Map<Employee>(model);
+            var emp = Mapper.Map<Employment>(model);
             await _apiClient.CreateEmployeeAsync(emp);
         }
 

@@ -36,14 +36,14 @@ namespace AcmeSoft.Api.Controllers
         }
 
         [HttpGet("GetByPersonId/{id}")]
-        [Produces(typeof(List<Employee>))]
+        [Produces(typeof(List<Employment>))]
         public async Task<IActionResult> GetByPersonId(int id)
         {
             return Ok(await Db.Employees.Where(e => e.PersonId == id).ToListAsync());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Employee employee)
+        public async Task<IActionResult> Post([FromBody] Employment employee)
         {
             Db.Add(employee);
             await Db.SaveChangesAsync();
@@ -51,7 +51,7 @@ namespace AcmeSoft.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] Employee employee)
+        public async Task<IActionResult> Put([FromBody] Employment employee)
         {
             Db.Update(employee);
             await Db.SaveChangesAsync();

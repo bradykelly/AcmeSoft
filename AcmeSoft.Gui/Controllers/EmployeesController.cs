@@ -15,7 +15,7 @@ namespace AcmeSoft.Gui.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            var emp = new Employee();
+            var emp = new Employment();
             var model = Mapper.Map<EmployeeViewModel>(emp);
             return View("Edit", model);
         }

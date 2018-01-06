@@ -14,6 +14,10 @@ namespace AcmeSoft.Shared.Models
         public int PersonId { get; set; }
 
         [Required(AllowEmptyStrings = false)]
+        [StringLength(6)]
+        public string EmployeeNum { get; set; }
+
+        [Required(AllowEmptyStrings = false)]
         [StringLength(128)]
         public string LastName { get; set; }
 

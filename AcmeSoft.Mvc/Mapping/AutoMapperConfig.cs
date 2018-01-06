@@ -27,11 +27,11 @@ namespace AcmeSoft.Mvc.Mapping
 
 
 
-                cfg.CreateMap<Employee, PersonViewModel>()
+                cfg.CreateMap<Employment, PersonViewModel>()
                     .ForMember(dest => dest.EmployedDate, opt => opt.ResolveUsing(src => src.EmployedDate.ToString(AppConstants.DefaultDateFormat)))
                     .ForMember(dest => dest.TerminatedDate, opt => opt.ResolveUsing(src => src.TerminatedDate?.ToString(AppConstants.DefaultDateFormat)));
 
-                cfg.CreateMap<PersonViewModel, Employee>()
+                cfg.CreateMap<PersonViewModel, Employment>()
                     .ForMember(dest => dest.EmployedDate,
                         opt => opt.ResolveUsing(src => DateTime.ParseExact(src.EmployedDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture)));
             });

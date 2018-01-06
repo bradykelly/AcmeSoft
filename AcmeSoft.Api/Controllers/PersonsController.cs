@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 using AcmeSoft.Api.Controllers.Base;
 using AcmeSoft.Api.Data;
 using AcmeSoft.Shared.Models;
@@ -45,9 +46,14 @@ namespace AcmeSoft.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Person person)
         {
-            Db.Add(person);
-            await Db.SaveChangesAsync();
-            return Ok();
+            using (var tx = new TransactionScope(TransactionScopeOption.RequiresNew, TransactionScopeAsyncFlowOption.Enabled))
+            {
+                person.EmployeeNum = BuildEmpNum(person.LastName);
+                Db.Add(person);
+                await Db.SaveChangesAsync();
+                tx.Complete();
+                return Ok(); 
+            }
         }
 
         [HttpPut]
@@ -65,6 +71,23 @@ namespace AcmeSoft.Api.Controllers
             Db.Remove(pers);
             await Db.SaveChangesAsync();
             return Ok();
+        }
+
+        // This should normally used in a transaction in which the person is created as well.
+        private string BuildEmpNum(string lastName)
+        {
+            var prefix = lastName.Substring(0, 3);
+            int count;
+            if (prefix.Length == 3)
+            {
+                count = Db.Persons.Count(p => p.LastName.StartsWith(prefix));
+            }
+            else
+            {
+                count = Db.Persons.Count(p => p.LastName == prefix);
+            }
+            var num = prefix.PadRight(3, '0') + count.ToString().PadLeft(3, '0');
+            return num;
         }
     }
 }
