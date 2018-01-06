@@ -39,6 +39,7 @@ namespace AcmeSoft.Gui.Controllers
                 return NotFound();
             }
             var pers = JsonConvert.DeserializeObject<Person>(json);
+            model.PersonId = pers.PersonId;
             model.EmployeeNum = pers.EmployeeNum;
             model.EmployedDate = null;
             model.ModelPurpose = ViewModelPurpose.Create;

@@ -108,7 +108,14 @@
                 });
         }
 
-        function createEmployment() {
+        function createEmploymentGet() {
+            $.ajax({
+                    method: "GET",
+                    url: "@Url.Action("Create", "Employments", new { personId = Model.PersonId})"
+                })
+                .done(function(resp) {
+                    $("#modalFormWrapper").html(resp);
+                });
             $("#editModal").modal();
         }
 
@@ -126,7 +133,7 @@
             getEmployments();
 
             $(document).on('click','#addEmpButton',function () {
-                createEmployment();
+                createEmploymentGet();
             });
 
         });
