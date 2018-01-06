@@ -25,7 +25,7 @@ namespace AcmeSoft.Gui.Mapping
                     .ForMember(dest => dest.BirthDate,
                         opt => opt.ResolveUsing(src => DateTime.ParseExact(src.BirthDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture)));
 
-
+                cfg.CreateMap<Employment, EmploymentViewModel>();
 
                 ////cfg.CreateMap<Employee, PersonViewModel>()
                 ////    .ForMember(dest => dest.EmployedDate, opt => opt.ResolveUsing(src => src.EmployedDate.ToString(AppConstants.DefaultDateFormat)))

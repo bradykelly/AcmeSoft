@@ -32,13 +32,11 @@ namespace AcmeSoft.Gui.ViewModels
         [Display(Name = "Employee Number")]
         public string EmployeeNum { get; set; }
 
-        [Column(TypeName = "date")]
         [Display(Name = "Employed")]
-        public DateTime EmployedDate { get; set; }
+        public string EmployedDate { get; set; }
 
-        [Column(TypeName = "date")]
         [Display(Name = "Terminated")]
-        public DateTime? TerminatedDate { get; set; }
+        public string TerminatedDate { get; set; }
 
         public Person Person { get; set; }
     }

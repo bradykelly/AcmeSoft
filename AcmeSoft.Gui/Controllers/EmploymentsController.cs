@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AcmeSoft.Gui.Models;
 using AcmeSoft.Gui.ViewModels;
 using AcmeSoft.Shared.Models;
 using AutoMapper;
@@ -10,13 +11,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AcmeSoft.Gui.Controllers
 {
-    public class EmployeesController : Controller
+    public class EmploymentsController : Controller
     {
         [HttpGet]
         public ActionResult Create()
         {
             var emp = new Employment();
             var model = Mapper.Map<EmploymentViewModel>(emp);
+            model.ModelPurpose = ViewModelPurpose.Create;
             return View("Edit", model);
         }
 

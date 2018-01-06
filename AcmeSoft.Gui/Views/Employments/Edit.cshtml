@@ -26,16 +26,16 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" readonly="readonly" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                <label asp-for="EmployeeNum" class="control-label"></label>
+                <input asp-for="EmployeeNum" class="form-control" readonly="readonly" />
+                <span asp-validation-for="EmployeeNum" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label asp-for="IdNumber" class="control-label"></label>
-                <input asp-for="IdNumber" class="form-control" readonly="readonly" />
-                <span asp-validation-for="IdNumber" class="text-danger"></span>
+                <label asp-for="Position" class="control-label"></label>
+                <input asp-for="Position" class="form-control" />
+                <span asp-validation-for="Position" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -43,14 +43,14 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="EmployedDate" class="control-label"></label>
-                <input asp-for="EmployedDate" class="form-control has-date-picker" placeholder="YYYY-MM-DD" />
+                <input asp-for="EmployedDate" class="form-control has-date-picker" autocomplete="off" placeholder="YYYY-MM-DD" />
                 <span asp-validation-for="EmployedDate" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="TerminatedDate" class="control-label"></label>
-                <input asp-for="TerminatedDate" class="form-control has-date-picker" placeholder="YYYY-MM-DD" />
+                <input asp-for="TerminatedDate" class="form-control has-date-picker" autocomplete="off" placeholder="YYYY-MM-DD" />
                 <span asp-validation-for="TerminatedDate" class="text-danger"></span>
             </div>
         </div>

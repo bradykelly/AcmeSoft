@@ -49,7 +49,7 @@ namespace AcmeSoft.Gui.ViewModels.Base
                     case ViewModelPurpose.Delete:
                         return "Delete";
                     default:
-                        return null;
+                        return "Submit";
                 }
             }
         }
