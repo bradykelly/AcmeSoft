@@ -13,6 +13,10 @@ namespace AcmeSoft.Gui.ViewModels
         [HiddenInput(DisplayValue = false)]
         public int PersonId { get; set; }
 
+        [ReadOnly(true)]
+        [Display(Name = "Emp. Number")]
+        public string EmployeeNum { get; set; }
+
         [Required(AllowEmptyStrings = false)]
         [StringLength(128)]
         [Display(Name = "Last Name")]
@@ -33,10 +37,6 @@ namespace AcmeSoft.Gui.ViewModels
         [StringLength(13)]
         [Display(Name = "Id Number")]
         public string IdNumber { get; set; }
-
-        [ReadOnly(true)]
-        [Display(Name = "Emp. Number")]
-        public string EmployeeNum { get; set; }
 
         [ReadOnly(true)]
         [Display(Name = "Employed")]
