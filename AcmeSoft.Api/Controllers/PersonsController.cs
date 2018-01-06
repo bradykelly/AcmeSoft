@@ -44,6 +44,13 @@ namespace AcmeSoft.Api.Controllers
             return Ok(await Db.Persons.SingleOrDefaultAsync(p => p.IdNumber == idNumber));
         }
 
+        [HttpGet("GetEmployees/{id}")]
+        [Produces(typeof(IEnumerable<Employment>))]
+        public async Task<IActionResult> GetEmployments(int id)
+        {
+            return Ok(await Db.Employments.Where(e => e.PersonId == id).ToListAsync());
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Person person)
         {

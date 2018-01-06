@@ -18,6 +18,6 @@ namespace AcmeSoft.Api.Data
 
         public DbSet<PersonEmployeeDto> PersonEmployees { get; set; }
         public DbSet<Person> Persons { get; set; }
-        public DbSet<Employment> Employees { get; set; }
+        public DbSet<Employment> Employments { get; set; }
     }
 }

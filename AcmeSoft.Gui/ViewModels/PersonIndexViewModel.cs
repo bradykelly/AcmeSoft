@@ -6,6 +6,7 @@ namespace AcmeSoft.Gui.ViewModels
 {
     public class PersonIndexViewModel
     {
+        // NB Use base class.
         public ViewModelPurpose ModelPurpose { get; set; }
 
         public string ViewHeading => "Employee Index";

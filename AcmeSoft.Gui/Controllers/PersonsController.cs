@@ -26,19 +26,6 @@ namespace AcmeSoft.Gui.Controllers
 
         private readonly HttpClient _client;
 
-        [Produces(typeof(IEnumerable<PersonViewModel>))]
-        public async Task<IActionResult> Index()
-        {
-            var json = await _client.GetStringAsync("api/Persons");
-            var models = string.IsNullOrWhiteSpace(json) ? new List<PersonViewModel>() : JsonConvert.DeserializeObject<IEnumerable<PersonViewModel>>(json);
-
-            var index = new PersonIndexViewModel
-            {
-                Items = models
-            };
-            return View(index);
-        }
-
         [HttpGet]
         [Produces(typeof(PersonViewModel))]
         public ActionResult Create()
@@ -69,6 +56,35 @@ namespace AcmeSoft.Gui.Controllers
             }
 
             return View("Edit", model);
+        }
+
+        [HttpGet]
+        [Produces(typeof(IEnumerable<PersonViewModel>))]
+        public async Task<IActionResult> Index()
+        {
+            var json = await _client.GetStringAsync("api/Persons");
+            var models = string.IsNullOrWhiteSpace(json) ? new List<PersonViewModel>() : JsonConvert.DeserializeObject<IEnumerable<PersonViewModel>>(json);
+
+            var index = new PersonIndexViewModel
+            {
+                Items = models
+            };
+            return View(index);
+        }
+
+        // NB Make employments a View Component.
+        [HttpGet]
+        [Produces(typeof(string))]
+        public async Task<IActionResult> GetEmployments(int id)
+        {
+            var json = await _client.GetStringAsync($"api/Persons/GetEmployments/{id}");
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return Ok(new List<EmploymentViewModel>());
+            }
+            var emps = JsonConvert.DeserializeObject<IEnumerable<Employment>>(json);
+            var models = Mapper.Map<IEnumerable<Employment>>(emps);
+            return View("_EmploymentsTable", models);
         }
 
         [HttpGet]

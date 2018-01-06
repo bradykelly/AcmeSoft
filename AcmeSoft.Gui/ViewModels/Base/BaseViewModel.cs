@@ -33,7 +33,6 @@ namespace AcmeSoft.Gui.ViewModels.Base
             }
         }
 
-
         public virtual string ButtonText
         {
             get
