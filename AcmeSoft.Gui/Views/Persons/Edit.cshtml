@@ -37,6 +37,11 @@
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
+            <div id="empNumDiv" class="form-group">
+                <label asp-for="EmployeeNum" class="control-label"></label>
+                <input asp-for="EmployeeNum" class="form-control" readonly="readonly" />
+                <span asp-validation-for="EmployeeNum" class="text-danger"></span>
+            </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
@@ -66,12 +71,23 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
-        $(function() {
-            if ($("#ModelPurpose").val() === "Create") {
-                $("#addEmpButton").addClass("hidden");
-            };
-            if ($("#ModelPurpose").val() === "Delete") {
-                $("input").attr("readonly", "readonly");
+        $(function () {
+            //if ($("#ModelPurpose").val() === "Create") {
+            //    $("#EmployeeNum").addClass("hidden");
+            //    $("#addEmpButton").addClass("hidden");
+            //};
+            //if ($("#ModelPurpose").val() === "Delete") {
+            //    $("input").attr("readonly", "readonly");
+            //}
+
+            switch ($("#ModelPurpose").val()) {
+                case "Create":
+                    $("#empNumDiv").addClass("hidden");
+                    $("#addEmpButton").addClass("hidden");
+                    break;
+                case "Delete":
+                    $("input").attr("readonly", "readonly");
+                    break;
             }
         });
     </script>
