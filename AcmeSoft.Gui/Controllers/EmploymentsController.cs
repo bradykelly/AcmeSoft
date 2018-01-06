@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -49,10 +50,17 @@ namespace AcmeSoft.Gui.Controllers
             return RedirectToAction("Edit", "Persons", new {id = model.PersonId});
         }
 
-        // GET: Employees
-        public ActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(int personId)
         {
-            return View();
+            var json = await _client.GetStringAsync($"api/Persons/GetEmployees/{personId}");
+            var vms = string.IsNullOrWhiteSpace(json) ? new List<EmploymentViewModel>() : JsonConvert.DeserializeObject<IEnumerable<EmploymentViewModel>>(json);
+            var model = new EmploymentIndexViewModel
+            {
+                Items = vms,
+                PersonId = personId
+            };
+            return PartialView("_EmploymentsTable", model);
         }
 
         // GET: Employees/Details/5

@@ -66,33 +66,27 @@
     </div>
     <h4>Employment Details</h4>
     @* NB Remove this table. The first ajax get will insert it.*@
-    @Html.Partial("_EmploymentsTable", new EmploymentIndexViewModel { Items = new List<EmploymentViewModel>(), PersonId = Model.PersonId })
+    <section id="empsIndex">
+        @Html.Partial("_EmploymentsTable", new EmploymentIndexViewModel { Items = new List<EmploymentViewModel>(), PersonId = Model.PersonId })
+    </section>
 </form>
-
-@*<section id="empEdit" class="hidden">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label asp-for="EmployeeNum" class="control-label"></label>
-                    <input asp-for="EmployeeNum" class="form-control" readonly="readonly" />
-                    <span asp-validation-for="EmployeeNum" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    @Html.Label("empPosition", "Position", new { @class = "control-label" })
-                    <label asp-for="Position" class="control-label"></label>
-                    @Html.TextBox()
-                    <input asp-for="Position" class="form-control" />
-                    <span asp-validation-for="Position" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-    </section>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
+        function getEmployments() {
+            $.ajax({
+                    method: "GET",
+                    url: "@Url.Action("Index", "Employments", new { personId = Model.PersonId})"
+                })
+                .done(function(resp) {
+                    $("#empsIndex").html(resp);
+                })
+                .fail(function(resp) {
+                    debugger;
+                });
+        }
+
         $(function () {
             switch ($("#ModelPurpose").val()) {
                 case "Create":
@@ -102,7 +96,9 @@
                 case "Delete":
                     $("input").attr("readonly", "readonly");
                     break;
-            }
+            };
+
+            getEmployments();
 
 
         });
