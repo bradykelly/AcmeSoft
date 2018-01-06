@@ -1,0 +1,5 @@
+Warning as error exception for warning 'Microsoft.EntityFrameworkCore.Database.Transaction.AmbientTransactionWarning': 
+An ambient transaction has been detected. Entity Framework Core does not support ambient transactions. 
+See http://go.microsoft.com/fwlink/?LinkId=800142 
+To suppress this Exception use the DbContextOptionsBuilder.ConfigureWarnings API. 
+ConfigureWarnings can be used when overriding the DbContext.OnConfiguring method or using AddDbContext on the application service provider.
