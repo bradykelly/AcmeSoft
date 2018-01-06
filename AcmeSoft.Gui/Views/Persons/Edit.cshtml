@@ -46,7 +46,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="BirthDate" class="control-label"></label>
-                <input asp-for="BirthDate" class="form-control has-date-picker" autocomplete="off" />
+                <input asp-for="BirthDate" class="form-control has-date-picker" autocomplete="off" placeholder="YYYY-MM-DD" />
                 <span asp-validation-for="BirthDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -67,9 +67,30 @@
     <h4>Employment Details</h4>
     @* NB Remove this table. The first ajax get will insert it.*@
     <section id="empsIndex">
-        @Html.Partial("_EmploymentsTable", new EmploymentIndexViewModel { Items = new List<EmploymentViewModel>(), PersonId = Model.PersonId })
+        @*@Html.Partial("_EmploymentsTable", new EmploymentIndexViewModel { Items = new List<EmploymentViewModel>(), PersonId = Model.PersonId })*@
     </section>
 </form>
+
+<div id="editModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modalFormWrapper" class="container-fluid">
+                    @Html.Partial("_EmploymentForm", new EmploymentViewModel())
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="submitButton" type="button" class="btn btn-primary">Submit</button>
+                <button id="cancelButton" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -87,6 +108,10 @@
                 });
         }
 
+        function createEmployment() {
+            $("#editModal").modal();
+        }
+
         $(function () {
             switch ($("#ModelPurpose").val()) {
                 case "Create":
@@ -100,6 +125,9 @@
 
             getEmployments();
 
+            $(document).on('click','#addEmpButton',function () {
+                createEmployment();
+            });
 
         });
     </script>

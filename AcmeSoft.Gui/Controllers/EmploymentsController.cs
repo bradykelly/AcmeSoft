@@ -27,18 +27,22 @@ namespace AcmeSoft.Gui.Controllers
 
         private readonly HttpClient _client;
 
+        // Child action
         [HttpGet]
         public async Task<IActionResult> Create(int personId)
         {
             var emp = new Employment();
             var model = Mapper.Map<EmploymentViewModel>(emp);
             var json = await _client.GetStringAsync($"api/Persons/{personId}");
-            // NB Check for null.
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return NotFound();
+            }
             var pers = JsonConvert.DeserializeObject<Person>(json);
             model.EmployeeNum = pers.EmployeeNum;
             model.EmployedDate = null;
             model.ModelPurpose = ViewModelPurpose.Create;
-            return View("Edit", model);
+            return View("_EmploymentForm", model);
         }
 
         [HttpPost]

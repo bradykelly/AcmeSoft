@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using AcmeSoft.Gui.Models;
 using AcmeSoft.Gui.ViewModels.Base;
 using AcmeSoft.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -39,5 +40,28 @@ namespace AcmeSoft.Gui.ViewModels
         public string TerminatedDate { get; set; }
 
         public Person Person { get; set; }
+
+        [ScaffoldColumn(false)]
+        public override string ViewHeading
+        {
+            get
+            {
+                switch (ModelPurpose)
+                {
+                    case ViewModelPurpose.Create:
+                        return "Create Employment";
+                    case ViewModelPurpose.Index:
+                        return "Employment Records";
+                    case ViewModelPurpose.View:
+                        return "Employment Details";
+                    case ViewModelPurpose.Edit:
+                        return "Edit Employment";
+                    case ViewModelPurpose.Delete:
+                        return "Delete Employment";
+                    default:
+                        return "Employment Records";
+                }
+            }
+        }
     }
 }

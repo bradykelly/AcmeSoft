@@ -1,0 +1,63 @@
+﻿@model AcmeSoft.Gui.ViewModels.EmploymentViewModel
+
+<h3>@Model.ViewHeading</h3>
+<form id="employmentForm" asp-action="@Model.FormAction">
+    <div class="row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ModelPurpose" />
+        <input type="hidden" asp-for="PersonId" />
+        <input type="hidden" asp-for="EmployeeId" />
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            @if (Model.ModelPurpose == ViewModelPurpose.Create || Model.ModelPurpose == ViewModelPurpose.Edit)
+            {
+                <p class="date-prompt">* Click inside the date fields to show a date selector.</p>
+            }
+            @if (Model.ModelPurpose == ViewModelPurpose.Delete)
+            {
+                <p class="delete-prompt">Are you sure you want to delete this employee?</p>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="EmployeeNum" class="control-label"></label>
+                <input asp-for="EmployeeNum" class="form-control" readonly="readonly" />
+                <span asp-validation-for="EmployeeNum" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Position" class="control-label"></label>
+                <input asp-for="Position" class="form-control" />
+                <span asp-validation-for="Position" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="EmployedDate" class="control-label"></label>
+                <input asp-for="EmployedDate" class="form-control has-date-picker" autocomplete="off" placeholder="YYYY-MM-DD" />
+                <span asp-validation-for="EmployedDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="TerminatedDate" class="control-label"></label>
+                <input asp-for="TerminatedDate" class="form-control has-date-picker" autocomplete="off" placeholder="YYYY-MM-DD" />
+                <span asp-validation-for="TerminatedDate" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4 text-right">
+            <div class="form-group">
+                <input type="submit" value="@Model.ButtonText" class="btn btn-default" />
+                <a asp-action="Index" class="btn btn-default">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>

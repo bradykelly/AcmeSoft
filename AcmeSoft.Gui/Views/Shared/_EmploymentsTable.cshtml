@@ -1,0 +1,40 @@
+﻿@model AcmeSoft.Gui.ViewModels.EmploymentIndexViewModel
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.Position)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.EmployedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.TerminatedDate)
+            </th>
+            <th>
+                <button id="addEmpButton" type="button" class="btn btn-primary btn-sm">Create New</button>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminatedDate)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.EmployeeId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
