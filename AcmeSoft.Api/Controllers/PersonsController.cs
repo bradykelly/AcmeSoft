@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -46,12 +47,14 @@ namespace AcmeSoft.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Person person)
         {
-            using (var tx = new TransactionScope(TransactionScopeOption.RequiresNew, TransactionScopeAsyncFlowOption.Enabled))
+            // TransactionSCope wouldn't work here for some reason. EF "doesn't support ambient transactions".
+            using (var tx = new TransactionScope(TransactionScopeOption.Suppress, TransactionScopeAsyncFlowOption.Enabled))
             {
+                ////Db.Database.BeginTransaction(System.Data.IsolationLevel.Serializable);
                 person.EmployeeNum = BuildEmpNum(person.LastName);
                 Db.Add(person);
                 await Db.SaveChangesAsync();
-                tx.Complete();
+                ////Db.Database.CommitTransaction();
                 return Ok(); 
             }
         }
@@ -76,17 +79,17 @@ namespace AcmeSoft.Api.Controllers
         // This should normally used in a transaction in which the person is created as well.
         private string BuildEmpNum(string lastName)
         {
-            var prefix = lastName.Substring(0, 3);
-            int count;
+            var prefix = lastName.Substring(0, Math.Min(3, lastName.Length));
+            int serial;
             if (prefix.Length == 3)
             {
-                count = Db.Persons.Count(p => p.LastName.StartsWith(prefix));
+                serial = Db.Persons.Count(p => p.LastName.StartsWith(prefix)) + 1;
             }
             else
             {
-                count = Db.Persons.Count(p => p.LastName == prefix);
+                serial = Db.Persons.Count(p => p.LastName == prefix) + 1;
             }
-            var num = prefix.PadRight(3, '0') + count.ToString().PadLeft(3, '0');
+            var num = prefix.PadRight(3, '0').ToUpper() + serial.ToString().PadLeft(3, '0');
             return num;
         }
     }
