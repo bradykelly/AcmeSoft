@@ -10,7 +10,7 @@
 <form asp-action="@Model.FormAction">
     <div class="row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="ModelPurpose" />
+        <input id="modelPurpose" type="hidden" asp-for="ModelPurpose" />
         <input type="hidden" asp-for="PersonId" />
     </div>
     <div class="row">
@@ -65,8 +65,7 @@
         </div>
     </div>
     <h4>Employment Details</h4>
-    <section id="empsIndex">
-    </section>
+    <section id="empsIndex"></section>
 </form>
 
 <div id="editModal" class="modal" tabindex="-1" role="dialog">
@@ -107,6 +106,22 @@
                 });
         }
 
+        function setModalHeader() {
+            switch ($("#modelPurpose").val()) {
+                case "Create":
+                    $("#modalTitle").text("Create Employment");
+                    break;
+                case "Edit":
+                    $("#modalTitle").text("Edit Employment");
+                    break;
+                default:
+            };
+        }
+
+        function createEmploymentPost() {
+            
+        }
+
         function createEmploymentGet() {
             $.ajax({
                     method: "GET",
@@ -115,7 +130,11 @@
                 .done(function(resp) {
                     $("#modalFormWrapper").html(resp);
                 });
+            $(document).on('click','#submitButton',function () {
+                createEmploymentPost();
+            });
             $("#editModal").modal();
+            setModalHeader();
         }
 
         $(function () {
@@ -130,7 +149,6 @@
             };
 
             getEmployments();
-
             $(document).on('click','#addEmpButton',function () {
                 createEmploymentGet();
             });
