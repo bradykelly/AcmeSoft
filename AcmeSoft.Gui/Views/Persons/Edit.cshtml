@@ -108,18 +108,26 @@
 
         function setModalHeader() {
             switch ($("#modelPurpose").val()) {
-                case "Create":
-                    $("#modalTitle").text("Create Employment");
-                    break;
-                case "Edit":
-                    $("#modalTitle").text("Edit Employment");
-                    break;
-                default:
+            case "Create":
+                $("#modalTitle").text("Create Employment");
+                break;
+            case "Edit":
+                $("#modalTitle").text("Edit Employment");
+                break;
+            default:
             };
         }
 
         function createEmploymentPost() {
-            
+            var form = $('#employmentForm').ajaxSubmit({ 
+                url: "@Url.Action("Create", "Employments")",
+                type: "post"
+             });
+            var xhr = form.data('jqxhr');
+
+            xhr.done(function() {
+                $("#editModal").modal("hide");
+            });
         }
 
         function createEmploymentGet() {
