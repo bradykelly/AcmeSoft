@@ -93,7 +93,21 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+    <script>        
+        function setModalHeader() {
+            switch ($("#EmpAction").val()) {
+            case "Create":
+                $("#modalTitle").text("Create Employment");
+                break;
+            case "Edit":
+                $("#modalTitle").text("Edit Employment");
+                break;
+            default:
+                $("#modalTitle").text("Employment Record");
+                break;
+            };
+        }
+
         function getEmployments() {
             $.ajax({
                     method: "GET",
@@ -107,27 +121,15 @@
                 });
         }
 
-        function setModalHeader() {
-            switch ($("#EmpAction").val()) {
-                case "Create":
-                    $("#modalTitle").text("Create Employment");
-                    break;
-                case "Edit":
-                    $("#modalTitle").text("Edit Employment");
-                    break;
-                default:
-                    $("#modalTitle").text("Employment Record");
-                    break;
-            };
-        }
-
         function validateEmploymentForm() {
             var valid = true;
-            if ($.trim($("#Position")) == "[object Object]") {
+            var pos = $.trim($("#Position").val());
+            if ($.trim($("#Position").val()) === "") {
                 $("#positionError").text("Position is a required field.");
                 valid = false;
             }
-            if ($.trim($("#EmployedDate")) == "[object Object]") {
+            var date = $.trim($("#EmployedDate").val());
+            if ($.trim($("#EmployedDate").val()) === "") {
                 $("#employedError").text("Employed is a required field.");
                 valid = false;
             }
@@ -159,13 +161,13 @@
 
         $(function () {
             switch ($("#ModelPurpose").val()) {
-                case "Create":
-                    $("#empNumDiv").addClass("hidden");
-                    $("#addEmpButton").addClass("hidden");
-                    break;
-                case "Delete":
-                    $("input").attr("readonly", "readonly");
-                    break;
+            case "Create":
+                $("#empNumDiv").addClass("hidden");
+                $("#addEmpButton").addClass("hidden");
+                break;
+            case "Delete":
+                $("input").attr("readonly", "readonly");
+                break;
             };
 
             getEmployments();

@@ -22,6 +22,7 @@ namespace AcmeSoft.Gui.Controllers
     {
         // NB Rather inject. The proxy interface could fit many APIs.
         private ApiProxy _proxy = new ApiProxy();
+
         // Child action
         [HttpGet]
         public async Task<IActionResult> Create(int personId)
@@ -46,7 +47,7 @@ namespace AcmeSoft.Gui.Controllers
         public async Task<IActionResult> Create(EmploymentViewModel model)
         {
             var employment = Mapper.Map<Employment>(model);
-            _pro
+            await _proxy.CreateEmployment(employment);
             return RedirectToAction("Edit", "Persons", new {id = model.PersonId});
         }
 
@@ -54,8 +55,8 @@ namespace AcmeSoft.Gui.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int personId)
         {
-            var json = await Client.GetStringAsync($"api/Persons/GetEmployees/{personId}");
-            var vms = string.IsNullOrWhiteSpace(json) ? new List<EmploymentViewModel>() : JsonConvert.DeserializeObject<IEnumerable<EmploymentViewModel>>(json);
+            var emps = await _proxy.GetPersonEmployments(personId);
+            var vms = Mapper.Map<IEnumerable<EmploymentViewModel>>(emps);
             var model = new EmploymentIndexViewModel
             {
                 Items = vms,

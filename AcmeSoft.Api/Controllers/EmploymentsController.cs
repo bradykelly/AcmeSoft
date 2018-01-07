@@ -6,6 +6,7 @@ using AcmeSoft.Api.Data;
 using AcmeSoft.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AcmeSoft.Api.Controllers
 {
@@ -34,7 +35,13 @@ namespace AcmeSoft.Api.Controllers
         {
             return "value";
         }
-        
+
+        [HttpGet("GetByPersonId/{personId}")]
+        public async Task<IActionResult> GetByPersonId(int personId)
+        {
+            return Ok(await Db.Employments.Where(e => e.PersonId == personId).ToListAsync());
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Employment employment)
         {

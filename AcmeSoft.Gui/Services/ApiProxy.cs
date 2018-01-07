@@ -64,16 +64,6 @@ namespace AcmeSoft.Gui.Services
             return JsonConvert.DeserializeObject<Person>(json);
         }
 
-        public async Task<IEnumerable<Employment>> GetPersonEmployments(int personId)
-        {
-            var json = await Client.GetStringAsync($"api/Persons/GetEmployments/{personId}");
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                return new List<Employment>();
-            }
-            return JsonConvert.DeserializeObject<IEnumerable<Employment>>(json);
-        }
-
         public async Task<Person> UpdatePerson(Person person)
         {
             var resp = await Client.PutAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(person, Formatting.Indented), Encoding.UTF8, "application/json"));
@@ -96,7 +86,18 @@ namespace AcmeSoft.Gui.Services
             var resp = await Client.PostAsync("api/Employments", new StringContent(JsonConvert.SerializeObject(employment, Formatting.Indented), Encoding.UTF8, "application/json"));
             resp.EnsureSuccessStatusCode();
             var json = await resp.Content.ReadAsStringAsync();
-            
+            return JsonConvert.DeserializeObject<Employment>(json);
+        }
+
+        public async Task<IEnumerable<Employment>> GetPersonEmployments(int personId)
+        {
+            var json = await Client.GetStringAsync($"api/Employments/GetByPersonId/{personId}");
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return new List<Employment>();
+            }
+            var emps = JsonConvert.DeserializeObject<IEnumerable<Employment>>(json);
+            return emps;
         }
     }
 }
