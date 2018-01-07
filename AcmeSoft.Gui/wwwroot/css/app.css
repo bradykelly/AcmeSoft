@@ -13,3 +13,7 @@
     font-weight: bold;
     color: red;
 }
+
+.modal-title {
+    display: inline-block;
+}
