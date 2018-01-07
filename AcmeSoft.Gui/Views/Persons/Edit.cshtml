@@ -120,19 +120,23 @@
             };
         }
 
-        function createEmploymentPost() {
-            ////var url = "@Url.Action(Model.FormAction, "Employments")";
-            let url = "Employments/" + $("#EmpAction").val();
-            var form = $('#employmentForm').ajaxSubmit({
-                url: url,
-                type: "post"
-             });
-            var xhr = form.data('jqxhr');
+        function validateEmploymentForm() {
+            var valid = true;
+            if ($.trim($("#Position")) == "[object Object]") {
+                $("#positionError").text("Position is a required field.");
+                valid = false;
+            }
+            if ($.trim($("#EmployedDate")) == "[object Object]") {
+                $("#employedError").text("Employed is a required field.");
+                valid = false;
+            }
+            return valid;
+        }
 
-            xhr.done(function () {
-                // NB Clear form before hide if needed.
-                $("#editModal").modal("hide");
-            });
+        function createEmploymentPost() {
+            if (validateEmploymentForm() === true) {
+                $('#employmentForm').submit();
+            };
         }
 
         function createEmploymentGet() {
@@ -145,12 +149,8 @@
                 .done(function(resp) {
                     $("#modalFormWrapper").html(resp);
                 });
-            $(".has-date-picker").datepicker({
-                dateFormat: "yy-mm-dd",
-                changeYear: true,
-                changeMonth: true
-            });
             $("#editModal").modal("show");
+            ////$("#EmployedDate").datepicker();
         }
 
         $(function () {
@@ -167,6 +167,7 @@
             getEmployments();
             $(document).on('click','#addEmpButton',function () {
                 createEmploymentGet();
+                $("#EmployedDate").datepicker();
             });
             $(document).on('click','#submitButton',function () {
                 createEmploymentPost();

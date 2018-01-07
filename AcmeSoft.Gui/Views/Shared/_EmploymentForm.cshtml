@@ -34,7 +34,7 @@
             <div class="form-group">
                 <label asp-for="Position" class="control-label"></label>
                 <input asp-for="Position" class="form-control" />
-                <span asp-validation-for="Position" class="text-danger"></span>
+                <label id="positionError" class="text-danger"></label>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
             <div class="form-group">
                 <label asp-for="EmployedDate" class="control-label"></label>
                 <input asp-for="EmployedDate" class="form-control has-date-picker" autocomplete="off" placeholder="YYYY-MM-DD" />
-                <span asp-validation-for="EmployedDate" class="text-danger"></span>
+                <label id="employedError" class="text-danger"></label>
             </div>
         </div>
         <div class="col-md-6">
