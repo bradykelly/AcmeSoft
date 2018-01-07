@@ -6,32 +6,32 @@
 <h3>@Model.ViewHeading</h3>
 <table class="table">
     <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.HeaderItem.EmployeeNum)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HeaderItem.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HeaderItem.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HeaderItem.BirthDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HeaderItem.IdNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HeaderItem.EmployedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HeaderItem.TerminatedDate)
-        </th>
-        <th>
-            <a asp-action="Create">Create New</a>
-        </th>
-    </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.EmployeeNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.BirthDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.IdNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.EmployedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeaderItem.TerminatedDate)
+            </th>
+            <th>
+                <a asp-action="Create">Create New</a>
+            </th>
+        </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.Items)
@@ -59,8 +59,8 @@
                     @Html.DisplayFor(modelItem => item.TerminatedDate)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new {id = item.PersonId}) |
-                    @Html.ActionLink("Delete", "Delete", new {id = item.PersonId})
+                    @Html.ActionLink("Edit", "Edit", new { personId = item.PersonId }) |
+                    @Html.ActionLink("Delete", "Delete", new { personId = item.PersonId })
                 </td>
             </tr>
         }
