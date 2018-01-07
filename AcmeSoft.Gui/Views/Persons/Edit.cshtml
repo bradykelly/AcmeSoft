@@ -160,8 +160,11 @@
             };
 
             getEmployments();
-            $(document).on('click','#submitButton',function () {
+            $(document).on('click','#addEmpButton',function () {
                 createEmploymentGet();
+            });
+            $(document).on('click','#submitButton',function () {
+                createEmploymentPost();
             });
             $(document).on('click', '#cancelButton', function () {
                 // NB Clear form before hide if needed.
