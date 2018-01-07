@@ -1,4 +1,5 @@
-﻿@model AcmeSoft.Gui.ViewModels.PersonViewModel
+﻿@using AcmeSoft.Gui.Models
+@model AcmeSoft.Gui.ViewModels.PersonViewModel
 @{
     ViewData["Title"] = "Create";
 }
@@ -149,8 +150,11 @@
                 .done(function(resp) {
                     $("#modalFormWrapper").html(resp);
                 });
+            setTimeout(function() {
+                $(".has-date-picker").datetimepicker({ format: "YYYY-MM-DD" });
+            }, 1000);
             $("#editModal").modal("show");
-            ////$("#EmployedDate").datepicker();
+            
         }
 
         $(function () {
