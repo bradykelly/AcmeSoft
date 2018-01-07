@@ -1,5 +1,4 @@
-﻿@using AcmeSoft.Gui.ViewModels
-@model AcmeSoft.Gui.ViewModels.PersonViewModel
+﻿@model AcmeSoft.Gui.ViewModels.PersonViewModel
 @{
     ViewData["Title"] = "Create";
 }
@@ -122,7 +121,8 @@
         }
 
         function createEmploymentPost() {
-            var url = @Url.Action(Model.EmpAction, "Employments");
+            ////var url = "@Url.Action(Model.FormAction, "Employments")";
+            let url = "Employments/" + $("#EmpAction").val();
             var form = $('#employmentForm').ajaxSubmit({
                 url: url,
                 type: "post"
@@ -145,7 +145,7 @@
                 .done(function(resp) {
                     $("#modalFormWrapper").html(resp);
                 });
-            $('#editModal').modal('show');
+            $("#editModal").modal("show");
         }
 
         $(function () {
@@ -165,7 +165,7 @@
             });
             $(document).on('click', '#cancelButton', function () {
                 // NB Clear form before hide if needed.
-                $('#editModal').modal('hide');
+                $("#editModal").modal("hide");
             });
             $("#editModal").modal({
                 show: false,
