@@ -46,6 +46,9 @@ namespace AcmeSoft.Gui.ViewModels
         [Display(Name = "Terminated")]
         public string TerminatedDate { get; set; }
 
+        [HiddenInput(DisplayValue = false)]
+        public string EmpAction { get; set; }
+
         [ScaffoldColumn(false)]
         public override string ViewHeading
         {

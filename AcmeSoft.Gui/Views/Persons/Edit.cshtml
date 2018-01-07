@@ -12,6 +12,7 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input id="modelPurpose" type="hidden" asp-for="ModelPurpose" />
         <input type="hidden" asp-for="PersonId" />
+        <input type="hidden" asp-for="EmpAction" />
     </div>
     <div class="row">
         <div class="col-md-8">
@@ -107,30 +108,36 @@
         }
 
         function setModalHeader() {
-            switch ($("#modelPurpose").val()) {
-            case "Create":
-                $("#modalTitle").text("Create Employment");
-                break;
-            case "Edit":
-                $("#modalTitle").text("Edit Employment");
-                break;
-            default:
+            switch ($("#EmpAction").val()) {
+                case "Create":
+                    $("#modalTitle").text("Create Employment");
+                    break;
+                case "Edit":
+                    $("#modalTitle").text("Edit Employment");
+                    break;
+                default:
+                    $("#modalTitle").text("Employment Record");
+                    break;
             };
         }
 
         function createEmploymentPost() {
-            var form = $('#employmentForm').ajaxSubmit({ 
-                url: "@Url.Action("Create", "Employments")",
+            var url = @Url.Action(Model.EmpAction, "Employments");
+            var form = $('#employmentForm').ajaxSubmit({
+                url: url,
                 type: "post"
              });
             var xhr = form.data('jqxhr');
 
-            xhr.done(function() {
+            xhr.done(function () {
+                // NB Clear form before hide if needed.
                 $("#editModal").modal("hide");
             });
         }
 
         function createEmploymentGet() {
+            $("#EmpAction").val("Create");
+            setModalHeader();
             $.ajax({
                     method: "GET",
                     url: "@Url.Action("Create", "Employments", new { personId = Model.PersonId})"
@@ -138,11 +145,7 @@
                 .done(function(resp) {
                     $("#modalFormWrapper").html(resp);
                 });
-            $(document).on('click','#submitButton',function () {
-                createEmploymentPost();
-            });
-            $("#editModal").modal();
-            setModalHeader();
+            $('#editModal').modal('show');
         }
 
         $(function () {
@@ -157,10 +160,17 @@
             };
 
             getEmployments();
-            $(document).on('click','#addEmpButton',function () {
+            $(document).on('click','#submitButton',function () {
                 createEmploymentGet();
             });
-
+            $(document).on('click', '#cancelButton', function () {
+                // NB Clear form before hide if needed.
+                $('#editModal').modal('hide');
+            });
+            $("#editModal").modal({
+                show: false,
+                backdrop: "static"
+            });
         });
     </script>
 }

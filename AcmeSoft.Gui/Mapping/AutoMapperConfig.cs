@@ -13,17 +13,26 @@ namespace AcmeSoft.Gui.Mapping
         {
             Mapper.Initialize(cfg =>
             {
-                ////cfg.CreateMap<PersonEmployeeDto, PersonViewModel>()
-                ////    .ForMember(dest => dest.BirthDate, opt => opt.ResolveUsing(src => src.BirthDate.ToString(AppConstants.DefaultDateFormat)))
-                ////    .ForMember(dest => dest.EmployedDate, opt => opt.ResolveUsing(src => src.EmployedDate?.ToString(AppConstants.DefaultDateFormat)))
-                ////    .ForMember(dest => dest.TerminatedDate, opt => opt.ResolveUsing(src => src.TerminatedDate?.ToString(AppConstants.DefaultDateFormat)));
-
                 cfg.CreateMap<Person, PersonViewModel>(MemberList.None)
-                    .ForMember(dest => dest.BirthDate, opt => opt.ResolveUsing(src => src.BirthDate.ToString(AppConstants.DefaultDateFormat)));
+                    .ForMember(dest => dest.BirthDate, opt => opt.ResolveUsing(src =>
+                    {
+                        if (src.BirthDate == DateTime.MinValue)
+                        {
+                            return null;
+                        }
+                        return src.BirthDate.ToString(AppConstants.DefaultDateFormat);
+                    }));
 
                 cfg.CreateMap<PersonViewModel, Person>(MemberList.None)
                     .ForMember(dest => dest.BirthDate,
-                        opt => opt.ResolveUsing(src => DateTime.ParseExact(src.BirthDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture)));
+                        opt => opt.ResolveUsing(src =>
+                        {
+                            if (src.BirthDate == null)
+                            {
+                                return DateTime.MinValue;
+                            }
+                            return DateTime.ParseExact(src.BirthDate, AppConstants.DefaultDateFormat, CultureInfo.InvariantCulture);
+                        }));
 
                 cfg.CreateMap<Employment, EmploymentViewModel>();
 
