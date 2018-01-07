@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using AcmeSoft.Gui.Controllers.Base;
 using AcmeSoft.Gui.Models;
 using AcmeSoft.Gui.ViewModels;
 using AcmeSoft.Shared.Models;
@@ -15,17 +16,8 @@ using Newtonsoft.Json;
 
 namespace AcmeSoft.Gui.Controllers
 {
-    public class PersonsController : Controller
+    public class PersonsController : BaseController
     {
-        public PersonsController()
-        {
-            _client = new HttpClient{BaseAddress = new Uri("http://localhost:54954/") };
-            _client.DefaultRequestHeaders.Accept.Clear();
-            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        }
-
-        private readonly HttpClient _client;
-
         [HttpGet]
         [Produces(typeof(PersonViewModel))]
         public ActionResult Create()
@@ -41,7 +33,7 @@ namespace AcmeSoft.Gui.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PersonViewModel model)
         {
-            var json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{model.IdNumber}");
+            var json = await Client.GetStringAsync($"api/Persons/GetByIdNumber/{model.IdNumber}");
             if (!string.IsNullOrWhiteSpace(json))
             {
                 ModelState.AddModelError("IdNumber", "Id Number already in use");
@@ -50,7 +42,7 @@ namespace AcmeSoft.Gui.Controllers
             if (ModelState.IsValid)
             {
                 var pers = Mapper.Map<Person>(model);
-                var resp = await _client.PostAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(pers, Formatting.Indented), Encoding.UTF8, "application/json"));
+                var resp = await Client.PostAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(pers, Formatting.Indented), Encoding.UTF8, "application/json"));
                 resp.EnsureSuccessStatusCode();
                 return RedirectToAction("Index");
             }
@@ -62,7 +54,7 @@ namespace AcmeSoft.Gui.Controllers
         [Produces(typeof(IEnumerable<PersonViewModel>))]
         public async Task<IActionResult> Index()
         {
-            var json = await _client.GetStringAsync("api/Persons");
+            var json = await Client.GetStringAsync("api/Persons");
             var models = string.IsNullOrWhiteSpace(json) ? new List<PersonViewModel>() : JsonConvert.DeserializeObject<IEnumerable<PersonViewModel>>(json);
 
             var index = new PersonIndexViewModel
@@ -77,7 +69,7 @@ namespace AcmeSoft.Gui.Controllers
         [Produces(typeof(string))]
         public async Task<IActionResult> GetEmployments(int id)
         {
-            var json = await _client.GetStringAsync($"api/Persons/GetEmployments/{id}");
+            var json = await Client.GetStringAsync($"api/Persons/GetEmployments/{id}");
             if (string.IsNullOrWhiteSpace(json))
             {
                 return Ok(new List<EmploymentViewModel>());
@@ -91,7 +83,7 @@ namespace AcmeSoft.Gui.Controllers
         [Produces(typeof(PersonViewModel))]
         public async Task<IActionResult> Edit(int id)
         {
-            var json = await _client.GetStringAsync($"api/Persons/{id}");
+            var json = await Client.GetStringAsync($"api/Persons/{id}");
             if (string.IsNullOrWhiteSpace(json))
             {
                 return NotFound();
@@ -106,7 +98,7 @@ namespace AcmeSoft.Gui.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(PersonViewModel model)
         {
-            var json = await _client.GetStringAsync($"api/Persons/GetByIdNumber/{model.IdNumber}");
+            var json = await Client.GetStringAsync($"api/Persons/GetByIdNumber/{model.IdNumber}");
             if (!string.IsNullOrWhiteSpace(json))
             {
                 ModelState.AddModelError("IdNumber", "Id Number already in use");
@@ -115,7 +107,7 @@ namespace AcmeSoft.Gui.Controllers
             if (ModelState.IsValid)
             {
                 var pers = Mapper.Map<Person>(model);
-                var resp = await _client.PutAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(pers, Formatting.Indented), Encoding.UTF8, "application/json"));
+                var resp = await Client.PutAsync("api/Persons", new StringContent(JsonConvert.SerializeObject(pers, Formatting.Indented), Encoding.UTF8, "application/json"));
                 resp.EnsureSuccessStatusCode();
                 return RedirectToAction("Index");
             }
@@ -126,7 +118,7 @@ namespace AcmeSoft.Gui.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var json = await _client.GetStringAsync($"api/Persons/{id}");
+            var json = await Client.GetStringAsync($"api/Persons/{id}");
             if (string.IsNullOrWhiteSpace(json))
             {
                 return NotFound();
@@ -142,7 +134,7 @@ namespace AcmeSoft.Gui.Controllers
         public async Task<IActionResult> Delete(PersonViewModel model)
         {
             // NB Check for linked Employee records before delete.
-            var resp = await _client.DeleteAsync($"api/Persons/{model.PersonId}");
+            var resp = await Client.DeleteAsync($"api/Persons/{model.PersonId}");
             resp.EnsureSuccessStatusCode();
             return RedirectToAction("Index");
         }
