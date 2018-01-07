@@ -54,15 +54,15 @@ namespace AcmeSoft.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Person person)
         {
-            // TransactionSCope wouldn't work here for some reason. EF "doesn't support ambient transactions".
+            // NOTE TransactionSCope wouldn't work here for some reason. EF "doesn't support ambient transactions".
             using (var tx = new TransactionScope(TransactionScopeOption.Suppress, TransactionScopeAsyncFlowOption.Enabled))
             {
-                ////Db.Database.BeginTransaction(System.Data.IsolationLevel.Serializable);
+                Db.Database.BeginTransaction(System.Data.IsolationLevel.Serializable);
                 person.EmployeeNum = BuildEmpNum(person.LastName);
                 Db.Add(person);
                 await Db.SaveChangesAsync();
-                ////Db.Database.CommitTransaction();
-                return Ok(); 
+                Db.Database.CommitTransaction();
+                return Ok(person); 
             }
         }
 
@@ -71,7 +71,7 @@ namespace AcmeSoft.Api.Controllers
         {
             Db.Update(person);
             await Db.SaveChangesAsync();
-            return Ok();
+            return Ok(person);
         }
 
         [HttpDelete("{id}")]
