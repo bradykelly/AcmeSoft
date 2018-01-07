@@ -113,9 +113,9 @@ namespace AcmeSoft.Gui.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int personId)
         {
-            var pers = await _proxy.GetPersonById(id);
+            var pers = await _proxy.GetPersonById(personId);
             var model = Mapper.Map<PersonViewModel>(pers);
             model.ModelPurpose = ViewModelPurpose.Delete;
             return View("Edit", model);
