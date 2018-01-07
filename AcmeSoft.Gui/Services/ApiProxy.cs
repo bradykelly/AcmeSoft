@@ -87,10 +87,16 @@ namespace AcmeSoft.Gui.Services
             // NB Check for linked Employee records before delete.
             var resp = await Client.DeleteAsync($"api/Persons/{personId}");
             resp.EnsureSuccessStatusCode();
-        } 
+        }
 
         #endregion
 
-
+        public async Task<Employment> CreateEmployment(Employment employment)
+        {
+            var resp = await Client.PostAsync("api/Employments", new StringContent(JsonConvert.SerializeObject(employment, Formatting.Indented), Encoding.UTF8, "application/json"));
+            resp.EnsureSuccessStatusCode();
+            var json = await resp.Content.ReadAsStringAsync();
+            
+        }
     }
 }

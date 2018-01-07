@@ -40,7 +40,7 @@ namespace AcmeSoft.Api.Controllers
         {
             Db.Add(employment);
             await Db.SaveChangesAsync();
-            return Ok();
+            return Ok(employment);
         }
         
         // PUT: api/Employments/5

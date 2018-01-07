@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AcmeSoft.Gui.Controllers.Base;
 using AcmeSoft.Gui.Models;
+using AcmeSoft.Gui.Services;
 using AcmeSoft.Gui.ViewModels;
 using AcmeSoft.Shared.Models;
 using AutoMapper;
@@ -19,6 +20,8 @@ namespace AcmeSoft.Gui.Controllers
 {
     public class EmploymentsController : BaseController
     {
+        // NB Rather inject. The proxy interface could fit many APIs.
+        private ApiProxy _proxy = new ApiProxy();
         // Child action
         [HttpGet]
         public async Task<IActionResult> Create(int personId)
@@ -43,8 +46,7 @@ namespace AcmeSoft.Gui.Controllers
         public async Task<IActionResult> Create(EmploymentViewModel model)
         {
             var employment = Mapper.Map<Employment>(model);
-            var resp = await Client.PostAsync("api/Employments", new StringContent(JsonConvert.SerializeObject(employment, Formatting.Indented), Encoding.UTF8, "application/json"));
-            resp.EnsureSuccessStatusCode();
+            _pro
             return RedirectToAction("Edit", "Persons", new {id = model.PersonId});
         }
 
