@@ -33,10 +33,13 @@ namespace AcmeSoft.Gui.ViewModels
         [Display(Name = "Employee Number")]
         public string EmployeeNum { get; set; }
 
+        [Required(AllowEmptyStrings = false)]
         [Display(Name = "Employed")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public string EmployedDate { get; set; }
 
         [Display(Name = "Terminated")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public string TerminatedDate { get; set; }
 
         public Person Person { get; set; }

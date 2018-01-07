@@ -29,12 +29,7 @@ namespace AcmeSoft.Gui.Controllers
         {
             var emp = new Employment();
             var model = Mapper.Map<EmploymentViewModel>(emp);
-            var json = await Client.GetStringAsync($"api/Persons/{personId}");
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                return NotFound();
-            }
-            var pers = JsonConvert.DeserializeObject<Person>(json);
+            var pers = await _proxy.GetPersonById(personId);           
             model.PersonId = pers.PersonId;
             model.EmployeeNum = pers.EmployeeNum;
             model.EmployedDate = null;
