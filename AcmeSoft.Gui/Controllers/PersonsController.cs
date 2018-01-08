@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using AcmeSoft.Gui.Contracts;
 using AcmeSoft.Gui.Controllers.Base;
 using AcmeSoft.Gui.Models;
 using AcmeSoft.Gui.Services;
@@ -19,7 +20,12 @@ namespace AcmeSoft.Gui.Controllers
 {
     public class PersonsController : BaseController
     {
-        private readonly ApiProxy _proxy = new ApiProxy();
+        public PersonsController(IApiProxy proxy)
+        {
+            _proxy = proxy;
+        }
+
+        private readonly IApiProxy _proxy;
 
         [HttpGet]
         [Produces(typeof(PersonViewModel))]
@@ -27,7 +33,6 @@ namespace AcmeSoft.Gui.Controllers
         {
             var pers = new Person();
             var model = Mapper.Map<PersonViewModel>(pers);
-            // NB Get right in mapping.
             model.BirthDate = null;
             model.ModelPurpose = ViewModelPurpose.Create;
             return View("Edit", model);
@@ -67,7 +72,6 @@ namespace AcmeSoft.Gui.Controllers
             return View(index);
         }
 
-        // NB Make employments a View Component.
         [HttpGet]
         [Produces(typeof(IEnumerable<EmploymentViewModel>))]
         public async Task<IActionResult> GetEmployments(int personId)

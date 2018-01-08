@@ -138,7 +138,8 @@
 
         function createEmploymentPost() {
             if (validateEmploymentForm() === true) {
-                $('#employmentForm').submit();
+                $("#employmentForm").submit();
+                getEmployments();
             };
         }
 
@@ -155,8 +156,19 @@
             setTimeout(function() {
                 $(".has-date-picker").datetimepicker({ format: "YYYY-MM-DD" });
             }, 1000);
-            $("#editModal").modal("show");
-            
+            $("#editModal").modal("show");            
+        }
+
+        function editEmploymentGet(employmentId) {
+            $("#EmpAction").val("Edit");
+            setModalHeader();
+            $.ajax({
+                method: "POST",
+                url: "@Url.Action("Edit", "Employments")" + "/" + employmentId
+            })
+            .done(function (resp) {
+                $("#modalFormWrapper").html(resp);
+            });
         }
 
         $(function () {
@@ -171,16 +183,20 @@
             };
 
             getEmployments();
-            $(document).on('click','#addEmpButton',function () {
+            $(document).on("click","#addEmpButton",function () {
                 createEmploymentGet();
                 $("#EmployedDate").datepicker();
             });
-            $(document).on('click','#submitButton',function () {
+            $(document).on("click","#submitButton",function () {
                 createEmploymentPost();
             });
-            $(document).on('click', '#cancelButton', function () {
-                // NB Clear form before hide if needed.
+            $(document).on("click", "#cancelButton", function () {
                 $("#editModal").modal("hide");
+            });
+            $(".editEmp").click(function() {
+                preventDefault();
+                var empId = $(this).closest('tr').attr("data-emp-id");
+                editEmploymentGet(empId);
             });
             $("#editModal").modal({
                 show: false,

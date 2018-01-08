@@ -20,7 +20,7 @@
     <tbody>
         @foreach (var item in Model.Items)
         {
-            <tr>
+            <tr data-emp_id="@item.EmployeeId">
                 <td>
                     @Html.DisplayFor(modelItem => item.Position)
                 </td>
@@ -31,8 +31,8 @@
                     @Html.DisplayFor(modelItem => item.TerminatedDate)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.EmployeeId })
+                    <a href="" class="editEmp">Edit</a> |
+                    @Html.ActionLink("Delete", "Delete", new {id = item.EmployeeId})
                 </td>
             </tr>
         }

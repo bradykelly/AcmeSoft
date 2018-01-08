@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using AcmeSoft.Gui.Models;
+using AcmeSoft.Gui.ViewModels.Base;
 
 namespace AcmeSoft.Gui.ViewModels
 {
-    public class EmploymentIndexViewModel
+    public class EmploymentIndexViewModel: BaseViewModel
     {
-        // NB Use base class.
-        public ViewModelPurpose ModelPurpose { get; set; }
-
         public int PersonId { get; set; }
 
         public IEnumerable<EmploymentViewModel> Items { get; set; } = new List<EmploymentViewModel>();

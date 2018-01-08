@@ -26,7 +26,6 @@ namespace AcmeSoft.Api.Controllers
         [Produces(typeof(IEnumerable<PersonEmployeeDto>))]
         public async Task<IActionResult> Get()
         {
-            // NB Make db join only get latest employment vs all.
             return Ok(await Db.PersonEmployees.ToListAsync());
         }
 

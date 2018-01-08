@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using AcmeSoft.Gui.Contracts;
 using AcmeSoft.Gui.Controllers.Base;
 using AcmeSoft.Gui.Models;
 using AcmeSoft.Gui.Services;
@@ -20,8 +21,12 @@ namespace AcmeSoft.Gui.Controllers
 {
     public class EmploymentsController : BaseController
     {
-        // NB Rather inject. The proxy interface could fit many APIs.
-        private ApiProxy _proxy = new ApiProxy();
+        public EmploymentsController(IApiProxy proxy)
+        {
+            _proxy = proxy;
+        }
+
+        private readonly IApiProxy _proxy;
 
         // Child action
         [HttpGet]
@@ -43,7 +48,7 @@ namespace AcmeSoft.Gui.Controllers
         {
             var employment = Mapper.Map<Employment>(model);
             await _proxy.CreateEmployment(employment);
-            return RedirectToAction("Edit", "Persons", new {id = model.PersonId});
+            return Ok();
         }
 
         // Child action
@@ -60,33 +65,29 @@ namespace AcmeSoft.Gui.Controllers
             return PartialView("_EmploymentsTable", model);
         }
 
-        // GET: Employees/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            var emp = await _proxy.GetEmploymentByIdAsync(id);
+            if (emp == null)
+            {
+                return NotFound();
+            }
+            var pers = await _proxy.GetPersonById(emp.PersonId);
+            var model = Mapper.Map<EmploymentViewModel>(emp);
+            model.EmployeeNum = pers.EmployeeNum;
+            return View(model);
         }
 
-        // GET: Employees/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Employees/Edit/5
+        // Child action
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(EmploymentViewModel model)
         {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var emp = Mapper.Map<Employment>(model);
+            emp = await _proxy.UpdateEmploymentAsync(emp);
+            var retModel = Mapper.Map<EmploymentViewModel>(emp);
+            return View(retModel);
         }
 
         // GET: Employees/Delete/5

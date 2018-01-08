@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AcmeSoft.Gui.Contracts;
 using AcmeSoft.Gui.Mapping;
+using AcmeSoft.Gui.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +25,7 @@ namespace AcmeSoft.Gui
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddTransient<IApiProxy, ApiProxy>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

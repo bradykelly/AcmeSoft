@@ -16,11 +16,10 @@ namespace AcmeSoft.Api.Controllers
     {
         public EmploymentsController(CompanyDbContext dbContext)
         {
-            Db = dbContext;
+            _db = dbContext;
         }
 
-        // NB Make private.
-        public CompanyDbContext Db;
+        private readonly CompanyDbContext _db;
 
         // GET: api/Employments
         [HttpGet]
@@ -29,24 +28,23 @@ namespace AcmeSoft.Api.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET: api/Employments/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            return Ok(await _db.Employments.SingleOrDefaultAsync(e => e.EmployeeId == id));
         }
 
         [HttpGet("GetByPersonId/{personId}")]
         public async Task<IActionResult> GetByPersonId(int personId)
         {
-            return Ok(await Db.Employments.Where(e => e.PersonId == personId).ToListAsync());
+            return Ok(await _db.Employments.Where(e => e.PersonId == personId).ToListAsync());
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Employment employment)
         {
-            Db.Add(employment);
-            await Db.SaveChangesAsync();
+            _db.Add(employment);
+            await _db.SaveChangesAsync();
             return Ok(employment);
         }
         

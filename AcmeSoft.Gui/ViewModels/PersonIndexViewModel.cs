@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using AcmeSoft.Gui.Models;
+using AcmeSoft.Gui.ViewModels.Base;
 
 namespace AcmeSoft.Gui.ViewModels
 {
-    public class PersonIndexViewModel
+    public class PersonIndexViewModel: BaseViewModel
     {
-        // NB Use base class.
-        public ViewModelPurpose ModelPurpose { get; set; }
-
-        public string ViewHeading => "Employee Index";
+        public override string ViewHeading => "Employee Index";
 
         public IEnumerable<PersonViewModel> Items { get; set; } = new List<PersonViewModel>();
 
