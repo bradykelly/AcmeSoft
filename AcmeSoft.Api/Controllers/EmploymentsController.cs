@@ -54,10 +54,12 @@ namespace AcmeSoft.Api.Controllers
         {
         }
         
-        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
+            var emp = await _db.Employments.SingleOrDefaultAsync(e => e.EmployeeId == id);
+            _db.Remove(emp);
+            await _db.SaveChangesAsync();
         }
     }
 }

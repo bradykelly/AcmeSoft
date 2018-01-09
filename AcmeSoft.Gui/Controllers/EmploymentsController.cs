@@ -90,27 +90,13 @@ namespace AcmeSoft.Gui.Controllers
             return Ok();
         }
 
-        // GET: Employees/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Employees/Delete/5
+        // Child action
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            await _proxy.DeleteEmploymentAsync(id);
+            return Ok();
         }
     }
 }

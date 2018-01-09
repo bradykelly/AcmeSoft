@@ -117,5 +117,10 @@ namespace AcmeSoft.Gui.Services
             var json = await resp.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Employment>(json);
         }
+
+        public async Task DeleteEmploymentAsync(int employmentId)
+        {
+            await _client.DeleteAsync($"api/Employments/{employmentId}");
+        }
     }
 }

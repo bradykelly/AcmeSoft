@@ -187,6 +187,16 @@
                 });
         }
 
+        function deleteEmploymentPost(employmentId) {
+            $.ajax({
+                    method: "POST",
+                    url: "@Url.Action("Delete", "Employments")" + "/" + employmentId
+                })
+                .done(function(resp) {
+                    getEmployments();
+                });
+        }
+
         $(function() {
             switch ($("#ModelPurpose").val()) {
             case "Create":
@@ -219,6 +229,11 @@
                 preventDefault();
                 var empId = $(this).closest('tr').attr("data-emp-id");
                 editEmploymentGet(empId);
+            });
+            $(".deleteEmp").click(function() {
+                preventDefault();
+                var empId = $(this).closest('tr').attr("data-emp-id");
+                deleteEmploymentPost(empId);
             });
             $("#editModal").modal({
                 show: false,

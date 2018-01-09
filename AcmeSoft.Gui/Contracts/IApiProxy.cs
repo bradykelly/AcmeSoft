@@ -16,5 +16,6 @@ namespace AcmeSoft.Gui.Contracts
         Task<IEnumerable<Employment>> GetPersonEmployments(int personId);
         Task<Employment> GetEmploymentByIdAsync(int employmentId);
         Task<Employment> UpdateEmploymentAsync(Employment employment);
+        Task DeleteEmploymentAsync(int employmentId);
     }
 }
