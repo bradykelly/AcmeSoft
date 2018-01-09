@@ -66,34 +66,36 @@
         </div>
     </div>
     <h4>Employment Details</h4>
-    <section id="empsIndex"></section>
+    <section id="empsIndex">
+        @*Employments table inserted by script.*@
+    </section>
 </form>
 
-<div id="editModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 id="modalTitle" class="modal-title">Employment Record</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="modalFormWrapper">
-                    @*Partial inserted here by script*@
+    <div id="editModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="modalTitle" class="modal-title">Employment Record</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button id="submitButton" type="button" class="btn btn-primary">Submit</button>
-                <button id="cancelButton" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <div class="modal-body">
+                    <div id="modalFormWrapper">
+                        @*Partial inserted here by script*@
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="submitButton" type="button" class="btn btn-primary">Submit</button>
+                    <button id="cancelButton" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>        
+    <script>
         function setModalHeader() {
             switch ($("#EmpAction").val()) {
             case "Create":
@@ -111,7 +113,7 @@
         function getEmployments() {
             $.ajax({
                     method: "GET",
-                    url: "@Url.Action("Index", "Employments", new { personId = Model.PersonId})"
+                    url: "@Url.Action("Index", "Employments", new {personId = Model.PersonId})"
                 })
                 .done(function(resp) {
                     $("#empsIndex").html(resp);
@@ -123,12 +125,10 @@
 
         function validateEmploymentForm() {
             var valid = true;
-            var pos = $.trim($("#Position").val());
             if ($.trim($("#Position").val()) === "") {
                 $("#positionError").text("Position is a required field.");
                 valid = false;
             }
-            var date = $.trim($("#EmployedDate").val());
             if ($.trim($("#EmployedDate").val()) === "") {
                 $("#employedError").text("Employed is a required field.");
                 valid = false;
@@ -138,8 +138,23 @@
 
         function createEmploymentPost() {
             if (validateEmploymentForm() === true) {
-                $("#employmentForm").submit();
-                getEmployments();
+
+                var unIndexed = $("#employmentForm").serializeArray();
+                var indexed = {};
+
+                $.map(unIndexed,
+                    function(n, i) {
+                        indexed[n["name"]] = n["value"];
+                    });
+                $.ajax({
+                        method: "POST",
+                        url: "@Url.Action("Create", "Employments")",
+                        data: indexed
+                    })
+                    .done(function (resp) {
+                        $("#editModal").modal("hide");
+                        getEmployments();
+                    });
             };
         }
 
@@ -148,30 +163,31 @@
             setModalHeader();
             $.ajax({
                     method: "GET",
-                    url: "@Url.Action("Create", "Employments", new { personId = Model.PersonId})"
+                    url: "@Url.Action("Create", "Employments", new {personId = Model.PersonId})"
                 })
                 .done(function(resp) {
                     $("#modalFormWrapper").html(resp);
                 });
             setTimeout(function() {
-                $(".has-date-picker").datetimepicker({ format: "YYYY-MM-DD" });
-            }, 1000);
-            $("#editModal").modal("show");            
+                    $(".has-date-picker").datetimepicker({ format: "YYYY-MM-DD" });
+                },
+                1000);
+            $("#editModal").modal("show");
         }
 
         function editEmploymentGet(employmentId) {
             $("#EmpAction").val("Edit");
             setModalHeader();
             $.ajax({
-                method: "POST",
-                url: "@Url.Action("Edit", "Employments")" + "/" + employmentId
-            })
-            .done(function (resp) {
-                $("#modalFormWrapper").html(resp);
-            });
+                    method: "POST",
+                    url: "@Url.Action("Edit", "Employments")" + "/" + employmentId
+                })
+                .done(function(resp) {
+                    $("#modalFormWrapper").html(resp);
+                });
         }
 
-        $(function () {
+        $(function() {
             switch ($("#ModelPurpose").val()) {
             case "Create":
                 $("#empNumDiv").addClass("hidden");
@@ -183,16 +199,22 @@
             };
 
             getEmployments();
-            $(document).on("click","#addEmpButton",function () {
-                createEmploymentGet();
-                $("#EmployedDate").datepicker();
-            });
-            $(document).on("click","#submitButton",function () {
-                createEmploymentPost();
-            });
-            $(document).on("click", "#cancelButton", function () {
-                $("#editModal").modal("hide");
-            });
+            $(document).on("click",
+                "#addEmpButton",
+                function() {
+                    createEmploymentGet();
+                    $("#EmployedDate").datepicker();
+                });
+            $(document).on("click",
+                "#submitButton",
+                function() {
+                    createEmploymentPost();
+                });
+            $(document).on("click",
+                "#cancelButton",
+                function() {
+                    $("#editModal").modal("hide");
+                });
             $(".editEmp").click(function() {
                 preventDefault();
                 var empId = $(this).closest('tr').attr("data-emp-id");

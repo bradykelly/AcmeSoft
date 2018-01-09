@@ -34,6 +34,7 @@ namespace AcmeSoft.Gui.Controllers
             var pers = new Person();
             var model = Mapper.Map<PersonViewModel>(pers);
             model.BirthDate = null;
+            model.EmployeeNum = "[will be generated]";
             model.ModelPurpose = ViewModelPurpose.Create;
             return View("Edit", model);
         }

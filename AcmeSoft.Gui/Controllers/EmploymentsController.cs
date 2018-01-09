@@ -65,6 +65,7 @@ namespace AcmeSoft.Gui.Controllers
             return PartialView("_EmploymentsTable", model);
         }
 
+        // Child action
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -85,9 +86,8 @@ namespace AcmeSoft.Gui.Controllers
         public async Task<IActionResult> Edit(EmploymentViewModel model)
         {
             var emp = Mapper.Map<Employment>(model);
-            emp = await _proxy.UpdateEmploymentAsync(emp);
-            var retModel = Mapper.Map<EmploymentViewModel>(emp);
-            return View(retModel);
+            await _proxy.UpdateEmploymentAsync(emp);
+            return Ok();
         }
 
         // GET: Employees/Delete/5
