@@ -118,14 +118,14 @@
                 .done(function(resp) {
                     $("#empsIndex").html(resp);
                     $(".editEmp").click(function() {
-                        preventDefault();
                         var empId = $(this).closest('tr').attr("data-emp-id");
                         editEmploymentGet(empId);
+                        return false;
                     });
                     $(".deleteEmp").click(function() {
-                        preventDefault();
                         var empId = $(this).closest('tr').attr("data-emp-id");
                         deleteEmploymentPost(empId);
+                        return false;
                     });
                 })
                 .fail(function(resp) {
