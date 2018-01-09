@@ -117,6 +117,16 @@
                 })
                 .done(function(resp) {
                     $("#empsIndex").html(resp);
+                    $(".editEmp").click(function() {
+                        preventDefault();
+                        var empId = $(this).closest('tr').attr("data-emp-id");
+                        editEmploymentGet(empId);
+                    });
+                    $(".deleteEmp").click(function() {
+                        preventDefault();
+                        var empId = $(this).closest('tr').attr("data-emp-id");
+                        deleteEmploymentPost(empId);
+                    });
                 })
                 .fail(function(resp) {
                     debugger;
@@ -225,16 +235,6 @@
                 function() {
                     $("#editModal").modal("hide");
                 });
-            $(".editEmp").click(function() {
-                preventDefault();
-                var empId = $(this).closest('tr').attr("data-emp-id");
-                editEmploymentGet(empId);
-            });
-            $(".deleteEmp").click(function() {
-                preventDefault();
-                var empId = $(this).closest('tr').attr("data-emp-id");
-                deleteEmploymentPost(empId);
-            });
             $("#editModal").modal({
                 show: false,
                 backdrop: "static"
